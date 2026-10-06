@@ -956,3 +956,19 @@ P3-tagged file's own space was not recognised in the picker.
   before replacing it. New ids register as *undecided* in PluginKit, and Quick
   Look uses them in that state (verified: thumbnails and preview served).
   Log predicate is now `subsystem == "io.github.bizmar.exr-quicklook"`.
+
+## App icon v3: a conforming tile (2026-10-06)
+
+The user noticed the Dock icon looked small. Measured with
+`NSWorkspace.icon(forFile:)`, which returns what IconServices actually shows:
+macOS 26+ had put our free-floating art on its own grey tile and shrunk it to
+~45% of the tile width. That is the documented Tahoe behaviour for icons whose
+pixels do not fill the rounded-square shape. **Correction to v2 above:** "padded
+to the macOS icon grid" was wrong in kind — the grid describes the *tile*, and
+transparent art around it is exactly what triggers the grey box.
+
+Now `Tools/make-icns.sh`: `make-icon-tile --photo` draws the logo photo (which
+is on white) covering an 824/1024 rounded-square tile, corner radius 185.4,
+then `iconutil`. Background removal is no longer used for the icon: at icon
+sizes it turned the soft floor shadow into a ragged, sliced-looking edge.
+Verified the same way: the system now shows the tile at full size, no grey box.

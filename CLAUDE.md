@@ -163,7 +163,8 @@ Tools/test-reference-corpus.sh # run that corpus through EXRCLI
 build/uiguard <app> [--at x,y] # OK only if <app>'s window is topmost at that point
 build/realclick x y [hold-ms]  # REAL mouse click via CGEvent -- always uiguard --at first
 build/realmove x0 y0 x1 y1     # real pointer movement, for hover-latency tests
-Tools/make-icon                # logo -> transparent icon master (edge flood fill)
+Tools/make-icns.sh             # logo -> conforming macOS 26 icon tile -> EXRPreview/AppIcon.icns
+Tools/make-icon                # logo -> transparent art (edge flood fill); not used for the app icon
 Tools/make-notices.sh          # THIRD_PARTY_NOTICES.md from the pinned sources' licences
 
 build/qlprobe <files>          # headless: classify QL thumbnails by colour

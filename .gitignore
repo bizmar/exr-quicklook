@@ -8,3 +8,5 @@ Vendor/openexr/
 # First logo draft: a re-rendering of the OpenEXR mark, which the OpenEXR
 # trademark policy does not allow in app icons. Superseded; kept locally only.
 docs/images/EXRlogo_AImade.JPG
+# Third-party showcase frames (licence in each folder); only derived README images are published.
+Vendor/showcase/
