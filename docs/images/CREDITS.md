@@ -41,7 +41,7 @@ DISCLAIMER: THESE DIGITAL ASSETS ARE PROVIDED BY THE COPYRIGHT HOLDER "AS IS" AN
 
 ## App icon (`AppIcon-1024.png`, `EXRlogo_v2.jpg`)
 
-Artwork by Mark Bizilj, inspired by the OpenEXR project artwork
-(<https://artwork.aswf.io/projects/openexr/>). It is not the OpenEXR logo, and
-this project is not affiliated with or endorsed by the OpenEXR project or the
-Academy Software Foundation.
+Generated with Google Gemini, inspired by the OpenEXR project artwork
+(<https://artwork.aswf.io/projects/openexr/>). No copyright is claimed on it.
+It is not the OpenEXR logo, and this project is not affiliated with or
+endorsed by the OpenEXR project or the Academy Software Foundation.

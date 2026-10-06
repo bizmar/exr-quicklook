@@ -162,8 +162,9 @@ Netflix, Inc. All rights reserved. Used under the ASWF Digital Assets License
 v1.1; details and how the images differ from the original are in
 [`docs/images/CREDITS.md`](docs/images/CREDITS.md).
 
-App icon by Mark Bizilj, inspired by the
-[OpenEXR project artwork](https://artwork.aswf.io/projects/openexr/).
+The app icon was generated with Google Gemini, inspired by the
+[OpenEXR project artwork](https://artwork.aswf.io/projects/openexr/). No
+copyright is claimed on it.
 
 ACES is a trademark of the Academy of Motion Picture Arts and Sciences. This
 project is not affiliated with or endorsed by the Academy, the Academy
