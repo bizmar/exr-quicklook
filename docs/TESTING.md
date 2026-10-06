@@ -65,8 +65,10 @@ blue) once passed checks that only looked at settings or text.
   deadline.
 - **Multiple displays and wide-gamut or HDR monitors.** Output is SDR Display
   P3, converted by ColorSync; only Apple displays have been looked at.
-- **Golden-image regression and continuous fuzzing.** Planned, not built. There
-  is no CI yet: the suites run locally.
+- **Golden-image regression and continuous fuzzing.** Planned, not built.
+  Every push runs the full suite in GitHub Actions (macOS 15, Apple silicon),
+  but the extensions themselves can't be exercised there, because CI has no
+  Finder or Quick Look session.
 
 ## Known not to work (by design)
 

@@ -4,6 +4,8 @@
 
 # EXR Quick Look
 
+[![CI](https://github.com/bizmar/exr-quicklook/actions/workflows/ci.yml/badge.svg)](https://github.com/bizmar/exr-quicklook/actions/workflows/ci.yml)
+
 Finder thumbnails and Quick Look previews for modern OpenEXR files on macOS:
 DWAA/DWAB, multi-part and multi-layer, rendered through the ACES 2.0 output
 transform.

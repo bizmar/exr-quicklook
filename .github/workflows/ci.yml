@@ -1,0 +1,87 @@
+# Builds the universal app and runs every test suite on each push and pull
+# request. On a v* tag it also builds the release DMG and keeps it as a
+# workflow artifact -- publishing the GitHub Release stays a manual step.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      # The baked ACES tables are verified against the exact OCIO they were
+      # baked with (docs/lut-provenance.md).
+      OCIO_VERSION: "2.5.1"
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pinned OpenEXR + Imath, built universal and static. Slow (~10 min), so
+      # cached on the build script, which holds the pinned tags.
+      - name: Cache OpenEXR
+        id: openexr
+        uses: actions/cache@v4
+        with:
+          path: Vendor/openexr/install
+          key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
+      - name: Build OpenEXR
+        if: steps.openexr.outputs.cache-hit != 'true'
+        run: Tools/build-openexr.sh
+
+      # The official OpenEXR image collection, including the ASAN/ClusterFuzz
+      # crash corpus the decoder must survive.
+      - name: Cache openexr-images
+        id: images
+        uses: actions/cache@v4
+        with:
+          path: Vendor/openexr-images
+          key: openexr-images-${{ hashFiles('Tools/fetch-openexr-images.sh') }}
+      - name: Fetch openexr-images
+        if: steps.images.outputs.cache-hit != 'true'
+        run: Tools/fetch-openexr-images.sh
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install OpenColorIO (build-time only)
+        run: |
+          python -m venv build/ocio
+          build/ocio/bin/pip install --quiet "opencolorio==${OCIO_VERSION}" numpy
+          echo "PYOCIO=$PWD/build/ocio/bin/python" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: |
+          Tools/build-core.sh
+          Tools/build-cli.sh
+          Tools/build-app.sh
+
+      - name: Test
+        run: Tools/test-all.sh
+
+      # Re-baking and regenerating must reproduce what is committed.
+      - name: Committed files reproduce
+        run: git diff --exit-code -- EXRCore/Resources docs/lut-provenance.md EXRCore/src/exr_lut_data.cpp
+
+      - name: Build release DMG
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          python -m venv build/dmg/venv
+          build/dmg/venv/bin/pip install --quiet dmgbuild
+          Tools/package-release.sh --skip-tests   # just tested above
+
+      - name: Upload release DMG
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dmg
+          path: |
+            dist/*.dmg
+            dist/*.dmg.sha256
