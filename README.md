@@ -4,17 +4,37 @@
 
 # EXR Quick Look
 
-Finder thumbnails and Quick Look previews for OpenEXR files on macOS, including
-the DWAA/DWAB-compressed, multi-part and multi-layer files that VFX and
-animation pipelines actually produce, rendered through the ACES 2.0 output
+Finder thumbnails and Quick Look previews for modern OpenEXR files on macOS:
+DWAA/DWAB, multi-part and multi-layer, rendered through the ACES 2.0 output
 transform.
+
+> [!NOTE]
+> **Disclaimer:** built and vibecoded with Claude Code. It works for my own
+> production files on macOS 26 and 27, but has not been tested much beyond
+> that. [What is tested, and what isn't](docs/TESTING.md). If you try it,
+> especially on a setup listed there as untested, please
+> [post a test report](https://github.com/bizmar/exr-quicklook/issues/new?template=test-report.yml).
+
+## Why
+
+macOS's built-in EXR support has not kept up with the format. OpenEXR gained
+DWAA and DWAB compression in **2014** (version 2.2), and they have since become
+the standard lossy compression for comp and render output in VFX and animation.
+Twelve years on, Apple's decoder still cannot read them. Finder shows a generic
+icon, and the spacebar preview has nothing to show:
 
 ![DWAA frame: macOS shows a generic icon, EXR Quick Look shows the image](docs/images/compare-dwaa.jpg)
 
-macOS's built-in EXR support cannot decode DWAA or DWAB at all. Finder shows a
-generic icon and the spacebar preview has nothing to show. DWAA is the
-standard lossy compression for comp and render output across VFX and animation
-pipelines, so on many real shot folders that means most files.
+This project is my attempt to bring EXR viewing on the Mac up to date. It uses
+the current OpenEXR reference library (3.4) and an ACES 2.0 view transform, and
+it understands layers, parts, data passes and colour tags written by today's
+tools.
+
+**Why only Finder and Quick Look, not Preview?** Preview.app has no way to add
+new image decoders. Apple offers no public plug-in mechanism for its image
+formats, so Preview keeps using the built-in decoder. Quick Look extensions are
+the one supported route, and they cover Finder thumbnails, the spacebar
+preview, the column view and the preview pane.
 
 On files macOS *can* read (ZIP, PIZ and so on), its built-in rendering on
 macOS 27 is close to ours. The differences there are the tone curve, the
@@ -50,6 +70,14 @@ Changes carry over as you arrow through a folder. EXRs are usually image
 sequences, so a misapplied colourspace gets fixed once rather than on every
 frame. An orange dot on the button means something differs from the defaults.
 Reset clears everything, and settings lapse after 30 minutes idle.
+
+### For playback, pair it with a sequence player
+
+Quick Look shows one frame at a time and never plays sequences. That's a
+deliberate non-goal. For playback, a good modern companion is
+[**Layerbase Sequence Player**](https://github.com/polloviz/Layerbase-Sequence-Player/)
+(free and open source, MIT): OpenColorIO with ACES 2.0, multi-layer EXR,
+Cryptomatte and movie export. Note that it is **Windows only** for now.
 
 ## Install
 
@@ -93,7 +121,9 @@ includes Intel), but macOS 14 and 15 and Intel Macs are untested.
 - **Not rendered:** deep images, luminance-chroma (`Y`/`RY`/`BY`) files, and
   files containing only cryptomatte. These keep the generic icon rather than
   showing something approximate.
-- **Untested:** Spotlight, Open and Save dialogs.
+- **Untested:** Spotlight, Open and Save dialogs, macOS 14/15, Intel Macs, and
+  real multi-layer renders from most applications. The full list is in
+  [docs/TESTING.md](docs/TESTING.md).
 
 ## Build from source
 

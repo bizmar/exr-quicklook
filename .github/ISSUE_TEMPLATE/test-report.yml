@@ -1,0 +1,63 @@
+name: Test report
+description: Tell us how EXR Quick Look did on your Mac and your files — good or bad.
+title: "[Test report] "
+labels: ["test report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks! Reports from setups we have not tested are the most useful thing you can send.
+        See docs/TESTING.md for what is and is not covered.
+  - type: dropdown
+    id: result
+    attributes:
+      label: Result
+      options:
+        - Worked as expected
+        - Partly worked
+        - Did not work
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "e.g. macOS 15.6"
+    validations:
+      required: true
+  - type: dropdown
+    id: cpu
+    attributes:
+      label: Mac
+      options:
+        - Apple silicon
+        - Intel
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: What files
+      description: Which application wrote them, compression, single or multi-layer, rough size.
+      placeholder: "e.g. Redshift multi-layer EXR, DWAA, 4K, 30 AOVs"
+  - type: checkboxes
+    id: where
+    attributes:
+      label: Where you looked
+      options:
+        - label: Finder icon view (thumbnails)
+        - label: Spacebar preview
+        - label: Finder column view / preview pane
+        - label: Spotlight
+        - label: Open / Save dialogs
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what you saw. Screenshots welcome.
+  - type: textarea
+    id: header
+    attributes:
+      label: File header (optional)
+      description: If you built from source, the output of `build/exrcli -v yourfile.exr`. It contains no pixels.
+      render: text
