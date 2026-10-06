@@ -97,6 +97,9 @@ players run natively on macOS, Apple silicon and Intel:
      ```bash
      xattr -dr com.apple.quarantine "/Applications/EXR Quick Look.app"
      ```
+
+   The old shortcut of right-clicking the app and choosing **Open** only works
+   on macOS 14 and earlier. Apple removed it in macOS 15.
 3. Turn the extensions on: **System Settings → General → Login Items &
    Extensions**, find **EXR Quick Look Extensions**, and switch on both
    **EXR Quick Look Preview** and **EXR Quick Look Thumbnail**. The app's window
