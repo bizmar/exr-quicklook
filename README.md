@@ -87,10 +87,10 @@ players run natively on macOS, Apple silicon and Intel:
 > **The app is not signed or notarised.** This project has no Apple Developer
 > account and won't have one, so macOS will warn the first time you open it.
 
-1. Download `EXR-Quick-Look-<version>.zip` from the
+1. Download `EXR-Quick-Look-<version>.dmg` from the
    [latest release](https://github.com/bizmar/exr-quicklook/releases/latest),
-   unzip it, and move **EXR Quick Look.app** to `/Applications` or
-   `~/Applications`.
+   open it, and drag **EXR Quick Look** onto the **Applications** folder in the
+   window.
 2. Open the app once. macOS will refuse at first. Either:
    - open **System Settings → Privacy & Security**, scroll down, and click
      **Open Anyway** next to EXR Quick Look; or
