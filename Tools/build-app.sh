@@ -9,9 +9,9 @@
 # build for the purposes of the Phase 0 question.
 #
 # Usage:
-#   Tools/build-spike.sh                 # declare both UTIs (default)
-#   Tools/build-spike.sh --control-only  # drop com.ilm.openexr-image
-#   Tools/build-spike.sh --arm64-only    # skip the x86_64 slice
+#   Tools/build-app.sh                 # declare both UTIs (default)
+#   Tools/build-app.sh --control-only  # drop com.ilm.openexr-image
+#   Tools/build-app.sh --arm64-only    # skip the x86_64 slice
 #
 set -euo pipefail
 

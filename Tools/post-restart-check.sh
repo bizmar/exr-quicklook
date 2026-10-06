@@ -25,7 +25,7 @@ check() { # check <label> <condition-result 0/1>
 }
 
 for h in qlprobe qlpreviewprobe; do
-  [ -x "$ROOT/build/$h" ] || { echo "Missing build/$h -- run Tools/build-spike.sh first."; exit 1; }
+  [ -x "$ROOT/build/$h" ] || { echo "Missing build/$h -- run Tools/build-app.sh first."; exit 1; }
 done
 
 hr "Environment"
@@ -78,11 +78,11 @@ if [ "$FAIL" = 0 ]; then
   echo "  Registration SURVIVED the restart. Phase 0 checklist complete."
 else
   echo "  Something did NOT survive. Details above; log at $LOG"
-  echo "  Re-registering with Tools/install-spike.sh and retesting will show"
+  echo "  Re-registering with Tools/install.sh and retesting will show"
   echo "  whether it is a registration-persistence problem or something else."
 fi
 echo
 echo "  Transcript: $OUT"
 echo
-echo "  Finder check (do this by eye): Tools/spike-finder-test.sh"
+echo "  Finder check (do this by eye): Tools/finder-test.sh"
 echo "  Expect four solid red squares; spacebar gives a solid blue panel."

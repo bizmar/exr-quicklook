@@ -87,9 +87,10 @@ players run natively on macOS, Apple silicon and Intel:
 > **The app is not signed or notarised.** This project has no Apple Developer
 > account and won't have one, so macOS will warn the first time you open it.
 
-1. Download the latest release, unpack it, and move **EXR Quick Look.app** to
-   `/Applications` or `~/Applications`. *(No release has been published yet.
-   Until one is, [build from source](#build-from-source).)*
+1. Download `EXR-Quick-Look-<version>.zip` from the
+   [latest release](https://github.com/bizmar/exr-quicklook/releases/latest),
+   unzip it, and move **EXR Quick Look.app** to `/Applications` or
+   `~/Applications`.
 2. Open the app once. macOS will refuse at first. Either:
    - open **System Settings → Privacy & Security**, scroll down, and click
      **Open Anyway** next to EXR Quick Look; or
@@ -139,8 +140,8 @@ Python with PyOpenColorIO is only needed to re-bake the colour tables.
 ```bash
 Tools/build-openexr.sh   # pinned OpenEXR + Imath, universal static (once)
 Tools/build-core.sh      # EXRCore
-Tools/build-spike.sh     # build/EXR Quick Look.app, universal, ad-hoc signed
-Tools/install-spike.sh   # install to ~/Applications and register
+Tools/build-app.sh     # build/EXR Quick Look.app, universal, ad-hoc signed
+Tools/install.sh   # install to ~/Applications and register
 Tools/test-all.sh        # every test suite
 ```
 

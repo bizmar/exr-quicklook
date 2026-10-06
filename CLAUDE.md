@@ -143,20 +143,21 @@ The equivalent Apple decoder shipped a zero-click heap overflow (CVE-2026-28977)
 
 ## Commands
 
-Build order matters: openexr -> bake-lut -> build-core -> build-spike.
+Build order matters: openexr -> bake-lut -> build-core -> build-app.
 
 ```bash
 Tools/make-spike-fixtures.py   # generate the Phase 0 .exr fixtures
 Tools/build-openexr.sh         # once: pinned OpenEXR/Imath universal static
 Tools/bake-lut/bake.py         # once: bake ACES 2.0 LUTs (needs PyOpenColorIO)
 Tools/build-core.sh            # universal libEXRCore.a
-Tools/build-spike.sh           # build universal + ad-hoc sign -> build/EXR Quick Look.app
-Tools/install-spike.sh         # install to ~/Applications, register with LS + PluginKit
-Tools/spike-status.sh          # registration, enablement, UTI assignment
-Tools/spike-finder-test.sh     # fresh uncached folder, opens in Finder
-Tools/watch-spike-log.sh       # live invocation log
+Tools/build-app.sh           # build universal + ad-hoc sign -> build/EXR Quick Look.app
+Tools/install.sh         # install to ~/Applications, register with LS + PluginKit
+Tools/package-release.sh       # tests, then dist/EXR-Quick-Look-<version>.zip for GitHub Releases
+Tools/status.sh          # registration, enablement, UTI assignment
+Tools/finder-test.sh     # fresh uncached folder, opens in Finder
+Tools/watch-log.sh       # live invocation log
 Tools/post-restart-check.sh    # after a reboot: does registration survive?
-Tools/uninstall-spike.sh       # remove and deregister
+Tools/uninstall.sh       # remove and deregister
 Tools/fetch-openexr-images.sh  # official ASWF test corpus into Vendor/ (gitignored)
 Tools/test-reference-corpus.sh # run that corpus through EXRCLI
 

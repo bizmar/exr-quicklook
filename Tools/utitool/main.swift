@@ -1,5 +1,5 @@
 // Prints the UTI LaunchServices assigns to each path, and which Quick Look
-// content types that UTI conforms to. Used by Tools/spike-status.sh to confirm
+// content types that UTI conforms to. Used by Tools/status.sh to confirm
 // the control file is really typed as our own UTI and not sniffed as EXR.
 import Foundation
 import UniformTypeIdentifiers

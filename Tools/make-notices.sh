@@ -2,7 +2,7 @@
 # Writes THIRD_PARTY_NOTICES.md from the licence files of exactly what is linked
 # into the shipped binaries, copied verbatim from the pinned sources in Vendor/.
 # The BSD licences require these notices to travel with binary redistributions,
-# so Tools/build-spike.sh also copies the result into the app bundle.
+# so Tools/build-app.sh also copies the result into the app bundle.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$ROOT/Vendor/openexr/src"

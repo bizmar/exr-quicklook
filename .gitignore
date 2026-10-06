@@ -10,3 +10,5 @@ Vendor/openexr/
 docs/images/EXRlogo_AImade.JPG
 # Third-party showcase frames (licence in each folder); only derived README images are published.
 Vendor/showcase/
+# Release archives -- built by Tools/package-release.sh, attached to GitHub Releases.
+dist/

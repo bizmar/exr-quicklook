@@ -15,7 +15,7 @@ DEST="$DEST_DIR/EXR Quick Look.app"
 LEGACY="$DEST_DIR/EXRPreview.app"   # the name before 2026-10-06
 LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
 
-[ -d "$SRC" ] || { echo "No build at $SRC -- run Tools/build-spike.sh first." >&2; exit 1; }
+[ -d "$SRC" ] || { echo "No build at $SRC -- run Tools/build-app.sh first." >&2; exit 1; }
 
 say() { printf '\033[1m==>\033[0m %s\n' "$*"; }
 
@@ -86,4 +86,4 @@ if [ ${#missing[@]} -gt 0 ]; then
   exit 1
 fi
 
-say "Done. Now run Tools/spike-status.sh"
+say "Done. Now run Tools/status.sh"

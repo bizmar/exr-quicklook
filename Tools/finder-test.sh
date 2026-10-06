@@ -8,7 +8,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 FIXTURES="$ROOT/Tests/Fixtures/spike"
-DEST="$HOME/Desktop/exr-spike-test-$(date +%H%M%S)"
+DEST="$HOME/Desktop/exr-quicklook-test-$(date +%H%M%S)"
 
 [ -d "$FIXTURES" ] || { echo "No fixtures -- run Tools/make-spike-fixtures.py first." >&2; exit 1; }
 

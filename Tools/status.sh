@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Reports whether the two spike extensions are registered and enabled, and what
+# Reports whether the two extensions are registered and enabled, and what
 # UTI LaunchServices assigns to each fixture.
 #
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -41,5 +41,5 @@ hr "UTI assigned to each fixture by LaunchServices"
 if [ -x "$ROOT/build/utitool" ]; then
   "$ROOT/build/utitool" "$ROOT"/Tests/Fixtures/spike/*
 else
-  echo "  (build/utitool missing -- run Tools/build-spike.sh)"
+  echo "  (build/utitool missing -- run Tools/build-app.sh)"
 fi
