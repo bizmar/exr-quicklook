@@ -67,6 +67,14 @@ all; the plumbing stays in `EXRPreferences` for a fork that signs its own build,
 and the App Group is not even opened unsigned (it triggers a TCC prompt for
 nothing). This project will not be signed. See phase1-status.md.
 
+**Repository:** public at https://github.com/bizmar/exr-quicklook (first push
+2026-10-06). Commits use the GitHub noreply address set in the repo's local git
+config. This Mac has no SSH keys, so push over HTTPS with the `gh` login
+without touching global config:
+`git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
+The real plate was published with its serials and capture timestamps stripped
+losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
+
 Keep this line updated as phases complete. A fresh session reads it to know where things stand.
 
 ## Non-negotiable decisions
