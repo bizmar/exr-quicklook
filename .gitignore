@@ -1,0 +1,10 @@
+build/
+.DS_Store
+*.xcuserstate
+xcuserdata/
+Vendor/openexr-images/
+# Pinned OpenEXR/Imath sources and builds -- recreated by Tools/build-openexr.sh.
+Vendor/openexr/
+# First logo draft: a re-rendering of the OpenEXR mark, which the OpenEXR
+# trademark policy does not allow in app icons. Superseded; kept locally only.
+docs/images/EXRlogo_AImade.JPG

@@ -1,0 +1,4 @@
+module EXRCore {
+    header "EXRCore/exr_api.h"
+    export *
+}
