@@ -72,6 +72,8 @@ nothing). This project will not be signed. See phase1-status.md.
 config. This Mac has no SSH keys, so push over HTTPS with the `gh` login
 without touching global config:
 `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
+**Released 0.1.0** 2026-10-06 as a styled DMG (`Tools/package-release.sh`,
+which needs dmgbuild in `build/dmg/venv`; see the script header).
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 
