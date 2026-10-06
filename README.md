@@ -74,10 +74,13 @@ Reset clears everything, and settings lapse after 30 minutes idle.
 ### For playback, pair it with a sequence player
 
 Quick Look shows one frame at a time and never plays sequences. That's a
-deliberate non-goal. For playback, a good modern companion is
-[**Layerbase Sequence Player**](https://github.com/polloviz/Layerbase-Sequence-Player/)
-(free and open source, MIT): OpenColorIO with ACES 2.0, multi-layer EXR,
-Cryptomatte and movie export. Note that it is **Windows only** for now.
+deliberate non-goal. For playback and review, two free, open-source (BSD-3)
+players run natively on macOS, Apple silicon and Intel:
+
+- [**DJV**](https://github.com/grizzlypeak3d/DJV): a fast, high bit-depth
+  image sequence player for dailies, shot review and A/B comparison.
+- [**mrv2**](https://github.com/ggarra13/mrv2): a professional player and
+  review tool for VFX and animation.
 
 ## Install
 
