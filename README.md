@@ -1,0 +1,134 @@
+<p align="center">
+  <img src="docs/images/AppIcon-1024.png" width="128" alt="EXR Quick Look icon">
+</p>
+
+# EXR Quick Look
+
+Finder thumbnails and Quick Look previews for OpenEXR files on macOS, including
+the DWAA/DWAB-compressed, multi-part and multi-layer files that VFX and
+animation pipelines actually produce, rendered through the ACES 2.0 output
+transform.
+
+![DWAA frame: macOS shows a generic icon, EXR Quick Look shows the image](docs/images/compare-dwaa.jpg)
+
+macOS's built-in EXR support cannot decode DWAA or DWAB at all. Finder shows a
+generic icon and the spacebar preview has nothing to show. DWAA is the
+standard lossy compression for comp and render output across VFX and animation
+pipelines, so on many real shot folders that means most files.
+
+On files macOS *can* read (ZIP, PIZ and so on), its built-in rendering on
+macOS 27 is close to ours. The differences there are the tone curve, the
+handling of colour primaries, and what happens with layers, alpha and
+overscan:
+
+![ZIP frame: both render; EXR Quick Look uses the ACES 2.0 view](docs/images/compare-zip.jpg)
+
+## What it does
+
+| | |
+|---|---|
+| **Compression** | Everything the OpenEXR 3.4 reference library reads: DWAA, DWAB, ZIP, PIZ, PXR24, B44, RLE, HTJ2K |
+| **Colour** | ACES 2.0 output transform (SDR 100 nits, Display P3), baked from OpenColorIO's ACES 2.0 studio config. Reads `chromaticities` and the OpenEXR 3.4 `colorInteropID`. Untagged files are assumed to be ACEScg. |
+| **Multi-part and multi-layer** | Picks the beauty automatically, never a mask, depth or cryptomatte. Every other layer and part is a click away in the preview. |
+| **Data passes** | Position, depth, motion and normals are listed as "data" and shown untransformed (Raw), with x/y/z mapped to red/green/blue |
+| **Overscan** | Cropped to the display window. The preview can show the data window. |
+| **Alpha** | Ignored by default, so images look the way the comp sees them. The preview can composite over a checkerboard. |
+| **Safety** | Hardened decode with checked arithmetic, hard size limits and a decode deadline. Malformed files get the generic icon, never a crash. |
+| **Consistency** | No auto-exposure, ever. Every frame of a sequence gets the same transform, and the thumbnail and default preview are pixel-identical. |
+
+### The preview overlay
+
+Press Space on an EXR. Two buttons sit in the corner:
+
+- **Display options**: exposure (double-click to reset), RGB or alpha, layer
+  and part, view transform (sRGB, Display P3, Rec.709, Raw…), input colourspace
+  override, alpha over checkerboard, data window.
+- **File information**: compression, colourspace, channels, layers, and data
+  and display windows.
+
+Changes carry over as you arrow through a folder. EXRs are usually image
+sequences, so a misapplied colourspace gets fixed once rather than on every
+frame. An orange dot on the button means something differs from the defaults.
+Reset clears everything, and settings lapse after 30 minutes idle.
+
+## Install
+
+> **The app is not signed or notarised.** This project has no Apple Developer
+> account and won't have one, so macOS will warn the first time you open it.
+
+1. Download the latest release, unpack it, and move **EXR Quick Look.app** to
+   `/Applications` or `~/Applications`. *(No release has been published yet.
+   Until one is, [build from source](#build-from-source).)*
+2. Open the app once. macOS will refuse at first. Either:
+   - open **System Settings → Privacy & Security**, scroll down, and click
+     **Open Anyway** next to EXR Quick Look; or
+   - remove the quarantine flag in Terminal:
+     ```bash
+     xattr -dr com.apple.quarantine "/Applications/EXR Quick Look.app"
+     ```
+3. Turn the extensions on: **System Settings → General → Login Items &
+   Extensions**, find **EXR Quick Look Extensions**, and switch on both
+   **EXR Quick Look Preview** and **EXR Quick Look Thumbnail**. The app's window
+   has a button that opens this pane.
+
+**Thumbnails already in Finder may not change straight away.** macOS caches
+them. Open a folder you haven't viewed since installing, or log out and back
+in.
+
+Tested on macOS 26 and 27, on Apple silicon. The build is universal (it
+includes Intel), but macOS 14 and 15 and Intel Macs are untested.
+
+## Limitations
+
+- **No preferences window.** Unsigned extensions can't read shared settings,
+  so the assumed input colourspace (ACEScg) and the default view (P3) are fixed.
+  Everything adjustable lives in the preview overlay. A fork with a Developer
+  ID can turn the preference plumbing back on.
+- **Untagged files are assumed to be ACEScg.** Many real files carry no colour
+  tag. Nuke, for example, writes none unless "write ACES compliant EXR" is
+  ticked, and Blender's linear Rec.709 output will look oversaturated under
+  that assumption. Correct it in the overlay; the correction carries across the
+  sequence.
+- **SDR only.** No HDR / EDR output yet.
+- **Not rendered:** deep images, luminance-chroma (`Y`/`RY`/`BY`) files, and
+  files containing only cryptomatte. These keep the generic icon rather than
+  showing something approximate.
+- **Untested:** Spotlight, Open and Save dialogs.
+
+## Build from source
+
+Needs only the Xcode Command Line Tools (no Xcode, no `.xcodeproj`), plus CMake.
+Python with PyOpenColorIO is only needed to re-bake the colour tables.
+
+```bash
+Tools/build-openexr.sh   # pinned OpenEXR + Imath, universal static (once)
+Tools/build-core.sh      # EXRCore
+Tools/build-spike.sh     # build/EXR Quick Look.app, universal, ad-hoc signed
+Tools/install-spike.sh   # install to ~/Applications and register
+Tools/test-all.sh        # every test suite
+```
+
+The baked ACES tables are committed, with their hashes and tool versions in
+[`docs/lut-provenance.md`](docs/lut-provenance.md). Design notes and findings
+are in [`docs/`](docs/), including how a third-party extension can take over
+`com.ilm.openexr-image` from Apple's own handler
+([`docs/uti-findings.md`](docs/uti-findings.md)).
+
+## Credits and licence
+
+BSD-3-Clause, see [`LICENSE`](LICENSE). Bundled libraries (OpenEXR, Imath,
+OpenJPH, libdeflate) and their licences are listed in
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). ACES tables are generated
+with [OpenColorIO](https://opencolorio.org).
+
+Comparison images: NAS Sole Mates - HDR Production Example Copyright 2025
+Netflix, Inc. All rights reserved. Used under the ASWF Digital Assets License
+v1.1; details and how the images differ from the original are in
+[`docs/images/CREDITS.md`](docs/images/CREDITS.md).
+
+App icon by Mark Bizilj, inspired by the
+[OpenEXR project artwork](https://artwork.aswf.io/projects/openexr/).
+
+ACES is a trademark of the Academy of Motion Picture Arts and Sciences. This
+project is not affiliated with or endorsed by the Academy, the Academy
+Software Foundation, the OpenEXR project, or Netflix.

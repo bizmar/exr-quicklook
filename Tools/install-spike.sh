@@ -19,24 +19,45 @@ LSREGISTER=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchSe
 
 say() { printf '\033[1m==>\033[0m %s\n' "$*"; }
 
+APPEXES=(EXRThumbnail EXRQuickLook)
+appex_id() { plutil -extract CFBundleIdentifier raw "$1/Contents/PlugIns/$2.appex/Contents/Info.plist" 2>/dev/null; }
+registered() { pluginkit -mA -i "$1" 2>/dev/null | grep -q "$1"; }
+
+# Unregisters an installed copy's extensions and waits until PluginKit agrees.
+# Removal is asynchronous: without the wait, pkd can process it *after* the
+# re-registration below and silently drop the new extension -- which is what
+# happened on 2026-10-06, leaving the thumbnail extension unregistered.
+deregister() {
+  local app="$1" id n
+  for n in "${APPEXES[@]}"; do
+    id=$(appex_id "$app" "$n") || continue
+    pluginkit -r "$app/Contents/PlugIns/$n.appex" 2>/dev/null || true
+    for _ in $(seq 1 20); do registered "$id" || break; sleep 0.5; done
+  done
+  "$LSREGISTER" -u "$app" 2>/dev/null || true
+}
+
 # Two installed copies with one bundle id would leave PluginKit choosing
-# between them, so the old name is deregistered and removed first.
+# between them, so the old name is removed first.
 if [ -d "$LEGACY" ]; then
   say "Removing the pre-rename install at $LEGACY"
-  pluginkit -r "$LEGACY/Contents/PlugIns/EXRThumbnail.appex" 2>/dev/null || true
-  pluginkit -r "$LEGACY/Contents/PlugIns/EXRQuickLook.appex" 2>/dev/null || true
-  "$LSREGISTER" -u "$LEGACY" 2>/dev/null || true
+  deregister "$LEGACY"
   rm -rf "$LEGACY"
 fi
 
 say "Installing to $DEST"
 mkdir -p "$DEST_DIR"
-# Deregister what is there before replacing it. If the bundle ids changed (as
-# they did on 2026-10-06), the old ids would otherwise stay registered.
+# Only when the bundle ids change does the old registration need removing --
+# otherwise re-registering the same ids in place is all that is needed, and
+# removing them first only invites the race described above.
 if [ -d "$DEST" ]; then
-  pluginkit -r "$DEST/Contents/PlugIns/EXRThumbnail.appex" 2>/dev/null || true
-  pluginkit -r "$DEST/Contents/PlugIns/EXRQuickLook.appex" 2>/dev/null || true
-  "$LSREGISTER" -u "$DEST" 2>/dev/null || true
+  for n in "${APPEXES[@]}"; do
+    if [ "$(appex_id "$DEST" "$n")" != "$(appex_id "$SRC" "$n")" ]; then
+      say "Bundle ids changed; unregistering the old ones"
+      deregister "$DEST"
+      break
+    fi
+  done
 fi
 rm -rf "$DEST"
 cp -R "$SRC" "$DEST"
@@ -45,8 +66,24 @@ xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
 say "Registering with LaunchServices"
 "$LSREGISTER" -f "$DEST"
 
+# pluginkit -a returns success even when pkd ignores it, so check the result
+# and retry rather than trusting the exit code.
 say "Registering extensions with PluginKit"
-pluginkit -a "$DEST/Contents/PlugIns/EXRThumbnail.appex"
-pluginkit -a "$DEST/Contents/PlugIns/EXRQuickLook.appex"
+missing=()
+for n in "${APPEXES[@]}"; do
+  id=$(appex_id "$DEST" "$n")
+  for attempt in $(seq 1 10); do
+    pluginkit -a "$DEST/Contents/PlugIns/$n.appex" 2>/dev/null || true
+    registered "$id" && break
+    [ "$attempt" -eq 5 ] && "$LSREGISTER" -f -R "$DEST"
+    sleep 1
+  done
+  if registered "$id"; then echo "    registered $id"; else missing+=("$id"); fi
+done
+if [ ${#missing[@]} -gt 0 ]; then
+  echo "FAILED: not registered with PluginKit: ${missing[*]}" >&2
+  echo "Log out and back in (or reboot) and re-run; pkd sometimes holds stale state." >&2
+  exit 1
+fi
 
 say "Done. Now run Tools/spike-status.sh"
