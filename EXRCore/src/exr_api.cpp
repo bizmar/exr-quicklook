@@ -86,21 +86,28 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
     const BakedLut* lut = raw ? nullptr : find_lut(view);
     if (!raw && !lut) return false;   // never render untransformed by accident
 
-    // Precedence, D9 as amended 2026-09-06:
-    //   1. an explicit override, whether or not the file states primaries --
+    // Precedence, D9 as amended (see CLAUDE.md):
+    //   1. an explicit override, whether or not the file states its space --
     //      a misapplied profile is baked into every frame of a sequence, and
-    //      the user has to be able to correct it;
-    //   2. the file's own chromaticities;
+    //      the user has to be able to correct it. It is either named primaries
+    //      or, for a PQ HDR master, an input transform (inverse HDR view);
+    //   2. what the file states (`has_chroma`): chromaticities, colorInteropID
+    //      or arnold/color_space, resolved by stated_space();
     //   3. the assumed default for an untagged file (D9a), ACEScg if unset.
     // An unknown override id falls through rather than failing, so a stale id
     // carried from an older build degrades to the file's own primaries.
     const float* chroma = nullptr;
+    const InputLut* input = nullptr;   // PQ code values -> scene-linear ACEScg
     if (const NamedSpace* forced = find_space(opt.input_colorspace)) {
         chroma = forced->chroma;
+    } else if ((input = find_input_lut(opt.input_colorspace))) {
+        chroma = kAP1Chromaticities;   // the input transform already yields AP1
     } else if (has_chroma) {
         chroma = file_chroma;
     } else if (const NamedSpace* assumed = find_space(opt.assumed_colorspace)) {
         chroma = assumed->chroma;
+    } else if ((input = find_input_lut(opt.assumed_colorspace))) {
+        chroma = kAP1Chromaticities;
     } else {
         chroma = kAP1Chromaticities;
     }
@@ -127,10 +134,16 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
 
     auto run_band = [&](std::size_t begin, std::size_t end) {
         for (std::size_t i = begin; i < end; ++i) {
-            float r = img.rgba[i * 4 + 0] * gain;
-            float g = img.rgba[i * 4 + 1] * gain;
-            float b = img.rgba[i * 4 + 2] * gain;
+            float r = img.rgba[i * 4 + 0];
+            float g = img.rgba[i * 4 + 1];
+            float b = img.rgba[i * 4 + 2];
             const float a = img.rgba[i * 4 + 3];
+
+            // A PQ master is display-referred: undo the HDR output transform
+            // first, so exposure and isolation act in scene-linear like for
+            // any other file. Raw shows the file's own code values instead.
+            if (input && !raw) apply_input_lut(input->lut, r, g, b);
+            r *= gain; g *= gain; b *= gain;
 
             // Channel isolation happens in scene-linear, before the transform,
             // so an isolated channel is tone-mapped as it would be in situ.
@@ -146,7 +159,7 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
 
             // Raw skips the primaries matrix too: a data pass has no primaries.
             if (!raw) {
-                mat3_apply(m, r, g, b);
+                if (!input) mat3_apply(m, r, g, b);
                 apply_lut(*lut, r, g, b);
             }
 
@@ -534,11 +547,16 @@ const char* exr_view_display_name(int i) {
 
 const char* exr_default_view_id(void) { return kDefaultLutName; }
 
-int exr_colorspace_count(void) { return kSpaceCount; }
+// The scene-linear spaces, then the PQ HDR-master input transforms.
+int exr_colorspace_count(void) { return kSpaceCount + kInputLutCount; }
 const char* exr_colorspace_id(int i) {
-    return (i >= 0 && i < kSpaceCount) ? kSpaces[i].id : nullptr;
+    if (i >= 0 && i < kSpaceCount) return kSpaces[i].id;
+    if (i >= kSpaceCount && i < kSpaceCount + kInputLutCount) return kInputLuts[i - kSpaceCount].lut.name;
+    return nullptr;
 }
 const char* exr_colorspace_display_name(int i) {
-    return (i >= 0 && i < kSpaceCount) ? kSpaces[i].label : nullptr;
+    if (i >= 0 && i < kSpaceCount) return kSpaces[i].label;
+    if (i >= kSpaceCount && i < kSpaceCount + kInputLutCount) return kInputLuts[i - kSpaceCount].label;
+    return nullptr;
 }
 const char* exr_default_colorspace_id(void) { return "acescg"; }

@@ -133,6 +133,16 @@ These were settled deliberately. Raise it with me before deviating from any of t
    its default rendering space since Arnold 5 — for that attribute only.
    Anything else (display spaces, unknown names) is ignored and the info panel
    says so. Real files in the corpus carry `ACEScg` and `linear`.
+
+   **Amended 2026-10-07 — PQ HDR masters as input entries.** The input picker
+   (and the assumed-default preference) may also name an *input transform*,
+   not only primaries: `pq_p3d65_1000`, `pq_p3d65_4000`, `pq_rec2100_1000`.
+   A PQ EXR is display-referred, so each is OCIO's **inverse** of the ACES 2.0
+   HDR output transform (ST2084-P3-D65 / Rec.2100-PQ display), baked to a 65³
+   LUT with PQ code values as its bounded domain, output scene-linear ACEScg;
+   then the normal SDR view. Matches OCIO's full chain to 0.07/255 mean.
+   Never applied automatically: real PQ files carry no tag (Netflix Cosmos
+   Laundromat, Nocturne). Raw still shows the file's own code values.
 10. Permissive licence — **BSD-3-Clause, chosen 2026-10-06** (`LICENSE`).
     Never copy from GPL sources. Bundled-library notices live in
     `THIRD_PARTY_NOTICES.md` and are copied into the app bundle.

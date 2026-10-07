@@ -12,7 +12,7 @@ Tools/run-tests.sh
 
 hr "corpus (real OpenEXR-written files)"
 # Regenerated when any fixture added since the corpus was last written is missing.
-[ -f Tests/Fixtures/corpus/interop-data.exr ] || build/make-fixtures Tests/Fixtures/corpus
+[ -f Tests/Fixtures/corpus/pq-bands.exr ] || build/make-fixtures Tests/Fixtures/corpus
 Tools/test-corpus.sh
 
 hr "malformed corpus"
@@ -55,6 +55,12 @@ c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_interop.cpp build/lib/l
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
     -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_interop
 build/test_interop Tests/Fixtures/corpus
+
+hr "PQ HDR masters"
+c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_pq.cpp build/lib/libEXRCore.a \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_pq
+build/test_pq Tests/Fixtures/corpus
 
 hr "LUT provenance + runtime vs OCIO"
 if [ -x "${PYOCIO:-/opt/homebrew/bin/python3.14}" ] && \

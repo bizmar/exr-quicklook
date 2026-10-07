@@ -990,3 +990,21 @@ inside the 2 s ceiling. Decode dominates there: the thumbnail is barely cheaper
 than the preview, since every scanline must be decoded whatever the output size.
 More decode threads would cut it. Plan §6.4 asks for 2–4, so that is a
 decision, not a fix.
+
+## PQ HDR masters as input entries (2026-10-07)
+
+Netflix's *Cosmos Laundromat* and *Nocturne* EXRs hold PQ-encoded HDR with no
+tag of any kind. Treated as scene-linear they render washed out and off-colour.
+The input picker now offers P3-D65 PQ (1000 / 4000 nits) and Rec.2100 PQ
+(1000 nits): OCIO's inverse of the matching ACES 2.0 HDR output transform,
+baked to 65³ (PQ code values are a bounded domain, so no shaper), output
+scene-linear ACEScg, then the normal SDR view. Measured against OCIO's full
+chain on 30 000 random PQ colours: 0.07/255 mean, ~3/255 worst (33³ was
+~10/255 worst). `test_pq` checks rendered greys against OCIO's values within
+2/255. Checked by eye on mid-film frames (frame 0 of both films is a black
+fade-in, which first made the test look broken).
+
+Size: the three tables are +4.8 MB per architecture per binary. The host app
+no longer links EXRCore at all (it never used it), which more than paid for
+it in the app: 63 MB → 43 MB, DMG 14.8 → 19.7 MB. A framework shared by the
+two extensions would hold the tables once (~5 MB more off the DMG) — not done.

@@ -491,6 +491,25 @@ void make_position_only(const std::string& path) {
     write_scanline(path, hdr, fb);
 }
 
+// PQ-encoded (SMPTE ST 2084) greys, as an HDR master stores them: four
+// vertical bands of known code values 0, 0.25, 0.5081 (100 nits), 0.75. No
+// colour tag -- real PQ EXRs carry none either.
+void make_pq_bands(const std::string& path) {
+    Imf::Header hdr(W, H);
+    hdr.compression() = Imf::ZIP_COMPRESSION;
+    static std::vector<std::vector<float>> keep;
+    keep.reserve(4);
+    Imf::FrameBuffer fb;
+    auto band = [](int x, int) {
+        static const float codes[4] = {0.0f, 0.25f, 0.5081f, 0.75f};
+        return codes[(x * 4) / W];
+    };
+    add_float(hdr, fb, keep, "R", band);
+    add_float(hdr, fb, keep, "G", band);
+    add_float(hdr, fb, keep, "B", band);
+    write_scanline(path, hdr, fb);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -517,6 +536,7 @@ int main(int argc, char** argv) {
         make_with_preview(dir + "/has-preview-attr.exr");
         make_tiled_mipmap(dir + "/tiled-mipmap.exr");
         make_data_passes(dir + "/data-passes.exr");
+        make_pq_bands(dir + "/pq-bands.exr");
         // colorInteropID (OpenEXR 3.4). Same pixels as aces2065-1.exr and
         // no-chromaticities.exr, so renders can be compared byte for byte.
         make_simple(dir + "/interop-ap0.exr", Imf::ZIP_COMPRESSION, nullptr, true, Imf::HALF,

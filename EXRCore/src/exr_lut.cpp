@@ -69,16 +69,14 @@ const BakedLut* find_lut(const std::string& name) {
     return nullptr;
 }
 
-void apply_lut(const BakedLut& lut, float& r, float& g, float& b) {
+namespace {
+
+// Tetrahedral interpolation at already-scaled lattice coordinates
+// (0..size-1). Picks one of six tetrahedra by the ordering of the fractional
+// coordinates -- better than trilinear on strongly non-linear regions (see
+// aces-transform-options.md §4).
+RGB tetrahedral(const BakedLut& lut, float xr, float xg, float xb) {
     const int n = lut.size;
-    const float scale = float(n - 1);
-
-    // Shaper. Values outside [0,1] after encoding are clamped: the LUT domain
-    // is the whole representable ACEScct range, so this only catches extremes.
-    const float xr = std::clamp(acescct_encode(r), 0.0f, 1.0f) * scale;
-    const float xg = std::clamp(acescct_encode(g), 0.0f, 1.0f) * scale;
-    const float xb = std::clamp(acescct_encode(b), 0.0f, 1.0f) * scale;
-
     const int i0r = std::min(int(xr), n - 2);
     const int i0g = std::min(int(xg), n - 2);
     const int i0b = std::min(int(xb), n - 2);
@@ -86,20 +84,43 @@ void apply_lut(const BakedLut& lut, float& r, float& g, float& b) {
 
     const RGB c000 = fetch(lut, i0r, i0g, i0b);
     const RGB c111 = fetch(lut, i0r + 1, i0g + 1, i0b + 1);
-
-    // Tetrahedral interpolation: pick one of six tetrahedra by the ordering of
-    // the fractional coordinates. Better than trilinear on the strongly
-    // non-linear gamut-compression regions -- see aces-transform-options.md §4.
-    RGB out;
     if (fr > fg) {
-        if (fg > fb)       out = lerp4(c000, fetch(lut,i0r+1,i0g,i0b), fetch(lut,i0r+1,i0g+1,i0b), c111, fr, fg, fb);
-        else if (fr > fb)  out = lerp4(c000, fetch(lut,i0r+1,i0g,i0b), fetch(lut,i0r+1,i0g,i0b+1), c111, fr, fb, fg);
-        else               out = lerp4(c000, fetch(lut,i0r,i0g,i0b+1), fetch(lut,i0r+1,i0g,i0b+1), c111, fb, fr, fg);
-    } else {
-        if (fb > fg)       out = lerp4(c000, fetch(lut,i0r,i0g,i0b+1), fetch(lut,i0r,i0g+1,i0b+1), c111, fb, fg, fr);
-        else if (fb > fr)  out = lerp4(c000, fetch(lut,i0r,i0g+1,i0b), fetch(lut,i0r,i0g+1,i0b+1), c111, fg, fb, fr);
-        else               out = lerp4(c000, fetch(lut,i0r,i0g+1,i0b), fetch(lut,i0r+1,i0g+1,i0b), c111, fg, fr, fb);
+        if (fg > fb)       return lerp4(c000, fetch(lut,i0r+1,i0g,i0b), fetch(lut,i0r+1,i0g+1,i0b), c111, fr, fg, fb);
+        else if (fr > fb)  return lerp4(c000, fetch(lut,i0r+1,i0g,i0b), fetch(lut,i0r+1,i0g,i0b+1), c111, fr, fb, fg);
+        else               return lerp4(c000, fetch(lut,i0r,i0g,i0b+1), fetch(lut,i0r+1,i0g,i0b+1), c111, fb, fr, fg);
     }
+    if (fb > fg)       return lerp4(c000, fetch(lut,i0r,i0g,i0b+1), fetch(lut,i0r,i0g+1,i0b+1), c111, fb, fg, fr);
+    else if (fb > fr)  return lerp4(c000, fetch(lut,i0r,i0g+1,i0b), fetch(lut,i0r,i0g+1,i0b+1), c111, fg, fb, fr);
+    return lerp4(c000, fetch(lut,i0r,i0g+1,i0b), fetch(lut,i0r+1,i0g+1,i0b), c111, fg, fr, fb);
+}
+
+inline float unit(float v) {   // clamp to [0,1], NaN to 0
+    return v > 0.0f ? (v < 1.0f ? v : 1.0f) : 0.0f;
+}
+
+}  // namespace
+
+void apply_lut(const BakedLut& lut, float& r, float& g, float& b) {
+    const float scale = float(lut.size - 1);
+    // Shaper. Values outside [0,1] after encoding are clamped: the LUT domain
+    // is the whole representable ACEScct range, so this only catches extremes.
+    const RGB out = tetrahedral(lut, std::clamp(acescct_encode(r), 0.0f, 1.0f) * scale,
+                                std::clamp(acescct_encode(g), 0.0f, 1.0f) * scale,
+                                std::clamp(acescct_encode(b), 0.0f, 1.0f) * scale);
+    r = out.r; g = out.g; b = out.b;
+}
+
+const InputLut* find_input_lut(const char* name) {
+    if (!name) return nullptr;
+    for (int i = 0; i < kInputLutCount; ++i) {
+        if (std::strcmp(name, kInputLuts[i].lut.name) == 0) return &kInputLuts[i];
+    }
+    return nullptr;
+}
+
+void apply_input_lut(const BakedLut& lut, float& r, float& g, float& b) {
+    const float scale = float(lut.size - 1);
+    const RGB out = tetrahedral(lut, unit(r) * scale, unit(g) * scale, unit(b) * scale);
     r = out.r; g = out.g; b = out.b;
 }
 

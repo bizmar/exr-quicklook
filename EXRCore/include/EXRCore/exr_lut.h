@@ -25,6 +25,23 @@ struct BakedLut {
 extern const BakedLut kBakedLuts[];
 extern const int kBakedLutCount;
 
+// Input transforms for PQ (ST 2084) HDR masters: the inverse of an ACES 2.0 HDR
+// output transform, baked from OCIO. Domain: PQ code values in [0,1] (no
+// shaper). Output: scene-linear ACEScg. Offered in the input-colourspace
+// picker; never applied unless chosen.
+struct InputLut {
+    BakedLut lut;
+    const char* label;      // for the picker, e.g. "P3-D65 PQ (HDR master, 1000 nits)"
+};
+extern const InputLut kInputLuts[];
+extern const int kInputLutCount;
+
+[[nodiscard]] const InputLut* find_input_lut(const char* name);
+
+// `r`, `g`, `b` are PQ code values on entry (clamped to [0,1]) and
+// scene-linear ACEScg on exit.
+void apply_input_lut(const BakedLut& lut, float& r, float& g, float& b);
+
 // Looks a LUT up by name. Returns nullptr if absent -- callers must treat that
 // as "fall back to the generic icon", never as "render untransformed".
 [[nodiscard]] const BakedLut* find_lut(const std::string& name);

@@ -114,6 +114,16 @@ Which primaries a file is assumed to have, in order:
 
 The info panel says which of these decided, and when a tag was ignored.
 
+**HDR masters (PQ).** Some deliveries are EXRs holding PQ-encoded (SMPTE
+ST 2084) HDR. That data is already tone-mapped and measured in absolute nits,
+not scene-linear, so shown as-is it looks washed out and off-colour. The input
+picker offers **P3-D65 PQ (1000 or 4000 nits)** and **Rec.2100 PQ (1000
+nits)**. Each undoes the matching ACES 2.0 HDR output transform (baked from
+OpenColorIO's inverse) and then shows the result through the normal view. Pick
+the nit level the master was graded at. Nothing in these files' headers says
+they are PQ, so this is never chosen automatically; choose it once and it
+carries across the sequence.
+
 **Real-world caveat:** of the 291 production and test files in the corpus
 below, **none** carry `chromaticities` or `colorInteropID`. Not Netflix's ACES
 camera footage, not its PQ-encoded HDR films, not Blender's renders, not Poly

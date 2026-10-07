@@ -87,9 +87,13 @@ compile() {
 }
 
 say "Compiling EXRPreview (host app) for ${ARCHES[*]}"
+# The host app is an information window only: it uses neither EXRCore nor the
+# shared renderer, so it does not link them -- that saved ~21 MB of decoder and
+# colour tables per build. A fork that restores the preferences UI (which needs
+# EXRRenderer.views/colorspaces via EXRPreferences) must add back
+# "$ROOT/Shared/EXRRenderer.swift" "$ROOT/Shared/EXRPreferences.swift" and the
+# CORE_SWIFT_FLAGS / CORE_LINK_FLAGS here.
 compile EXRPreview "$ROOT/EXRPreview" \
-  "$ROOT/Shared/EXRRenderer.swift" "$ROOT/Shared/EXRPreferences.swift" \
-  "${CORE_SWIFT_FLAGS[@]}" "${CORE_LINK_FLAGS[@]}" \
   -framework SwiftUI -framework AppKit
 
 say "Compiling EXRThumbnail (appex) for ${ARCHES[*]}"
