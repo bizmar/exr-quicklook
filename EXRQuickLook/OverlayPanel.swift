@@ -21,19 +21,6 @@ final class HUDBackground: NSView {
     required init?(coder: NSCoder) { fatalError("not used") }
 }
 
-/// A slider that returns to its default on double-click, the convention in
-/// Nuke, Resolve and Photoshop. The first click of the pair still goes to the
-/// slider normally, so it may jump towards the click before the reset lands.
-final class ResettableSlider: NSSlider {
-    var resetValue: Double = 0
-
-    override func mouseDown(with event: NSEvent) {
-        guard event.clickCount >= 2 else { return super.mouseDown(with: event) }
-        doubleValue = resetValue
-        sendAction(action, to: target)
-    }
-}
-
 /// The floating HUD from plan §8: two collapsed buttons in the upper right,
 /// one for display controls and one for metadata, each expanding a translucent
 /// panel.
@@ -54,7 +41,7 @@ final class OverlayPanel: NSView {
     // MARK: - Controls
 
     private let exposureLabel = NSTextField(labelWithString: "Exposure  +0.0")
-    private let exposureSlider = ResettableSlider()
+    private let exposureSlider = NSSlider()
     private let channelControl = NSSegmentedControl(
         labels: ["RGB", "Alpha"],
         trackingMode: .selectOne, target: nil, action: nil)
@@ -150,8 +137,6 @@ final class OverlayPanel: NSView {
         exposureSlider.minValue = -6
         exposureSlider.maxValue = 6
         exposureSlider.doubleValue = 0
-        exposureSlider.resetValue = 0
-        exposureSlider.toolTip = "Double-click to reset to 0"
         exposureSlider.isContinuous = true
         exposureSlider.target = self
         exposureSlider.action = #selector(controlChanged)

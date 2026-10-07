@@ -62,9 +62,9 @@ overscan:
 
 Press Space on an EXR. Two buttons sit in the corner:
 
-- **Display options**: exposure (double-click to reset), RGB or alpha, layer
-  and part, view transform (sRGB, Display P3, Rec.709, Raw…), input colourspace
-  override, alpha over checkerboard, data window.
+- **Display options**: exposure, RGB or alpha, layer and part, view transform
+  (sRGB, Display P3, Rec.709, Raw…), input colourspace override, alpha over
+  checkerboard, data window.
 - **File information**: compression, colourspace, channels, layers, and data
   and display windows.
 

@@ -83,8 +83,7 @@ struct AppWindow: View {
             tip("slider.horizontal.3",
                 "The slider button in the preview's corner opens exposure, layer, "
                 + "alpha, view transform and input colourspace. An orange dot on it means "
-                + "something differs from the defaults. Double-click the exposure "
-                + "slider to return it to 0.")
+                + "something differs from the defaults.")
             tip("info.circle",
                 "The info button shows the file's compression, colourspace, "
                 + "channels and data and display windows.")

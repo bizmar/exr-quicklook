@@ -14,7 +14,9 @@ preferences (see Known limitation). Re-verified on **macOS 27.0.1** 2026-10-06.
 **Decided 2026-10-06: overlay click latency stays as is.** Quick Look holds
 every click for the system double-click interval (measured, phase1-status.md
 "2026-10-06 session"); hover-to-open was offered and declined — the user finds
-the controls smooth. Exposure slider resets to 0 on double-click.
+the controls smooth. **No double-click reset on the exposure slider**: tried
+2026-10-07, but the Quick Look host takes the double-click itself and opens
+the file, before the extension sees it. Dropped.
 
 **Needs a by-hand check:** session carry-over. It never worked before
 2026-10-06: the restore was immediately overwritten, and Quick Look prepares

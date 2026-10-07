@@ -1008,3 +1008,14 @@ Size: the three tables are +4.8 MB per architecture per binary. The host app
 no longer links EXRCore at all (it never used it), which more than paid for
 it in the app: 63 MB → 43 MB, DMG 14.8 → 19.7 MB. A framework shared by the
 two extensions would hold the tables once (~5 MB more off the DMG) — not done.
+
+### Exposure double-click reset — removed (2026-10-07)
+
+Added 2026-10-06 (`ResettableSlider`), reported not working by the user: a
+double-click on the slider opens the file in its default app instead. The
+Quick Look host holds every click for the double-click interval (see the
+latency table above) precisely to detect a double-click, and handles it itself
+by opening the file; the extension's view never gets the second click. Nothing
+on the extension side can claim it, so the feature is gone from the code, the
+tooltip, the host app's tips and the README. "Reset to defaults" in the panel
+still returns exposure to 0 along with everything else.
