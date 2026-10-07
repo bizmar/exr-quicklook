@@ -186,6 +186,7 @@ Tools/make-notices.sh          # THIRD_PARTY_NOTICES.md from the pinned sources'
 Tools/corpus/build_corpus.py   # real-world EXR headers into Vendor/corpus/ (Range requests, ~200 MB)
 Tools/corpus/manifest.py       # -> Tests/Fixtures/realworld/ (names only), used by test_realworld
 
+build/bench <files>            # thumbnail / preview / exposure timings vs the §6.7 budget
 build/qlprobe <files>          # headless: classify QL thumbnails by colour
 build/qlpreviewprobe <files>   # headless: drive a real QLPreviewView
 build/qlpanelprobe <files>     # the real spacebar panel, stepping items like ↓

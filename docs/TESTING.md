@@ -60,9 +60,10 @@ blue) once passed checks that only looked at settings or text.
   dump (`exrcli -v`) of one of your files is the most useful report.
 - **Non-ACES pipelines.** Untagged files are assumed ACEScg. How often that is
   wrong in practice (Blender's linear Rec.709, for example) is not known.
-- **Very large files.** The performance budget (thumbnail < 300 ms, preview
-  < 500 ms on a 4K DWAA frame) was met early on but has not been re-measured
-  since recent changes. 8K and 16K frames are untested.
+- **Very large files and other Macs.** On an M2 Pro a 4K DWAA frame takes
+  77 ms for a thumbnail and 101 ms to first preview paint (budget: 300 / 500 ms),
+  and a 6K DWAA plate 345 / 392 ms (`build/bench`). Base M1/M2 chips, Intel
+  Macs, and 8K/16K frames are unmeasured.
 - **Network volumes and slow disks.** Behaviour against the 2-second decode
   deadline.
 - **Multiple displays and wide-gamut or HDR monitors.** Output is SDR Display

@@ -972,3 +972,21 @@ is on white) covering an 824/1024 rounded-square tile, corner radius 185.4,
 then `iconutil`. Background removal is no longer used for the icon: at icon
 sizes it turned the soft floor shadow into a ragged, sliced-looking edge.
 Verified the same way: the system now shows the tile at full size, no grey box.
+
+## Performance re-measured (2026-10-07)
+
+`build/bench` (new, `Tools/bench/main.cpp`): median of 7 runs, M2 Pro, 3 decode
+threads, through the shipping C API.
+
+| File | Thumbnail (1024 px) | Preview first paint (2048 px) | Exposure drag |
+|---|---|---|---|
+| 4K DWAA level 45 (Netflix *Sparks* frame, re-encoded) | 77 ms | 101 ms | 36 ms |
+| 4K uncompressed (*Sparks* original) | 78 ms | 104 ms | 38 ms |
+| 6K DWAA level 15 (real camera plate, 6022×4024 data window) | 345 ms | 392 ms | 60 ms |
+
+The §6.7 budget (4K DWAA: thumbnail < 300 ms, preview < 500 ms) is met with a
+wide margin. The 6K plate is 15 % over the *4K* thumbnail figure, still far
+inside the 2 s ceiling. Decode dominates there: the thumbnail is barely cheaper
+than the preview, since every scanline must be decoded whatever the output size.
+More decode threads would cut it. Plan §6.4 asks for 2–4, so that is a
+decision, not a fix.

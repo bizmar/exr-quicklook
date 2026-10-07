@@ -26,3 +26,10 @@ c++ -std=c++17 -O1 \
     -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph \
     -o "$ROOT/build/make-fixtures"
 echo "built build/make-fixtures"
+
+# Performance against the plan's §6.7 budget (Tools/bench/main.cpp).
+c++ -std=c++17 -O2 -I "$ROOT/EXRCore/include" "$ROOT/Tools/bench/main.cpp" "$ROOT/build/lib/libEXRCore.a" \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph \
+    -o "$ROOT/build/bench"
+echo "built build/bench"
