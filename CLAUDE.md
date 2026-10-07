@@ -81,6 +81,40 @@ which needs dmgbuild in `build/dmg/venv`; see the script header).
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 
+### Open loose ends (as of 2026-10-07)
+
+Worked through one at a time with the user, each with a recommendation; the
+user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
+docs/LAYER-RULES.md, `arnold/color_space`, benchmark. **Committed but NOT
+pushed: the PQ input entries (62eb273)** -- waiting for the user's "push it".
+
+Still open, roughly in priority order:
+- **Release 0.2.0** once the above is pushed: it would ship the layer-rule,
+  arnold/color_space and PQ work (0.1.0 predates all of it).
+- **Decode threads for 6K plates** (6K DWAA thumbnail 345 ms vs the 4K budget
+  of 300). Plan §6.4 says 2-4 threads; currently 3 -- raising it is the user's call.
+- **Shared EXRCore framework** for the two extensions, so the colour tables
+  ship once (~5 MB off the 19.7 MB DMG). Structural; not started.
+- **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder
+  column view / preview pane recheck. Needs the user's hands or other Macs.
+- **Not built:** golden-image regression, fuzz target, `preview`-attribute /
+  mip-level fast path (plan §6.4).
+- **Colour, possible follow-ups:** map `colorInteropID` `pq_p3d65_display` /
+  `pq_rec2020_display` to the PQ entries (nit level unknown, so not done);
+  other writers' colour-space attributes beyond Arnold.
+- **Layer naming:** no real Redshift/Karma/Octane/Cycles/Unreal/Corona files
+  exist openly; ambiguous studio names (`exitdir`, `s_*`) are documented, not handled.
+- The `.xcodeproj` question below is settled in practice: script build only.
+
+Working with this Mac (learned the hard way, see phase1-status.md):
+- The user switches extensions on/off in System Settings; never do it for them.
+- Never force-kill system daemons. `com.apple.quicklook.ThumbnailsAgent`
+  ignores SIGTERM and can hold stale extension state after re-registration;
+  the cure is a log-out. `Tools/install.sh` now verifies both extensions
+  registered (a pluginkit race once dropped one silently).
+- Downloads: state source, licence and size first. The user granted a 5-10 GB
+  budget for the corpus; ~260 MB used (Vendor/corpus/, git-ignored).
+
 Keep this line updated as phases complete. A fresh session reads it to know where things stand.
 
 ## Non-negotiable decisions
