@@ -154,7 +154,7 @@ Tools/bake-lut/bake.py         # once: bake ACES 2.0 LUTs (needs PyOpenColorIO)
 Tools/build-core.sh            # universal libEXRCore.a
 Tools/build-app.sh           # build universal + ad-hoc sign -> build/EXR Quick Look.app
 Tools/install.sh         # install to ~/Applications, register with LS + PluginKit
-Tools/package-release.sh       # tests, then dist/EXR-Quick-Look-<version>.zip for GitHub Releases
+Tools/package-release.sh       # tests, then the styled dist/EXR-Quick-Look-<version>.dmg
 Tools/status.sh          # registration, enablement, UTI assignment
 Tools/finder-test.sh     # fresh uncached folder, opens in Finder
 Tools/watch-log.sh       # live invocation log
