@@ -9,6 +9,7 @@
 #pragma once
 
 #include <cstring>
+#include <strings.h>
 
 namespace exrcore {
 
@@ -16,6 +17,7 @@ struct NamedSpace {
     const char* id;
     const char* label;
     const char* interop_id;  // Color Interop Forum ID, as OCIO assigns it
+    const char* names;       // OCIO name and aliases, '|'-separated
     float chroma[8];  // rx ry gx gy bx by wx wy
 };
 
@@ -30,6 +32,26 @@ extern const int kSpaceCount;
     if (!interop_id || !*interop_id) return nullptr;
     for (int i = 0; i < kSpaceCount; ++i) {
         if (std::strcmp(kSpaces[i].interop_id, interop_id) == 0) return &kSpaces[i];
+    }
+    return nullptr;
+}
+
+// The space a writer's colour-space attribute names ("ACEScg",
+// "ACES - ACEScg", "Utility - Linear - sRGB"...), matched case-insensitively
+// against each space's OCIO name and aliases. Scene-linear spaces only, like
+// find_space_by_interop.
+[[nodiscard]] inline const NamedSpace* find_space_by_name(const char* name) {
+    if (!name || !*name) return nullptr;
+    const std::size_t len = std::strlen(name);
+    for (int i = 0; i < kSpaceCount; ++i) {
+        const char* p = kSpaces[i].names;
+        while (*p) {
+            const char* end = std::strchr(p, '|');
+            const std::size_t n = end ? static_cast<std::size_t>(end - p) : std::strlen(p);
+            if (n == len && strncasecmp(p, name, n) == 0) return &kSpaces[i];
+            if (!end) break;
+            p = end + 1;
+        }
     }
     return nullptr;
 }

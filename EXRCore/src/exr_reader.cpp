@@ -3,6 +3,7 @@
 #include <ImfChannelList.h>
 #include <ImfChromaticities.h>
 #include <ImfFloatAttribute.h>
+#include <ImfStringAttribute.h>
 #include <ImfHeader.h>
 #include <ImfMultiPartInputFile.h>
 #include <ImfPartType.h>
@@ -148,6 +149,15 @@ bool inspect_file(const std::string& path, FileInfo& out, std::string& error) {
             if (Imf::hasColorInteropID(h)) {
                 const std::string& id = Imf::colorInteropID(h);
                 if (id.size() <= 128) info.color_interop_id = id;
+            }
+
+            // A renderer's own record of its working colour space. Arnold
+            // writes the OCIO name; nothing else is read for now.
+            if (const auto* cs = h.findTypedAttribute<Imf::StringAttribute>("arnold/color_space")) {
+                if (cs->value().size() <= 128) {
+                    detail.writer_colorspace = cs->value();
+                    detail.writer_colorspace_attr = "arnold/color_space";
+                }
             }
 
             if (Imf::hasChromaticities(h)) {

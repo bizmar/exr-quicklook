@@ -50,7 +50,7 @@ c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_raw_view.cpp build/lib/
     -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_raw_view
 build/test_raw_view Tests/Fixtures/corpus
 
-hr "colorInteropID"
+hr "colour tags: colorInteropID, arnold/color_space"
 c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_interop.cpp build/lib/libEXRCore.a \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
     -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_interop

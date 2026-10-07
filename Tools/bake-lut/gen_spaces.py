@@ -103,7 +103,11 @@ def main():
         interop = cfg.getColorSpace(name).getInteropID()
         if not interop:
             sys.exit(f"{name} has no interop ID in {CONFIG}")
-        rows.append((ident(name), LABELS.get(name, name), interop, xy))
+        # Every name OCIO knows the space by -- its name plus aliases, which
+        # include older ACES config spellings ("Utility - Linear - sRGB") --
+        # so a writer's colour-space attribute can be matched by name.
+        names = "|".join([name] + list(cfg.getColorSpace(name).getAliases()))
+        rows.append((ident(name), LABELS.get(name, name), interop, names, xy))
         print(f"  {LABELS.get(name, name):<28} "
               + " ".join(f"{v:.5f}" for v in xy[:2]) + " ...")
 
@@ -116,9 +120,9 @@ def main():
         f.write("// ACES2065-1 into CIE XYZ, not transcribed from published tables.\n\n")
         f.write('#include "EXRCore/exr_spaces.h"\n\nnamespace exrcore {\n\n')
         f.write("const NamedSpace kSpaces[] = {\n")
-        for id_, label, interop, xy in rows:
+        for id_, label, interop, names, xy in rows:
             vals = ", ".join(f"{v:.6f}f" for v in xy)
-            f.write(f'    {{"{id_}", "{label}", "{interop}",\n     {{{vals}}}}},\n')
+            f.write(f'    {{"{id_}", "{label}", "{interop}",\n     "{names}",\n     {{{vals}}}}},\n')
         f.write("};\n\n")
         f.write(f"const int kSpaceCount = {len(rows)};\n\n")
         f.write("}  // namespace exrcore\n")

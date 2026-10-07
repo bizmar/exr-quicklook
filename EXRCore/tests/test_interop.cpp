@@ -86,6 +86,26 @@ int main(int argc, char** argv) {
     expect(render(data_id, nullptr, nullptr, "aces2_p3d65_sdr100") == ref_untagged,
            "and an explicit view still applies to it");
 
+    // arnold/color_space: an OCIO colour-space name, matched against each
+    // space's name and OCIO aliases. Ranks after colorInteropID.
+    const std::string a_ap0 = dir + "/arnold-ap0.exr", a_alias = dir + "/arnold-alias.exr";
+    const std::string a_disp = dir + "/arnold-display.exr", a_vs = dir + "/arnold-vs-interop.exr";
+    expect(render(a_ap0) == ref_ap0, "arnold/color_space \"ACES2065-1\" renders as AP0");
+    expect(stated_name(a_ap0) == "ACES2065-1 (AP0)", "and counts as the file stating its space");
+    expect(render(a_alias) == render(untagged, "linear_rec_709_srgb"),
+           "an OCIO alias (\"Utility - Linear - sRGB\") maps to its space");
+    expect(render(a_disp) == ref_untagged && stated_name(a_disp).empty(),
+           "a display space name is ignored: falls back to the assumed default");
+    expect(render(a_vs) == ref_untagged, "colorInteropID outranks arnold/color_space");
+    expect(render(dir + "/arnold-linear.exr") == render(untagged, "linear_rec_709_srgb"),
+           "Arnold's built-in \"linear\" is linear sRGB / Rec.709");
+    expect(render(a_ap0, "acescg") == ref_untagged, "an explicit override still wins");
+    const std::string d_arnold = describe(a_ap0), d_disp = describe(a_disp);
+    expect(d_arnold.find("arnold/color_space") != std::string::npos,
+           "the info panel names the attribute the space came from");
+    expect(d_disp.find("sRGB - Display") != std::string::npos && d_disp.find("ignored") != std::string::npos,
+           "and says when it was ignored");
+
     const std::string d_ap0 = describe(ap0_id), d_log = describe(log_id);
     expect(d_ap0.find("lin_ap0_scene") != std::string::npos,
            "the info panel shows the ID");
@@ -93,6 +113,6 @@ int main(int argc, char** argv) {
                d_log.find("ignored") != std::string::npos,
            "and says when it was ignored");
 
-    std::printf("\n  colorInteropID: %d failures\n", failures);
+    std::printf("\n  colour tags: %d failures\n", failures);
     return failures ? 1 : 0;
 }

@@ -26,7 +26,7 @@ All of these pass as of 2026-10-06, on macOS 27.0.1, Apple silicon.
 | Thumbnail = preview (D7) | Both code paths produce identical pixels | byte comparison |
 | Input colourspace override | The override changes the rendered pixels, on tagged and untagged files | 8 byte comparisons |
 | Data passes / Raw view | Position, depth and motion render untransformed; greyscale is grey | 14 byte comparisons |
-| `colorInteropID` | The OpenEXR 3.4 colour ID is honoured, outranked by `chromaticities`, and log/display IDs are ignored | 13 byte comparisons |
+| Colour tags | `colorInteropID` and `arnold/color_space` are honoured in the right order (aliases, Arnold's `linear`), and display or unknown names are ignored | 22 byte comparisons |
 | ACES tables | The baked LUTs re-bake to the same hashes, and the shipped runtime matches OCIO within tolerance | hash + numeric |
 
 Every render check compares **pixels**, not settings. That rule exists because

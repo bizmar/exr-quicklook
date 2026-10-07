@@ -19,6 +19,10 @@ struct PartDetail {
     bool has_chromaticities = false;
     float chromaticities[8] = {};  // rx ry gx gy bx by wx wy
     std::string chromaticities_name;  // "ACEScg", "ACES2065-1", "Rec.709" or ""
+    // A colour space a renderer recorded by name, and the attribute it came
+    // from ("arnold/color_space"). Empty when absent.
+    std::string writer_colorspace;
+    std::string writer_colorspace_attr;
     bool has_preview = false;
     float pixel_aspect_ratio = 1.0f;
     int64_t pixel_count = 0;

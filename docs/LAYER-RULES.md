@@ -100,15 +100,26 @@ choosing a view transform by hand overrides Raw. Please
 
 ## 5. Colour, briefly
 
-Which primaries a file is assumed to have, in order: your override in the
-preview → the file's `chromaticities` → a scene-linear `colorInteropID` → the
-default, **ACEScg**.
+Which primaries a file is assumed to have, in order:
+
+1. your override in the preview;
+2. the file's `chromaticities`;
+3. a scene-linear `colorInteropID` (OpenEXR 3.4);
+4. **`arnold/color_space`**: Arnold records its working space by OCIO name.
+   It's matched against each space's OCIO name and aliases, so older ACES
+   config spellings ("ACES - ACEScg", "Utility - Linear - sRGB") work. Arnold's
+   built-in name `linear` means linear sRGB / Rec.709, its default rendering
+   space since Arnold 5. Display spaces and unknown names are ignored;
+5. the default, **ACEScg**.
+
+The info panel says which of these decided, and when a tag was ignored.
 
 **Real-world caveat:** of the 291 production and test files in the corpus
 below, **none** carry `chromaticities` or `colorInteropID`. Not Netflix's ACES
 camera footage, not its PQ-encoded HDR films, not Blender's renders, not Poly
-Haven's HDRIs. In practice the ACEScg default decides almost every file, which
-is why the input-colourspace override carries across a sequence.
+Haven's HDRIs. A handful of Arnold files carry `arnold/color_space` (`ACEScg`,
+`linear`). In practice the ACEScg default decides almost every file, which is
+why the input-colourspace override carries across a sequence.
 
 ## 6. Evidence
 

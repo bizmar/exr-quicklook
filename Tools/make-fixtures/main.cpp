@@ -14,6 +14,7 @@
 #include <ImfOutputPart.h>
 #include <ImfPartType.h>
 #include <ImfStandardAttributes.h>
+#include <ImfStringAttribute.h>
 
 #include <half.h>
 
@@ -125,11 +126,12 @@ void make_named_beauty(const std::string& path) {
 
 void make_simple(const std::string& path, Imf::Compression c, const Imf::Chromaticities* chroma,
                  bool with_alpha, Imf::PixelType type = Imf::HALF,
-                 const char* interop_id = nullptr) {
+                 const char* interop_id = nullptr, const char* arnold_cs = nullptr) {
     Imf::Header hdr(W, H);
     hdr.compression() = c;
     if (chroma) Imf::addChromaticities(hdr, *chroma);
     if (interop_id) Imf::addColorInteropID(hdr, interop_id);
+    if (arnold_cs) hdr.insert("arnold/color_space", Imf::StringAttribute(arnold_cs));
     static std::vector<half> r, g, b, a;
     static std::vector<float> rf, gf, bf;
     Imf::FrameBuffer fb;
@@ -527,6 +529,17 @@ int main(int argc, char** argv) {
                     "ocio:acescct_ap1_scene");
         make_simple(dir + "/interop-data.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
                     "data");
+        // arnold/color_space: Arnold writes its OCIO working space by name.
+        make_simple(dir + "/arnold-ap0.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, "ACES2065-1");
+        make_simple(dir + "/arnold-alias.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, "Utility - Linear - sRGB");     // ACES 1.x config spelling
+        make_simple(dir + "/arnold-display.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, "sRGB - Display");              // not scene-linear: ignored
+        make_simple(dir + "/arnold-vs-interop.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    "lin_ap1_scene", "ACES2065-1");          // the interop ID wins
+        make_simple(dir + "/arnold-linear.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, "linear");      // Arnold's built-in manager: linear sRGB
         make_depth_only(dir + "/depth-only.exr");
         make_position_only(dir + "/position-only.exr");
     } catch (const std::exception& e) {

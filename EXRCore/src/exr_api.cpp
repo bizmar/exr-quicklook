@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <strings.h>
 #include <memory>
 #include <thread>
 #include <string>
@@ -188,14 +189,28 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
     return true;
 }
 
-// What a part states about its primaries (D9, amended 2026-10-06): its
-// chromaticities, else a recognised scene-linear colorInteropID. Shared by the
-// renderer and the info panel so the two can never disagree.
+// What a part states about its primaries (D9, amended 2026-10-06/07): its
+// chromaticities, else a recognised scene-linear colorInteropID, else a
+// renderer's colour-space attribute naming a known scene-linear space. Shared
+// by the renderer and the info panel so the two can never disagree.
+// The space a renderer's colour-space attribute names: an OCIO name or alias,
+// or Arnold's built-in-manager name "linear" -- its default rendering space
+// since Arnold 5, linear sRGB (Rec.709 primaries). That last mapping applies
+// to arnold/color_space only; a bare "linear" means nothing in OCIO.
+const NamedSpace* writer_space(const PartDetail& d) {
+    if (d.writer_colorspace_attr == "arnold/color_space" &&
+        strcasecmp(d.writer_colorspace.c_str(), "linear") == 0) {
+        return find_space("linear_rec_709_srgb");
+    }
+    return find_space_by_name(d.writer_colorspace.c_str());
+}
+
 struct StatedSpace {
     bool stated = false;
     const float* chroma = nullptr;
     std::string name;
     bool from_interop = false;
+    std::string from_attr;   // e.g. "arnold/color_space" when that decided it
 };
 
 StatedSpace stated_space(const PartDetail& d, const PartInfo& p) {
@@ -209,6 +224,11 @@ StatedSpace stated_space(const PartDetail& d, const PartInfo& p) {
         s.chroma = n->chroma;
         s.name = n->label;
         s.from_interop = true;
+    } else if (const NamedSpace* w = writer_space(d)) {
+        s.stated = true;
+        s.chroma = w->chroma;
+        s.name = w->label;
+        s.from_attr = d.writer_colorspace_attr;
     }
     return s;
 }
@@ -373,7 +393,8 @@ int exr_describe(const char* path, char* buffer, size_t len) {
     const std::string& interop = part.color_interop_id;
     if (stated.stated) {
         append(s, "Colour", stated.from_interop ? stated.name + " (from colour interop ID)"
-                                                : stated.name);
+                          : !stated.from_attr.empty() ? stated.name + " (from " + stated.from_attr + ")"
+                          : stated.name);
     } else if (interop == "data") {
         append(s, "Colour", "data \u2014 shown without a colour transform");
     } else {
@@ -390,6 +411,12 @@ int exr_describe(const char* path, char* buffer, size_t len) {
             append(s, "Colour interop ID",
                    interop + " (ignored: not a scene-linear space this viewer knows)");
         }
+    }
+    if (!d.writer_colorspace.empty() && stated.from_attr.empty()) {
+        const bool known = writer_space(d) != nullptr;
+        append(s, "Renderer colour space",
+               d.writer_colorspace + " (" + d.writer_colorspace_attr +
+               (known ? "; outranked by the file's own tags)" : "; ignored: not a scene-linear space this viewer knows)"));
     }
 
     if (sel.valid()) {
