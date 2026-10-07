@@ -196,6 +196,43 @@ bool part_has_rgb(const PartInfo& part) {
     return false;
 }
 
+// The dot-separated components of a name, lower-cased: "ViewLayer.Depth" ->
+// {"viewlayer", "depth"}.
+std::vector<std::string> components(const std::string& lower) {
+    std::vector<std::string> out;
+    std::size_t start = 0;
+    while (start <= lower.size()) {
+        const std::size_t dot = lower.find('.', start);
+        out.push_back(lower.substr(start, dot == std::string::npos ? std::string::npos : dot - start));
+        if (dot == std::string::npos) break;
+        start = dot + 1;
+    }
+    return out;
+}
+
+// The words inside a name, split at '_', '-', '.', spaces, digits and camelCase
+// humps, lower-cased: "s_fur_uv" -> {s, fur, uv}; "instanceID" -> {instance, id}.
+std::vector<std::string> words(const std::string& name) {
+    std::vector<std::string> out;
+    std::string cur;
+    auto flush = [&] { if (!cur.empty()) { out.push_back(to_lower(cur)); cur.clear(); } };
+    for (std::size_t i = 0; i < name.size(); ++i) {
+        const unsigned char c = static_cast<unsigned char>(name[i]);
+        if (!std::isalpha(c)) { flush(); continue; }
+        // A new word starts at lower->Upper ("instanceID") and at the last
+        // capital of an acronym followed by lower case ("IDMask" -> ID, Mask).
+        if (std::isupper(c) && !cur.empty()) {
+            const unsigned char prev = static_cast<unsigned char>(cur.back());
+            const bool next_lower = i + 1 < name.size() &&
+                                    std::islower(static_cast<unsigned char>(name[i + 1]));
+            if (std::islower(prev) || (std::isupper(prev) && next_lower)) flush();
+        }
+        cur += static_cast<char>(c);
+    }
+    flush();
+    return out;
+}
+
 }  // namespace
 
 void split_channel(const std::string& full, std::string& layer, std::string& base) {
@@ -209,52 +246,82 @@ void split_channel(const std::string& full, std::string& layer, std::string& bas
     }
 }
 
+// The beauty, by name. The last component counts, so "ViewLayer.Combined"
+// (Blender) qualifies. See docs/LAYER-RULES.md.
 bool is_preferred_name(const std::string& name) {
     const std::string n = to_lower(name);
-    if (n.empty() || n == "rgba" || n == "rgb" || n == "beauty" || n == "main" ||
-        n == "composite") {
-        return true;
-    }
-    // Blender: "<view layer>.Combined".
+    if (n.empty()) return true;
     const std::size_t dot = n.rfind('.');
-    return (dot == std::string::npos ? n : n.substr(dot + 1)) == "combined";
+    const std::string last = dot == std::string::npos ? n : n.substr(dot + 1);
+    static const char* const kBeauty[] = {
+        "rgba", "rgb", "beauty", "main", "composite",
+        "combined",     // Blender
+        "ci",           // RenderMan
+        "c",            // Karma, Mantra
+        "finalimage",   // Unreal Movie Render Queue
+    };
+    for (const char* k : kBeauty) {
+        if (last == k) return true;
+    }
+    return false;
 }
 
+// Data passes, by name. The tiers are documented, with examples and the
+// reasoning, in docs/LAYER-RULES.md -- keep the two in step.
 bool is_never_auto_layer(const std::string& layer_name) {
     if (layer_name.empty()) return false;  // the default layer is always eligible
     const std::string n = to_lower(layer_name);
 
-    // Cryptomatte, in both the layer-name and the metadata-path spelling.
-    if (starts_with(n, "crypto")) return true;
-    if (n.find("cryptomatte") != std::string::npos) return true;
+    // 1. Cryptomatte, anywhere in the name: "CryptoObject00", Arnold's
+    //    "uCryptoObject", "crypto_material", "cryptomatte/...".
+    if (n.find("crypto") != std::string::npos) return true;
 
-    // Distinctive words, matched anywhere so that renderer prefixes and
-    // plurals are caught: "VRayZDepth", "MotionVectors", "WorldPosition",
-    // "VRayNormals", "PuzzleMatte".
+    // 2. Distinctive words, anywhere: renderer prefixes and plurals are caught
+    //    ("VRayZDepth", "MotionVectors", "WorldPosition", "PuzzleMatte").
     static const char* const kAnywhere[] = {
         "depth", "position", "normal", "motion", "velocity", "vector", "matte", "mask",
+        "rendertime", "cputime", "raycount", "facingratio",   // diagnostics
+        "dpdtime",        // RenderMan motion
+        "volumez",        // Redshift volume depth
+        "samplerinfo", "wirecolor",                           // V-Ray
     };
     for (const char* k : kAnywhere) {
         if (n.find(k) != std::string::npos) return true;
     }
 
-    // Short names, matched only as a whole dot-separated component -- as a
-    // substring "p" or "n" would catch nearly everything. Any component counts,
-    // so Blender's "ViewLayer.Depth" is caught as well as "depth.Z".
-    static const char* const kExact[] = {
-        "z", "zback", "n", "p", "pref", "pw", "pworld", "wp", "mv", "mvec", "uv",
-        "forward", "backward", "id", "objectid", "materialid",
+    // 3. Short names, only as a whole dot-separated component. As substrings
+    //    "p" or "n" would catch nearly everything, and even as words they would
+    //    catch light groups such as "rim_n" or "key_p".
+    static const char* const kComponent[] = {
+        "z", "zback", "pz",                            // depth (Pz: Karma/Mantra)
+        "n", "nn", "nw", "ng", "ngn", "nt", "tn", "vn",  // normals, tangents, view vectors
+        "p", "po", "pc", "pow", "pref", "pw", "pworld", "wp",  // positions
+        "mv", "mvec", "forward", "backward",           // motion
+        "uv", "st", "uvw",                             // texture coordinates
+        "id", "objectid", "materialid", "instanceid",  // ids
+        "indexob", "indexma",                          // Blender object/material index
+        "mist",                                        // Blender mist (a depth ramp)
     };
-    std::size_t start = 0;
-    while (start <= n.size()) {
-        const std::size_t dot = n.find('.', start);
-        const std::string part = n.substr(start, dot == std::string::npos ? std::string::npos
-                                                                          : dot - start);
-        for (const char* k : kExact) {
-            if (part == k) return true;
+    const std::vector<std::string> comps = components(n);
+    for (const std::string& c : comps) {
+        for (const char* k : kComponent) {
+            if (c == k) return true;
         }
-        if (dot == std::string::npos) break;
-        start = dot + 1;
+    }
+
+    // 4. A few unambiguous words of two letters or more, as a word inside a
+    //    compound name: "s_uv", "instanceID", "objectId", "nw_feature".
+    static const char* const kWord[] = {"uv", "uvw", "st", "id", "nw", "nworld", "mv", "mvec",
+                                        "pref", "pworld", "zdepth"};
+    for (const std::string& w : words(layer_name)) {
+        for (const char* k : kWord) {
+            if (w == k) return true;
+        }
+    }
+
+    // 5. The "m_" prefix many studios use for mattes: "m_chars", "m_set".
+    for (const std::string& c : comps) {
+        if (starts_with(c, "m_")) return true;
     }
     return false;
 }
@@ -354,11 +421,22 @@ LayerSelection select_primary_layer(const std::vector<PartInfo>& parts) {
     // Nothing but data passes. Separate-AOV renders write exactly this -- a
     // depth-only or position-only file -- and the pass is the whole point of
     // the file, so show the first one rather than the generic icon. Cryptomatte
-    // is the exception: its channels are hashes with no readable raw form.
-    for (const LayerOption& o : enumerate_layers(parts)) {
+    // hash layers are the exception: they have no readable raw form.
+    const std::vector<LayerOption> all = enumerate_layers(parts);
+    for (const LayerOption& o : all) {
         const std::string& part_name = parts[static_cast<std::size_t>(o.selection.part_index)].name;
         if (is_crypto(o.selection.layer_name) || is_crypto(part_name)) continue;
         return o.selection;
+    }
+    // A cryptomatte-only file: its numbered layers ("uCryptoObject00") hold
+    // ID hashes, but renderers also write an un-numbered colour preview
+    // ("uCryptoObject") that is meant to be looked at. Show that if present.
+    for (const LayerOption& o : all) {
+        const std::string& n = o.selection.layer_name;
+        if (o.selection.kind == LayerKind::kRGB && is_crypto(n) && !n.empty() &&
+            !std::isdigit(static_cast<unsigned char>(n.back()))) {
+            return o.selection;
+        }
     }
     return {};
 }

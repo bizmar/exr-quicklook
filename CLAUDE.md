@@ -23,6 +23,10 @@ phase1-status.md). The probes cannot drive a control change.
 `build/qlpanelprobe` drives the real spacebar panel for lifecycle tracing. Data passes (P, depth, motion) render Raw
 by default; see phase1-status.md "Data passes".
 
+Layer rules are documented for humans in @docs/LAYER-RULES.md and checked
+against 291 real production files (`test_realworld`, part of `Tools/run-tests.sh`);
+a rule change shows as a diff of `Tests/Fixtures/realworld/expected.txt`.
+
 Decode, layer selection, header inspection and the primaries→AP1 matrix are
 working and tested through `EXRCLI`. State, gaps and next step:
 @docs/phase1-status.md. Run `Tools/test-all.sh`.
@@ -169,6 +173,8 @@ build/realmove x0 y0 x1 y1     # real pointer movement, for hover-latency tests
 Tools/make-icns.sh             # logo -> conforming macOS 26 icon tile -> EXRPreview/AppIcon.icns
 Tools/make-icon                # logo -> transparent art (edge flood fill); not used for the app icon
 Tools/make-notices.sh          # THIRD_PARTY_NOTICES.md from the pinned sources' licences
+Tools/corpus/build_corpus.py   # real-world EXR headers into Vendor/corpus/ (Range requests, ~200 MB)
+Tools/corpus/manifest.py       # -> Tests/Fixtures/realworld/ (names only), used by test_realworld
 
 build/qlprobe <files>          # headless: classify QL thumbnails by colour
 build/qlpreviewprobe <files>   # headless: drive a real QLPreviewView

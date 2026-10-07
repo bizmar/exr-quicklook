@@ -392,6 +392,95 @@ static void test_nuke_long_channel_names() {
     CHECK_EQ(s.r, std::string("diffuse.red"));
 }
 
+static void test_realworld_names() {
+    // Names seen in real production and test files (Tests/Fixtures/realworld).
+    for (const char* n : {"uCryptoObject", "uCryptoObject00", "uCryptoAsset01", "uCryptoMaterial",
+                          "CryptoInstance00", "CryptoUserData_shotObject", "nw", "nw_feature", "po",
+                          "pc", "pow", "rendertime", "facingRatio", "s_uv", "instanceID", "objectId",
+                          "m_chars", "m_window_glass", "shadowMatte", "Pz", "zdepth"}) {
+        if (!is_never_auto_layer(n)) std::printf("  (not flagged: %s)\n", n);
+        CHECK(is_never_auto_layer(n));
+    }
+    // ...and lighting passes and light groups must not be caught by the
+    // short-name rules: single letters only ever match a whole component.
+    for (const char* n : {"rim_n", "key_p", "fill_z", "p_source", "lightVisibility", "exittint",
+                          "selfIllum", "GI", "SSS", "DR", "reflection_indirect", "diffuse_direct",
+                          "denoise_original", "surfaceColor", "Cd", "albedo", "coat", "s_textcolors",
+                          "emission", "transmission", "volume", "sheen", "thin_film", "midground",
+                          "humid", "fluid_sim"}) {
+        if (is_never_auto_layer(n)) std::printf("  (wrongly flagged: %s)\n", n);
+        CHECK(!is_never_auto_layer(n));
+    }
+    // Renderer beauty names.
+    for (const char* n : {"Ci", "C", "FinalImage", "Beauty", "ViewLayer.Combined", "rgba"}) {
+        if (!is_preferred_name(n)) std::printf("  (not preferred: %s)\n", n);
+        CHECK(is_preferred_name(n));
+    }
+    auto karma = select_primary_layer({part("", {"albedo.R", "albedo.G", "albedo.B",
+                                                 "C.R", "C.G", "C.B", "C.A", "N.R", "N.G", "N.B"})});
+    CHECK_EQ(karma.layer_name, std::string("C"));
+}
+
+static void test_cryptomatte_only_shows_preview() {
+    // Arnold's cryptomatte files: hash layers uCryptoObject00.. plus an
+    // un-numbered colour preview. The preview is meant to be looked at, so a
+    // cryptomatte-only file shows it rather than the generic icon.
+    auto s = select_primary_layer({part("", {"uCryptoObject.red", "uCryptoObject.green",
+                                             "uCryptoObject.blue", "uCryptoObject00.red",
+                                             "uCryptoObject00.green", "uCryptoObject00.blue",
+                                             "uCryptoObject00.alpha"})});
+    CHECK(s.valid());
+    CHECK_EQ(s.layer_name, std::string("uCryptoObject"));
+    // Without a preview there is still nothing readable to show.
+    auto none = select_primary_layer({part("", {"CryptoObject00.R", "CryptoObject00.G",
+                                                "CryptoObject00.B"})});
+    CHECK(!none.valid());
+}
+
+static void test_documented_renderer_names() {
+    // Default AOV names from renderer documentation, for renderers with no
+    // openly licensed sample files (see docs/LAYER-RULES.md, "Sources").
+    struct Case { const char* renderer; const char* name; bool data; };
+    const Case cases[] = {
+        {"Redshift", "Z", true}, {"Redshift", "VolumeZ", true}, {"Redshift", "MotionVectors", true},
+        {"Redshift", "WorldPosition", true}, {"Redshift", "ObjectPosition", true},
+        {"Redshift", "BumpNormals", true}, {"Redshift", "PuzzleMatte", true},
+        {"Redshift", "DiffuseLighting", false}, {"Redshift", "DiffuseFilter", false},
+        {"Redshift", "Reflections", false}, {"Redshift", "GlobalIllumination", false},
+        {"Redshift", "Caustics", false}, {"Redshift", "Shadows", false},
+        {"RenderMan", "z", true}, {"RenderMan", "Nn", true}, {"RenderMan", "Ngn", true},
+        {"RenderMan", "__Pworld", true}, {"RenderMan", "__Nworld", true}, {"RenderMan", "__depth", true},
+        {"RenderMan", "__st", true}, {"RenderMan", "dPdtime", true}, {"RenderMan", "MatteID", true},
+        {"RenderMan", "directDiffuse", false}, {"RenderMan", "indirectSpecular", false},
+        {"RenderMan", "subsurface", false}, {"RenderMan", "albedo", false},
+        {"Karma", "Pz", true}, {"Karma", "N", true}, {"Karma", "P", true}, {"Karma", "Op_Id", true},
+        {"Karma", "Prim_Id", true}, {"Karma", "combineddiffuse", false}, {"Karma", "albedo", false},
+        {"Blender", "ViewLayer.Depth", true}, {"Blender", "ViewLayer.Mist", true},
+        {"Blender", "ViewLayer.IndexOB", true}, {"Blender", "ViewLayer.IndexMA", true},
+        {"Blender", "ViewLayer.UV", true}, {"Blender", "ViewLayer.Position", true},
+        {"Blender", "ViewLayer.DiffDir", false}, {"Blender", "ViewLayer.GlossInd", false},
+        {"Blender", "ViewLayer.AO", false}, {"Blender", "ViewLayer.Emit", false},
+        {"Unreal", "SceneDepth", true}, {"Unreal", "WorldNormal", true}, {"Unreal", "Velocity", true},
+        {"Unreal", "ObjectId", true}, {"Unreal", "ActorHitProxyMask", true},
+        {"Unreal", "BaseColor", false}, {"Unreal", "AmbientOcclusion", false},
+        {"Octane", "Z depth", true}, {"Octane", "Geometric normal", true}, {"Octane", "UV coordinates", true},
+        {"Octane", "Material ID", true}, {"Octane", "Diffuse direct", false},
+        {"V-Ray", "VRayZDepth", true}, {"V-Ray", "VRayRenderID", true}, {"V-Ray", "VRayMtlID", true},
+        {"V-Ray", "VRaySamplerInfo", true}, {"V-Ray", "VRayWireColor", true},
+        {"V-Ray", "VRayRawLighting", false}, {"V-Ray", "VRayDiffuseFilter", false},
+        {"Arnold", "cputime", true}, {"Arnold", "raycount", true}, {"Arnold", "shadow_matte", true},
+        {"Arnold", "diffuse_direct", false}, {"Arnold", "specular_indirect", false},
+        {"Corona", "CGeometry_ZDepth", true}, {"Corona", "CGeometry_UvwMap", true},
+        {"Corona", "CMasking_ID", true}, {"Corona", "CESSENTIAL_Direct", false},
+    };
+    for (const Case& c : cases) {
+        if (is_never_auto_layer(c.name) != c.data) {
+            std::printf("  (%s %s: expected %s)\n", c.renderer, c.name, c.data ? "data" : "image");
+        }
+        CHECK(is_never_auto_layer(c.name) == c.data);
+    }
+}
+
 int main() {
     test_split();
     test_plain_rgba();
@@ -415,6 +504,9 @@ int main() {
     test_data_part_names();
     test_blender_combined();
     test_nuke_long_channel_names();
+    test_realworld_names();
+    test_cryptomatte_only_shows_preview();
+    test_documented_renderer_names();
     test_limits();
 
     std::printf("\n  %d checks, %d failures\n", g_checks, g_failures);

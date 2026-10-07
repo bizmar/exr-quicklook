@@ -1,0 +1,861 @@
+file	part	chromaticities	colorInteropID	hints
+cryptomatte/sample_images__bunny_CryptoAsset.exr				{"arnold/version": "Arnold 4.2.11.1 windows icc-14.0.2 oiio-1.5.20 rlm-11.3.1 2015/11/18 13:42:29", "cryptomatte/d593dd7/conversion": "uint32_to_float32", "nuke/version": "10.0v5"}
+cryptomatte/sample_images__bunny_CryptoMaterial.exr				{"arnold/version": "Arnold 4.2.11.1 windows icc-14.0.2 oiio-1.5.20 rlm-11.3.1 2015/11/18 13:42:29", "cryptomatte/xc7bccc/conversion": "uint32_to_float32", "nuke/version": "10.0v5"}
+cryptomatte/sample_images__bunny_CryptoObject.exr				{"arnold/version": "Arnold 4.2.11.1 windows icc-14.0.2 oiio-1.5.20 rlm-11.3.1 2015/11/18 13:42:29", "cryptomatte/ae93ba3/conversion": "uint32_to_float32", "nuke/version": "10.0v5"}
+cryptomatte/sample_images__cornellBox_CryptoWildcard.0001.exr				{"cryptomatte/2ae4678/conversion": "uint32_to_float32", "vrayInfo/vrayversion": "Version of V-Ray for Maya 3.60.05"}
+cryptomatte/sample_images__cornellBox_CryptoWildcard.0002.exr				{"cryptomatte/2ae4678/conversion": "uint32_to_float32", "vrayInfo/vrayversion": "Version of V-Ray for Maya 3.60.05"}
+cryptomatte/sample_images__debug_images__multichannel.exr				{"arnold/color_space": "linear", "arnold/version": "Arnold 5.1.0.0 [ae71da65] windows icc-17.0.2 oiio-1.7.17 osl-1.9.0 vdb-4.0.0 clm", "cryptomatte/28322e9/conversion": "uint32_to_float32", "cryptomatte/bda530a/conversion": "uint32_to_float32", "cryptomatte/f834d0a/conversion": "uint32_to_float32"}
+cryptomatte/sample_images__debug_images__sidecar_manifest.exr				{"arnold/color_space": "linear", "arnold/version": "Arnold 5.1.0.0 [ae71da65] windows icc-17.0.2 oiio-1.7.17 osl-1.9.0 vdb-4.0.0 clm", "cryptomatte/28322e9/conversion": "uint32_to_float32", "nuke/version": "11.1v3"}
+cryptomatte/sample_images__debug_images__special_chars.exr				{"arnold/color_space": "linear", "arnold/version": "Arnold 5.0.1.0 [8ea063c7] windows icc-17.0.2 oiio-1.7.15 osl-1.9.0 vdb-4.0.0 clm", "cryptomatte/fbb35e3/conversion": "uint32_to_float32", "nuke/version": "10.0v6"}
+cryptomatte/sample_images__sidecar_manifest__bunny_CryptoObject.exr				{"arnold/version": "Arnold 4.2.11.1 windows icc-14.0.2 oiio-1.5.20 rlm-11.3.1 2015/11/18 13:42:29", "cryptomatte/ae93ba3/conversion": "uint32_to_float32", "nuke/nuke/version": "10.0v5", "nuke/version": "10.0v5"}
+cryptomatte/sample_images__testGrid_CryptoObject.exr				{"arnold/version": "Arnold 4.2.11.1 windows icc-14.0.2 oiio-1.5.20 rlm-11.3.1 2015/11/18 13:42:29", "cryptomatte/ae93ba3/conversion": "uint32_to_float32", "nuke/version": "10.0v5"}
+gaffer/python__GafferArnoldTest__images__blue.exr	rgba			{"Software": "Gaffer 1.1.2.0"}
+gaffer/python__GafferArnoldTest__images__red.exr	rgba			{"Software": "Gaffer 1.1.2.0"}
+gaffer/python__GafferArnoldTest__images__sphereLightBake.exr				{"Software": "Gaffer 0.53.0.0"}
+gaffer/python__GafferCyclesTest__images__background.exr	rgba			{"Software": "Gaffer 1.7.2.0"}
+gaffer/python__GafferImageTest__images__GafferChecker.exr				{"Software": "Gaffer 0.42.0.0"}
+gaffer/python__GafferImageTest__images__GafferRamp.exr				{"Software": "Gaffer 0.44.0.0"}
+gaffer/python__GafferImageTest__images__arnoldCombinedID.exr	RGBA			{"arnold/color_space": "ACEScg", "arnold/version": "Arnold 7.4.2.1 [37ff9861] linux x86_64 clang-15.0.7 oiio-2.6.3 osl-1.13.3 vdb-11"}
+gaffer/python__GafferImageTest__images__arnoldCombinedID.exr	id			{"arnold/color_space": "ACEScg", "arnold/version": "Arnold 7.4.2.1 [37ff9861] linux x86_64 clang-15.0.7 oiio-2.6.3 osl-1.13.3 vdb-11"}
+gaffer/python__GafferImageTest__images__arnoldCombinedID.exr	instanceID			{"arnold/color_space": "ACEScg", "arnold/version": "Arnold 7.4.2.1 [37ff9861] linux x86_64 clang-15.0.7 oiio-2.6.3 osl-1.13.3 vdb-11"}
+gaffer/python__GafferImageTest__images__blueWithDataWindow.100x100.exr				{}
+gaffer/python__GafferImageTest__images__blurRange.exr				{"Software": "Gaffer 0.32.0.0"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeCompat.exr	rgba.left			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeCompat.exr	character.left			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeCompat.exr	rgba.right			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeCompat.exr	character.right			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukePartPerView.exr	right			{"nuke/version": "13.2v1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukePartPerView.exr	left			{}
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeSinglePart.exr				{"nuke/version": "13.2v1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerLayer.exr	rgba.left			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerLayer.exr	character.left			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerLayer.exr	rgba.right			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerLayer.exr	character.right			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerView.exr	left			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerView.exr	right			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestMultiViewSinglePart.exr				{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestNukePartPerLayer.exr	rgba.main			{"nuke/version": "13.1v2"}
+gaffer/python__GafferImageTest__images__channelTestNukePartPerLayer.exr	character.main			{}
+gaffer/python__GafferImageTest__images__channelTestNukePartPerLayer.exr	depth.main			{}
+gaffer/python__GafferImageTest__images__channelTestNukePartPerLayer.exr	other.main			{}
+gaffer/python__GafferImageTest__images__channelTestNukeSinglePart.exr				{"nuke/version": "13.1v2"}
+gaffer/python__GafferImageTest__images__channelTestPartPerLayer.exr	rgba			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestPartPerLayer.exr	character			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__channelTestSinglePart.exr				{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__checker.exr				{}
+gaffer/python__GafferImageTest__images__checker2x2.exr				{"Software": "OpenImageIO 1.5.17"}
+gaffer/python__GafferImageTest__images__checker8x8.exr				{"nuke/version": "9.0v7"}
+gaffer/python__GafferImageTest__images__checkerBSpline.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerBilinear.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerBox.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerCatmullRom.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerCubic.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerHermite.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerLanczos.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerMitchell.200x100.exr				{}
+gaffer/python__GafferImageTest__images__checkerMitchell.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerMix.100x100.exr				{"Software": "Gaffer 0.32.0.0"}
+gaffer/python__GafferImageTest__images__checkerSinc.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerWithNegWindows.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checkerWithNegWindowsReformated.exr				{}
+gaffer/python__GafferImageTest__images__checkerWithNegativeDataWindow.200x150.exr				{}
+gaffer/python__GafferImageTest__images__checker_ocio_context.exr	rgba			{"Software": "Gaffer 1.3.0.0"}
+gaffer/python__GafferImageTest__images__checker_ocio_context_override.exr	rgba			{"Software": "Gaffer 1.3.0.0"}
+gaffer/python__GafferImageTest__images__checker_ocio_look.exr	rgba			{"Software": "Gaffer 1.1.0.0"}
+gaffer/python__GafferImageTest__images__checkerboard.100x100.exr				{}
+gaffer/python__GafferImageTest__images__circles.exr				{"Software": "Gaffer 0.40.0.0"}
+gaffer/python__GafferImageTest__images__circlesGreenDilate.exr				{"Software": "Gaffer 0.40.0.0"}
+gaffer/python__GafferImageTest__images__circlesGreenErode.exr				{"Software": "Gaffer 0.40.0.0"}
+gaffer/python__GafferImageTest__images__circlesGreenMedian.exr				{"Software": "Gaffer 0.40.0.0"}
+gaffer/python__GafferImageTest__images__circles_as_cineon.exr				{"Software": "Gaffer 0.40.0.0"}
+gaffer/python__GafferImageTest__images__colorbars_half_max.exr				{}
+gaffer/python__GafferImageTest__images__colorbars_max_clamp.exr				{}
+gaffer/python__GafferImageTest__images__deepFloatPoints.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__deepFloatVolumes.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__deepIntPoints.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__deepIntVolumes.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__deepMergeReference.exr		[0.64, 0.33, 0.3, 0.6, 0.15, 0.06, 0.3127, 0.329]		{"nuke/version": "11.2v3"}
+gaffer/python__GafferImageTest__images__deepResampleRGBError.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__defaultNegativeDisplayWindow.exr				{"Software": "Gaffer 0.42.0.0"}
+gaffer/python__GafferImageTest__images__diskBlurMirrorRef.exr	rgba			{"Software": "Gaffer 1.6.12.0"}
+gaffer/python__GafferImageTest__images__diskBlurSource.exr	rgba			{"Software": "Gaffer 1.6.0.0"}
+gaffer/python__GafferImageTest__images__diskBlurred.exr	rgba			{"Software": "Gaffer 1.6.0.0"}
+gaffer/python__GafferImageTest__images__diskBlurredWithPlanes.exr	rgba			{"Software": "Gaffer 1.6.0.0"}
+gaffer/python__GafferImageTest__images__dotGrid.300.exr				{"Software": "Cortex 10.0.0"}
+gaffer/python__GafferImageTest__images__dotGrid.warped.exr				{"Software": "Gaffer 0.32.0.0"}
+gaffer/python__GafferImageTest__images__dwaFloat.exr				{"Software": "OpenImageIO 2.5.8.0"}
+gaffer/python__GafferImageTest__images__dwaHalfWithLayerPrefix.exr				{"Software": "OpenImageIO 2.5.8.0"}
+gaffer/python__GafferImageTest__images__filterDerivativesTest.box.exr				{"Software": "Gaffer 0.33.3.0"}
+gaffer/python__GafferImageTest__images__filterDerivativesTest.parallel.exr				{"Software": "Gaffer 0.33.3.0"}
+gaffer/python__GafferImageTest__images__floatValues.exr	rgba			{"Software": "Gaffer 1.3.8.0"}
+gaffer/python__GafferImageTest__images__greenWithDataWindow.100x100.exr				{}
+gaffer/python__GafferImageTest__images__imitateProductionLayers1.exr	rgba.main			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__imitateProductionLayers1.exr	character.main			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__imitateProductionLayers2.exr	rgba_main			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__imitateProductionLayers2.exr	depth_main			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__invalidMultiViewAttribute.exr				{}
+gaffer/python__GafferImageTest__images__knownTransformBug.exr				{}
+gaffer/python__GafferImageTest__images__large.exr				{"nuke/version": "8.0v6"}
+gaffer/python__GafferImageTest__images__layers.10x10.exr				{"Software": "Gaffer 0.33.2.0"}
+gaffer/python__GafferImageTest__images__mergeBoundariesRef.exr				{"Software": "Gaffer 0.59.0.0"}
+gaffer/python__GafferImageTest__images__multipart.exr	customRgb			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipart.exr	customRgba			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipart.exr	customDepth			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipartDefaultChannels.exr	rgb			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipartDefaultChannels.exr	RGBA			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipartDefaultChannels.exr	depth			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipartDefaultChannelsOverlap.exr	rgb			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__multipartDefaultChannelsOverlap.exr	RGBA			{"Software": "OpenImageIO 2.2.6"}
+gaffer/python__GafferImageTest__images__negativeDisplayWindow.exr				{}
+gaffer/python__GafferImageTest__images__noisyBlobs.exr				{"Software": "OpenImageIO 2.3.11"}
+gaffer/python__GafferImageTest__images__noisyBlobsMed72x67.exr				{"Software": "OpenImageIO 2.3.11"}
+gaffer/python__GafferImageTest__images__noisyRamp.exr				{"Software": "Gaffer 0.32.0.0"}
+gaffer/python__GafferImageTest__images__radial.exr				{"nuke/version": "10.0v4"}
+gaffer/python__GafferImageTest__images__redWithDataWindow.100x100.exr				{}
+gaffer/python__GafferImageTest__images__representativeDeepImage.exr		[0.64, 0.33, 0.3, 0.6, 0.15, 0.06, 0.3127, 0.329]		{"arnold/color_space": "linear", "arnold/version": "Arnold 5.4.0.0 [b7d9819c] linux clang-5.0.0 oiio-2.1.0 osl-1.11.0 vdb-4.0.0 clm-"}
+gaffer/python__GafferImageTest__images__resamplePatterns.exr				{"Software": "OpenImageIO 1.5.17"}
+gaffer/python__GafferImageTest__images__resamplePatterns_101x101_gaussian.exr				{"Software": "OpenImageIO 1.5.17"}
+gaffer/python__GafferImageTest__images__resamplePatterns_119x119_mitchell.exr				{"Software": "OpenImageIO 1.5.17"}
+gaffer/python__GafferImageTest__images__resamplePatterns_40x40_box.exr				{"Software": "OpenImageIO 1.5.17"}
+gaffer/python__GafferImageTest__images__resamplePatterns_4x4_lanczos3.exr				{"Software": "Gaffer 0.33.3.0"}
+gaffer/python__GafferImageTest__images__rgb.100x100.exr				{}
+gaffer/python__GafferImageTest__images__rgbOverChecker.100x100.exr				{}
+gaffer/python__GafferImageTest__images__singlePartBogusName.exr	iAccidentallySetThisMetadataInNuke			{"Software": "OpenImageIO 2.5.10.1"}
+gaffer/python__GafferImageTest__images__text.exr				{"Software": "Gaffer 0.31.0.0"}
+gaffer/python__GafferImageTest__images__unsupportedMultipart.exr	rgba			{"Software": "OpenImageIO 1.7.15"}
+gaffer/python__GafferImageTest__images__unsupportedMultipart.exr	fullDataWindow			{"Software": "OpenImageIO 1.7.15"}
+gaffer/python__GafferImageTest__images__warpPattern.exr				{"Software": "Cortex 10.0.0"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part0			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part1			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part2			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part3			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part4			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferImageTest__images__weirdPartNames.exr	part5			{"Software": "Gaffer 0.62.0.0a1"}
+gaffer/python__GafferSceneTest__images__cryptomatte.exr		[0.64, 0.33, 0.3, 0.6, 0.15, 0.06, 0.3127, 0.329]		{"Software": "Gaffer 0.61.0.0", "cryptomatte/bda530a/conversion": "uint32_to_float32", "cryptomatte/f834d0a/conversion": "uint32_to_float32"}
+gaffer/python__GafferSceneTest__images__cryptomatteKeyed.exr		[0.64, 0.33, 0.3, 0.6, 0.15, 0.06, 0.3127, 0.329]		{"nuke/version": "13.0v3"}
+gaffer/python__GafferUITest__images__tmi.exr	rgba			{"Software": "Gaffer 1.4.8.0"}
+netflix/CosmosLaundromat_2k24p_HDR_P3PQ_00000.exr				{}
+netflix/SPARKS_ACES_00000.exr				{}
+netflix/nocturne_120fps_s01e04_vdm_hdr_p3d65_pq_20180307_02_3840x2160_dovi_4000nit_0000000.exr				{}
+oiio/src__fuzz__corpora__openexr__seed.exr				{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__common__checker_with_alpha.exr				{}
+oiio/testsuite__common__grid-small.exr				{"Software": "OpenImageIO 2.6.0.0spi"}
+oiio/testsuite__cryptomatte__src__cryptoasset.exr				{"Software": "OpenImageIO 2.6.0.1spi", "cryptomatte/d593dd7/conversion": "uint32_to_float32"}
+oiio/testsuite__dither__src__copybug-input.exr				{"Software": "OpenImageIO 1.8.0dev"}
+oiio/testsuite__flip__src__reference-crop.exr				{"Software": "OpenImageIO 3.1.12.0spi"}
+oiio/testsuite__flip__src__test-crop.exr				{"Software": "OpenImageIO 3.1.12.0spi"}
+oiio/testsuite__iinfo__src__tiny-az.exr				{"Software": "OpenImageIO 2.5.0.0spi"}
+oiio/testsuite__iinfo__src__tinydeep.exr				{"Software": "OpenImageIO 2.5.0.0spi"}
+oiio/testsuite__invalid-rps-metadata__src__rowsperstrip-zero.exr				{"Software": "OpenImageIO 3.1.15.0"}
+oiio/testsuite__maketx__src__bump.exr				{"Software": "OpenImageIO 1.9.2dev"}
+oiio/testsuite__maketx__src__normal.exr				{"Software": "OpenImageIO 3.1.3.0dev", "nuke/version": "14.1v5"}
+oiio/testsuite__maketx__src__uffizi_probe-128.exr				{"Software": "OpenImageIO 2.5.0.0spi"}
+oiio/testsuite__missingcolor__src__partial.exr				{}
+oiio/testsuite__oiiotool-composite__src__a.exr				{"spi:renderer": "Katana 2.8.32"}
+oiio/testsuite__oiiotool-composite__src__b.exr				{"spi:renderer": "Katana 2.8.32"}
+oiio/testsuite__oiiotool-copy__src__rgbaz.exr				{"Software": ""}
+oiio/testsuite__oiiotool-deep__src__az.exr				{"Software": "OpenImageIO 2.1.4dev"}
+oiio/testsuite__oiiotool-deep__src__deep-nosamples.exr				{}
+oiio/testsuite__oiiotool-deep__src__deep-onesample.exr				{}
+oiio/testsuite__oiiotool-deep__src__deepalpha.exr				{"rendererinfo": "Arnold 3.4.71.1 linux 64-bit clang3.3.1 (branches/release_33 192315) (llvm/branc"}
+oiio/testsuite__oiiotool-fixnan__src__bad.exr				{}
+oiio/testsuite__oiiotool-layers__src__layers.exr				{"Software": "OpenImageIO 3.1.0.0dev"}
+oiio/testsuite__oiiotool-readerror__src__incomplete.exr				{}
+oiio/testsuite__oiiotool-xform__src__target1.exr				{}
+oiio/testsuite__oiiotool__src__norm.exr				{}
+oiio/testsuite__oiiotool__src__normoffset.exr				{}
+oiio/testsuite__oiiotool__src__single_channel_r.exr				{"Software": "OpenImageIO 3.2.0.2spi"}
+oiio/testsuite__oiiotool__src__single_channel_y.exr				{"Software": "OpenImageIO 3.2.0.2spi"}
+oiio/testsuite__openexr-bomb__src__bigdisplay.exr				{"Software": "OpenImageIO 3.3.0.0dev"}
+oiio/testsuite__openexr-bomb__src__bigtile.exr				{"Software": "OpenImageIO 3.3.0.0dev"}
+oiio/testsuite__openexr-bomb__src__bomb.exr				{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-idmanifest__src__manifest.exr				{}
+oiio/testsuite__openexr-multipart-colorspace__src__multipart_colorspace_data_first.exr	data0		data	{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-multipart-colorspace__src__multipart_colorspace_data_first.exr	missing1			{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-multipart-colorspace__src__multipart_colorspace_data_first.exr	color2		lin_ap1_scene	{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-multipart-colorspace__src__multipart_colorspace_data_first.exr	missing3			{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-thumbnail__src__multipart-preview.exr	with-preview			{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__openexr-thumbnail__src__multipart-preview.exr	part2			{"Software": "OpenImageIO 3.2.0.2dev"}
+oiio/testsuite__python-imagebuf__src__AllHalfValues.exr				{}
+oiio/testsuite__rational__src__test.exr		[0.7347, 0.2653, 0.0, 1.0, 0.0001, -0.077, 0.32168, 0.33767]		{"Software": "OpenImageIO 1.8.5dev", "cameraFirmwareVersion": "23192", "com.arri.camera.SupVersion": "7.1HD:23192", "recorderFirmwareVersion": "2012.r2.2610"}
+oiio/testsuite__texture-derivs__src__ramp.exr				{}
+polyhaven/autumn_field_puresky_1k.exr				{}
+polyhaven/belfast_sunset_puresky_1k.exr				{}
+polyhaven/brown_photostudio_02_1k.exr				{}
+polyhaven/canary_wharf_1k.exr				{}
+polyhaven/dikhololo_night_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/je_gray_02_1k.exr				{}
+polyhaven/kiara_1_dawn_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/kloofendal_48d_partly_cloudy_puresky_1k.exr				{}
+polyhaven/kloppenheim_02_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/kloppenheim_06_puresky_1k.exr				{}
+polyhaven/lilienstein_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/meadow_2_1k.exr				{}
+polyhaven/moonless_golf_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/noon_grass_1k.exr				{}
+polyhaven/satara_night_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/satara_night_no_lamps_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/shanghai_bund_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/spruit_sunrise_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/studio_small_03_1k.exr				{}
+polyhaven/studio_small_08_1k.exr				{}
+polyhaven/studio_small_09_1k.exr				{}
+polyhaven/the_sky_is_on_fire_1k.exr				{"Software": "OpenImageIO 2.1.16"}
+polyhaven/venice_sunset_1k.exr				{}
+polyhaven/wide_street_01_1k.exr				{}
+solemates/sparks_final.1037.exr				{"nuke/version": "14.1v4"}
+solemates/unh0400_0010_lighting.1037.exr				{"nuke/version": "14.1v4"}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	rgba			{"cryptomatte/7fdd288/conversion": "uint32_to_float32", "cryptomatte/ed600b8/conversion": "uint32_to_float32", "cryptomatte/f511cbc/conversion": "uint32_to_float32"}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_chars			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_fx			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_props			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_sclera			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_set			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	m_window_glass			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	rendertime			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	pref			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_body_feet_hands			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_eyes01			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_fur_clumpid			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_head_face_nose			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_nails_soles_palms			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_nostrils_mouth_lips			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_raccoon_brow_ears			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_textcolors			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_tongue_gums_teeth			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	s_uv			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	exitdir			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	exittint			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	facingRatio			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	motion			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	nw			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	pc			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	po			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	pow			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	pw			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	sampler			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	surfaceColor			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	uv			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	nw_feature			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoInstance			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoInstance00			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoInstance01			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoInstance02			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoUserData_shotObject			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoUserData_shotObject00			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoUserData_shotObject01			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	CryptoUserData_shotObject02			{}
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	rgba			{"cryptomatte/7fdd288/conversion": "uint32_to_float32", "cryptomatte/ed600b8/conversion": "uint32_to_float32", "cryptomatte/f511cbc/conversion": "uint32_to_float32"}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_chars			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_fx			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_props			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_sclera			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_set			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	m_window_glass			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	rendertime			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	pref			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_body_feet_hands			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_eyes01			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_fur_clumpid			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_head_face_nose			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_nails_soles_palms			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_nostrils_mouth_lips			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_raccoon_brow_ears			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_textcolors			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_tongue_gums_teeth			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	s_uv			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	exitdir			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	exittint			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	facingRatio			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	motion			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	nw			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	pc			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	po			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	pow			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	pw			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	sampler			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	surfaceColor			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	uv			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	nw_feature			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoInstance			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoInstance00			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoInstance01			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoInstance02			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoUserData_shotObject			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoUserData_shotObject00			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoUserData_shotObject01			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	CryptoUserData_shotObject02			{}
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	rgba			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr	denoise_original			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	rgba			{"cryptomatte/7fdd288/conversion": "uint32_to_float32", "cryptomatte/ed600b8/conversion": "uint32_to_float32", "cryptomatte/f511cbc/conversion": "uint32_to_float32"}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_chars			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_fx			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_props			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_sclera			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_set			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	m_window_glass			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	rendertime			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	pref			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_body_feet_hands			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_eyes01			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_fur01			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_fur_clumpid			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_head_face_nose			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_nails_soles_palms			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_nostrils_mouth_lips			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_raccoon_brow_ears			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_surface_uv			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_textcolors			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_threadcolor			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_tongue_gums_teeth			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	s_uv			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	diffuse			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	diffuse_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	diffuse_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	emission			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	exitdir			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	exittint			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	facingRatio			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	lightVisibility			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	motion			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	nw			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	pc			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	po			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	pow			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	pw			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	reflection			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	reflection_direct			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	reflection_indirect			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	sampler			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	shadowMatte			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	surfaceColor			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	uv			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	nw_feature			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoInstance			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoInstance00			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoInstance01			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoInstance02			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoUserData_shotObject			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoUserData_shotObject00			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoUserData_shotObject01			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	CryptoUserData_shotObject02			{}
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr	denoise_original			{}
+tearsofsteel/00_0__00_0_000001.exr				{}
+tearsofsteel/00_1a__00_1a_000001.exr				{}
+tearsofsteel/00_1b__00_1b_000076.exr				{}
+tearsofsteel/00_1c__00_1c_000001.exr				{}
+tearsofsteel/00_1d__00_1d_000001.exr				{}
+tearsofsteel/02_1a__02_1a_001252.exr				{}
+tearsofsteel/02_1b__02_1b_001294.exr				{}
+tearsofsteel/02_1d__02_1d_001366.exr				{}
+tearsofsteel/02_3c_h__02_3c_h_000160.exr				{}
+tearsofsteel/02_3d__02_3d_000180.exr				{}
+tearsofsteel/02_4a__02_4a_000100.exr				{}
+tearsofsteel/03_1a__03_1a_000001.exr				{}
+tearsofsteel/03_2a__03_2a_000082.exr				{}
+tearsofsteel/03_2b__03_2b_000103.exr				{}
+tearsofsteel/03_3__03_3_000001.exr				{}
+tearsofsteel/03_3c__03_3c_000489.exr				{}
+tearsofsteel/03_3c_scope__03_3c_scope_000001.exr				{}
+tearsofsteel/04_1a__04_1a_000001.exr				{}
+tearsofsteel/04_1b__04_1b_000052.exr				{}
+tearsofsteel/04_2b__04_2b_000250.exr				{}
+tearsofsteel/04_2e__04_2e_000100.exr				{}
+tearsofsteel/04_3c__04_3c_000313.exr				{}
+tearsofsteel/04_3g__04_3g_000001.exr				{}
+tearsofsteel/04_4a__04_4a_000020.exr				{}
+tearsofsteel/04_4b__04_4b_000073.exr				{}
+tearsofsteel/04_4d__04_4d_000046.exr				{}
+tearsofsteel/04_4e__04_4e_000255.exr				{}
+tearsofsteel/04_4f__04_4f_000040.exr				{}
+tearsofsteel/04_4g__04_4g_000180.exr				{}
+tearsofsteel/04_4h__04_4h_000080.exr				{}
+tearsofsteel/04_4i__04_4i_000030.exr				{}
+tearsofsteel/04_4k__04_4k_000280.exr				{}
+tearsofsteel/04_4k_stabsmoke__04_4k_stabsmoke_000001.exr				{}
+tearsofsteel/04_4k_stabsmoke_eye__04_4k_stabsmoke_eye000280.exr				{}
+tearsofsteel/04_5e__04_5e_000152.exr				{}
+tearsofsteel/04_5f__04_5f_001740.exr				{}
+tearsofsteel/04_5h_h__04_5h_h_000050.exr				{}
+tearsofsteel/04_5i_h__04_5i_h_000215.exr				{}
+tearsofsteel/04_5j__04_5j_000030.exr				{}
+tearsofsteel/04_5j_h__04_5j_h_000030.exr				{}
+tearsofsteel/04_5k_h__04_5k_h_000040.exr				{}
+tearsofsteel/04_5l__04_5l_000125.exr				{}
+tearsofsteel/04_5l_h__04_5l_h_000125.exr				{}
+tearsofsteel/04_5n__04_5n_000066.exr				{}
+tearsofsteel/04_5n_h__04_5n_h_000066.exr				{}
+tearsofsteel/04_6a__04_6a_000001.exr				{}
+tearsofsteel/04_8a__04_8a_000135.exr				{}
+tearsofsteel/05_3d__05_3d_000115.exr				{}
+tearsofsteel/05_3h__05_3h_000780.exr				{}
+tearsofsteel/05_4a__05_4a_000080.exr				{}
+tearsofsteel/05_4d_2__05_4d_2_001155.exr				{}
+tearsofsteel/05_4g__05_4g_001635.exr				{}
+tearsofsteel/06_1a__06_1a_000070.exr				{}
+tearsofsteel/06_1b__06_1b_000106.exr				{}
+tearsofsteel/06_1d__06_1d_000001.exr				{}
+tearsofsteel/06_1d_rob_testing__06_1d_rob_testing_000088.exr				{}
+tearsofsteel/06_1e__06_1e_000000.exr				{}
+tearsofsteel/07_1c__07_1c_000170.exr				{}
+tearsofsteel/07_1g__07_1g_000099.exr				{}
+tearsofsteel/07_2a__07_2a_000120.exr				{}
+tearsofsteel/07_2c__07_2c_000030.exr				{}
+tearsofsteel/07_2d__07_2d_000035.exr				{}
+tearsofsteel/07_2e__07_2e_000100.exr				{}
+tearsofsteel/07_3b__07_3b_000055.exr				{}
+tearsofsteel/07_3c__07_3c_000040.exr				{}
+tearsofsteel/08_4a__08_4a_000050.exr				{}
+tearsofsteel/08_4c__08_4c_000175.exr				{}
+tearsofsteel/08_4c_extension__08_4c_extension_000175.exr				{}
+tearsofsteel/09_1a__09_1a_000001.exr				{}
+tearsofsteel/15_03_why_dont_you_admit_filmshit__15_03_why_dont_you_admit_filmshit_000160.exr				{}
+tearsofsteel/15_12_thom__15_12_thom_000089.exr				{}
+tearsofsteel/lib_oude_kerk_interior__lib_oude_kerk_interior_000001.exr				{}
+tearsofsteel/menu_1__menu_1_000814.exr				{}
+tlrender/Cubes.0001.exr		[0.64, 0.33, 0.3, 0.6, 0.15, 0.06, 0.3127, 0.329]		{"Software": "OpenImageIO 3.0.8.0"}

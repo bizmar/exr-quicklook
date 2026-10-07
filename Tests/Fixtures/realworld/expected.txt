@@ -1,0 +1,934 @@
+cryptomatte/sample_images__bunny_CryptoAsset.exr
+  auto  uCryptoAsset
+  data  uCryptoAsset, uCryptoAsset00, uCryptoAsset01, uCryptoAsset02
+cryptomatte/sample_images__bunny_CryptoMaterial.exr
+  auto  uCryptoMaterial
+  data  uCryptoMaterial, uCryptoMaterial00, uCryptoMaterial01, uCryptoMaterial02
+cryptomatte/sample_images__bunny_CryptoObject.exr
+  auto  uCryptoObject
+  data  uCryptoObject, uCryptoObject00, uCryptoObject01, uCryptoObject02
+cryptomatte/sample_images__cornellBox_CryptoWildcard.0001.exr
+  auto  default
+  image default, DR, GI, SSS, diffuse, lighting, reflect, refract, selfIllum, specular
+  data  normals, uCryptoWildcard, uCryptoWildcard00, uCryptoWildcard01, uCryptoWildcard02
+cryptomatte/sample_images__cornellBox_CryptoWildcard.0002.exr
+  auto  default
+  image default, DR, GI, SSS, diffuse, lighting, reflect, refract, selfIllum, specular
+  data  normals, uCryptoWildcard, uCryptoWildcard00, uCryptoWildcard01, uCryptoWildcard02
+cryptomatte/sample_images__debug_images__multichannel.exr
+  auto  default
+  image default, Cd, shape
+  data  pscale, crypto_asset, crypto_asset00, crypto_asset01, crypto_asset02, crypto_material, crypto_material00, crypto_material01, crypto_material02, crypto_object, crypto_object00, crypto_object01, crypto_object02
+cryptomatte/sample_images__debug_images__sidecar_manifest.exr
+  auto  crypto_asset
+  data  crypto_asset, crypto_asset00, crypto_asset01, crypto_asset02
+cryptomatte/sample_images__debug_images__special_chars.exr
+  auto  default
+  image default, special_chars, special_chars00, special_chars01, special_chars02
+cryptomatte/sample_images__sidecar_manifest__bunny_CryptoObject.exr
+  auto  uCryptoObject
+  data  uCryptoObject, uCryptoObject00, uCryptoObject01, uCryptoObject02
+cryptomatte/sample_images__testGrid_CryptoObject.exr
+  auto  uCryptoObject
+  data  uCryptoObject, uCryptoObject00, uCryptoObject01, uCryptoObject02
+gaffer/python__GafferArnoldTest__images__blue.exr
+  auto  default
+  image default
+gaffer/python__GafferArnoldTest__images__red.exr
+  auto  default
+  image default
+gaffer/python__GafferArnoldTest__images__sphereLightBake.exr
+  auto  default
+  image default
+gaffer/python__GafferCyclesTest__images__background.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__GafferChecker.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__GafferRamp.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__arnoldCombinedID.exr
+  auto  RGBA · default
+  image RGBA · default
+  data  id · id, instanceID · instanceID
+gaffer/python__GafferImageTest__images__blueWithDataWindow.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__blurRange.exr
+  auto  R
+  image R
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeCompat.exr
+  auto  rgba.left · default
+  image rgba.left · default, character.left · character, rgba.right · default, character.right · character
+  data  rgba.left · custom, rgba.left · mask, rgba.left · Z, rgba.left · ZBack, character.left · character.custom, character.left · character.mask, character.left · character.Z, character.left · character.ZBack, rgba.right · custom, rgba.right · mask, rgba.right · Z, rgba.right · ZBack, character.right · character.custom, character.right · character.mask, character.right · character.Z, character.right · character.ZBack
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukePartPerView.exr
+  auto  right · default
+  image right · default, right · character, right · other, left · default, left · character, left · other
+  data  right · character.custom, right · character.mask, right · character.Z, right · character.ZBack, right · depth, right · other.mask, right · other.ZBack, left · character.custom, left · character.mask, left · character.Z, left · character.ZBack, left · depth, left · other.mask, left · other.ZBack
+gaffer/python__GafferImageTest__images__channelTestMultiViewNukeSinglePart.exr
+  auto  default
+  image default, character, left, left.character, left.other, other
+  data  character.custom, character.mask, character.Z, character.ZBack, depth, left.character.custom, left.character.mask, left.character.Z, left.character.ZBack, left.depth, left.other.mask, left.other.ZBack, other.mask, other.ZBack
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerLayer.exr
+  auto  rgba.left · default
+  image rgba.left · default, character.left · character, rgba.right · default, character.right · character
+  data  rgba.left · mask, rgba.left · Z, rgba.left · ZBack, character.left · character.mask, character.left · character.Z, character.left · character.ZBack, rgba.right · custom, rgba.right · mask, rgba.right · Z, rgba.right · ZBack, character.right · character.custom, character.right · character.mask, character.right · character.Z, character.right · character.ZBack
+gaffer/python__GafferImageTest__images__channelTestMultiViewPartPerView.exr
+  auto  left · default
+  image left · default, left · character, right · default, right · character
+  data  left · mask, left · Z, left · ZBack, left · character.mask, left · character.Z, left · character.ZBack, right · custom, right · mask, right · Z, right · ZBack, right · character.custom, right · character.mask, right · character.Z, right · character.ZBack
+gaffer/python__GafferImageTest__images__channelTestMultiViewSinglePart.exr
+  auto  default
+  image default, character.left, character.right, right
+  data  mask, Z, ZBack, character.left.mask, character.left.Z, character.left.ZBack, character.right.custom, character.right.mask, character.right.Z, character.right.ZBack, right.custom, right.mask, right.Z, right.ZBack
+gaffer/python__GafferImageTest__images__channelTestNukePartPerLayer.exr
+  auto  rgba.main · default
+  image rgba.main · default, character.main · default, other.main · custom
+  data  character.main · custom, character.main · mask, character.main · Z, character.main · ZBack, depth.main · Z, other.main · mask, other.main · ZBack
+gaffer/python__GafferImageTest__images__channelTestNukeSinglePart.exr
+  auto  default
+  image default, character, other
+  data  character.custom, character.mask, character.Z, character.ZBack, depth, other.mask, other.ZBack
+gaffer/python__GafferImageTest__images__channelTestPartPerLayer.exr
+  auto  rgba · default
+  image rgba · default, character · character
+  data  rgba · custom, rgba · mask, rgba · Z, rgba · ZBack, character · character.custom, character · character.mask, character · character.Z, character · character.ZBack
+gaffer/python__GafferImageTest__images__channelTestSinglePart.exr
+  auto  default
+  image default, character
+  data  custom, mask, Z, ZBack, character.custom, character.mask, character.Z, character.ZBack
+gaffer/python__GafferImageTest__images__checker.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checker2x2.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checker8x8.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerBSpline.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerBilinear.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerBox.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerCatmullRom.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerCubic.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerHermite.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerLanczos.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerMitchell.200x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerMitchell.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerMix.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerSinc.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerWithNegWindows.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerWithNegWindowsReformated.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerWithNegativeDataWindow.200x150.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checker_ocio_context.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checker_ocio_context_override.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checker_ocio_look.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__checkerboard.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__circles.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__circlesGreenDilate.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__circlesGreenErode.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__circlesGreenMedian.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__circles_as_cineon.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__colorbars_half_max.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__colorbars_max_clamp.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__deepFloatPoints.exr
+  auto  default
+  image default
+  data  Z, ZBack
+gaffer/python__GafferImageTest__images__deepFloatVolumes.exr
+  auto  default
+  image default
+  data  Z, ZBack
+gaffer/python__GafferImageTest__images__deepIntPoints.exr
+  auto  default
+  image default
+  data  Z, ZBack
+gaffer/python__GafferImageTest__images__deepIntVolumes.exr
+  auto  default
+  image default
+  data  Z, ZBack
+gaffer/python__GafferImageTest__images__deepMergeReference.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__deepResampleRGBError.exr
+  auto  (none -- generic icon)
+gaffer/python__GafferImageTest__images__defaultNegativeDisplayWindow.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__diskBlurMirrorRef.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__diskBlurSource.exr
+  auto  default
+  image default
+  data  diameter, radius
+gaffer/python__GafferImageTest__images__diskBlurred.exr
+  auto  default
+  image default
+  data  diameter, radius
+gaffer/python__GafferImageTest__images__diskBlurredWithPlanes.exr
+  auto  default
+  image default
+  data  diameter, radius
+gaffer/python__GafferImageTest__images__dotGrid.300.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__dotGrid.warped.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__dwaFloat.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__dwaHalfWithLayerPrefix.exr
+  auto  albedo
+  image albedo
+gaffer/python__GafferImageTest__images__filterDerivativesTest.box.exr
+  auto  R
+  image R
+gaffer/python__GafferImageTest__images__filterDerivativesTest.parallel.exr
+  auto  R
+  image R
+gaffer/python__GafferImageTest__images__floatValues.exr
+  auto  infinity
+  image infinity
+  data  nan, negative, negativeInfinity, one, overOne, zero
+gaffer/python__GafferImageTest__images__greenWithDataWindow.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__imitateProductionLayers1.exr
+  auto  rgba.main · default
+  image rgba.main · default, character.main · default
+gaffer/python__GafferImageTest__images__imitateProductionLayers2.exr
+  auto  rgba_main · default
+  image rgba_main · default
+  data  depth_main · depth
+gaffer/python__GafferImageTest__images__invalidMultiViewAttribute.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__knownTransformBug.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__large.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__layers.10x10.exr
+  auto  default
+  image 0, 1, 2, default
+gaffer/python__GafferImageTest__images__mergeBoundariesRef.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__multipart.exr
+  auto  customRgb · default
+  image customRgb · default, customRgba · default
+  data  customDepth · Z
+gaffer/python__GafferImageTest__images__multipartDefaultChannels.exr
+  auto  rgb · default
+  image rgb · default
+  data  depth · Z
+gaffer/python__GafferImageTest__images__multipartDefaultChannelsOverlap.exr
+  auto  rgb · default
+  image rgb · default, RGBA · default
+gaffer/python__GafferImageTest__images__negativeDisplayWindow.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__noisyBlobs.exr
+  auto  Y
+  image Y
+gaffer/python__GafferImageTest__images__noisyBlobsMed72x67.exr
+  auto  Y
+  image Y
+gaffer/python__GafferImageTest__images__noisyRamp.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__radial.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__redWithDataWindow.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__representativeDeepImage.exr
+  auto  (none -- generic icon)
+gaffer/python__GafferImageTest__images__resamplePatterns.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__resamplePatterns_101x101_gaussian.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__resamplePatterns_119x119_mitchell.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__resamplePatterns_40x40_box.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__resamplePatterns_4x4_lanczos3.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__rgb.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__rgbOverChecker.100x100.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__singlePartBogusName.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__text.exr
+  auto  default
+  image default
+gaffer/python__GafferImageTest__images__unsupportedMultipart.exr
+  auto  rgba · default
+  image rgba · default, fullDataWindow · default
+gaffer/python__GafferImageTest__images__warpPattern.exr
+  auto  G
+  image G
+  data  R
+gaffer/python__GafferImageTest__images__weirdPartNames.exr
+  auto  part0 · R
+  image part0 · R, part1 · G, part2 · B, part2 · layer, part3 · layer, part4 · layer
+gaffer/python__GafferSceneTest__images__cryptomatte.exr
+  auto  (none -- generic icon)
+  data  crypto_material00, crypto_material01, crypto_material02, crypto_object00, crypto_object01, crypto_object02
+gaffer/python__GafferSceneTest__images__cryptomatteKeyed.exr
+  auto  (none -- generic icon)
+gaffer/python__GafferUITest__images__tmi.exr
+  auto  default
+  image default
+netflix/CosmosLaundromat_2k24p_HDR_P3PQ_00000.exr
+  auto  default
+  image default
+netflix/SPARKS_ACES_00000.exr
+  auto  default
+  image default
+netflix/nocturne_120fps_s01e04_vdm_hdr_p3d65_pq_20180307_02_3840x2160_dovi_4000nit_0000000.exr
+  auto  default
+  image default
+oiio/src__fuzz__corpora__openexr__seed.exr
+  auto  default
+  image default
+oiio/testsuite__common__checker_with_alpha.exr
+  auto  default
+  image default
+oiio/testsuite__common__grid-small.exr
+  auto  default
+  image default
+oiio/testsuite__cryptomatte__src__cryptoasset.exr
+  auto  uCryptoAsset
+  data  uCryptoAsset, uCryptoAsset00, uCryptoAsset01, uCryptoAsset02
+oiio/testsuite__dither__src__copybug-input.exr
+  auto  default
+  image default
+oiio/testsuite__flip__src__reference-crop.exr
+  auto  default
+  image default
+oiio/testsuite__flip__src__test-crop.exr
+  auto  default
+  image default
+oiio/testsuite__iinfo__src__tiny-az.exr
+  auto  default
+  image default
+oiio/testsuite__iinfo__src__tinydeep.exr
+  auto  (none -- generic icon)
+oiio/testsuite__invalid-rps-metadata__src__rowsperstrip-zero.exr
+  auto  default
+  image default
+oiio/testsuite__maketx__src__bump.exr
+  auto  Y
+  image Y
+oiio/testsuite__maketx__src__normal.exr
+  auto  default
+  image default
+oiio/testsuite__maketx__src__uffizi_probe-128.exr
+  auto  default
+  image default
+oiio/testsuite__missingcolor__src__partial.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool-composite__src__a.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool-composite__src__b.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool-copy__src__rgbaz.exr
+  auto  default
+  image default
+  data  Z
+oiio/testsuite__oiiotool-deep__src__az.exr
+  auto  Z
+  data  Z
+oiio/testsuite__oiiotool-deep__src__deep-nosamples.exr
+  auto  (none -- generic icon)
+oiio/testsuite__oiiotool-deep__src__deep-onesample.exr
+  auto  (none -- generic icon)
+oiio/testsuite__oiiotool-deep__src__deepalpha.exr
+  auto  (none -- generic icon)
+oiio/testsuite__oiiotool-fixnan__src__bad.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool-layers__src__layers.exr
+  auto  default
+  image default, diffuse, specular
+oiio/testsuite__oiiotool-readerror__src__incomplete.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool-xform__src__target1.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool__src__norm.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool__src__normoffset.exr
+  auto  default
+  image default
+oiio/testsuite__oiiotool__src__single_channel_r.exr
+  auto  R
+  image R
+oiio/testsuite__oiiotool__src__single_channel_y.exr
+  auto  Y
+  image Y
+oiio/testsuite__openexr-bomb__src__bigdisplay.exr
+  auto  Y
+  image Y
+oiio/testsuite__openexr-bomb__src__bigtile.exr
+  auto  Y
+  image Y
+oiio/testsuite__openexr-bomb__src__bomb.exr
+  auto  default
+  image default
+oiio/testsuite__openexr-idmanifest__src__manifest.exr
+  auto  (none -- generic icon)
+oiio/testsuite__openexr-multipart-colorspace__src__multipart_colorspace_data_first.exr
+  auto  missing1 · default
+  image missing1 · default, color2 · default, missing3 · default
+  data  data0 · default
+oiio/testsuite__openexr-thumbnail__src__multipart-preview.exr
+  auto  with-preview · default
+  image with-preview · default, part2 · default
+oiio/testsuite__python-imagebuf__src__AllHalfValues.exr
+  auto  default
+  image default
+oiio/testsuite__rational__src__test.exr
+  auto  default
+  image default
+oiio/testsuite__texture-derivs__src__ramp.exr
+  auto  default
+  image default
+polyhaven/autumn_field_puresky_1k.exr
+  auto  default
+  image default
+polyhaven/belfast_sunset_puresky_1k.exr
+  auto  default
+  image default
+polyhaven/brown_photostudio_02_1k.exr
+  auto  default
+  image default
+polyhaven/canary_wharf_1k.exr
+  auto  default
+  image default
+polyhaven/dikhololo_night_1k.exr
+  auto  default
+  image default
+polyhaven/je_gray_02_1k.exr
+  auto  default
+  image default
+polyhaven/kiara_1_dawn_1k.exr
+  auto  default
+  image default
+polyhaven/kloofendal_48d_partly_cloudy_puresky_1k.exr
+  auto  default
+  image default
+polyhaven/kloppenheim_02_1k.exr
+  auto  default
+  image default
+polyhaven/kloppenheim_06_puresky_1k.exr
+  auto  default
+  image default
+polyhaven/lilienstein_1k.exr
+  auto  default
+  image default
+polyhaven/meadow_2_1k.exr
+  auto  default
+  image default
+polyhaven/moonless_golf_1k.exr
+  auto  default
+  image default
+polyhaven/noon_grass_1k.exr
+  auto  default
+  image default
+polyhaven/satara_night_1k.exr
+  auto  default
+  image default
+polyhaven/satara_night_no_lamps_1k.exr
+  auto  default
+  image default
+polyhaven/shanghai_bund_1k.exr
+  auto  default
+  image default
+polyhaven/spruit_sunrise_1k.exr
+  auto  default
+  image default
+polyhaven/studio_small_03_1k.exr
+  auto  default
+  image default
+polyhaven/studio_small_08_1k.exr
+  auto  default
+  image default
+polyhaven/studio_small_09_1k.exr
+  auto  default
+  image default
+polyhaven/the_sky_is_on_fire_1k.exr
+  auto  default
+  image default
+polyhaven/venice_sunset_1k.exr
+  auto  default
+  image default
+polyhaven/wide_street_01_1k.exr
+  auto  default
+  image default
+solemates/sparks_final.1037.exr
+  auto  default
+  image default
+solemates/unh0400_0010_lighting.1037.exr
+  auto  default
+  image default
+solemates/unh0400_0010_render_lighting_bty__char__bench_kick_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__bounce_ground_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__env_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__env_top_boost_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__env_top_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__env_windows_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__sun_02_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char__sun_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_02_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_rim_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__char_wrap_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__control_boost_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__fill_carspot_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__flash_bang_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_cast_layer_frames_v001.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+solemates/unh0400_0010_render_lighting_bty__char_cine__p_source_layer_frames_v001.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+solemates/unh0400_0010_render_lighting_bty__char_layer_frames_v006.1037.exr
+  auto  rgba · default
+  image rgba · default, s_body_feet_hands · s_body_feet_hands, s_eyes01 · s_eyes01, s_fur_clumpid · s_fur_clumpid, s_head_face_nose · s_head_face_nose, s_nails_soles_palms · s_nails_soles_palms, s_nostrils_mouth_lips · s_nostrils_mouth_lips, s_raccoon_brow_ears · s_raccoon_brow_ears, s_textcolors · s_textcolors, s_tongue_gums_teeth · s_tongue_gums_teeth, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, exitdir · exitdir, exittint · exittint, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, sampler · sampler, surfaceColor · surfaceColor, denoise_original · denoise_original
+  data  m_chars · m_chars, m_fx · m_fx, m_props · m_props, m_sclera · m_sclera, m_set · m_set, m_window_glass · m_window_glass, rendertime · rendertime, pref · pref, s_uv · s_uv, facingRatio · facingRatio, motion · motion, nw · nw, pc · pc, po · po, pow · pow, pw · pw, shadowMatte · shadowMatte, uv · uv, nw_feature · nw_feature, CryptoInstance · CryptoInstance, CryptoInstance00 · CryptoInstance00, CryptoInstance01 · CryptoInstance01, CryptoInstance02 · CryptoInstance02, CryptoUserData_shotObject · CryptoUserData_shotObject, CryptoUserData_shotObject00 · CryptoUserData_shotObject00, CryptoUserData_shotObject01 · CryptoUserData_shotObject01, CryptoUserData_shotObject02 · CryptoUserData_shotObject02
+solemates/unh0400_0010_render_lighting_bty__set__bounce_ground_layer_frames_v004.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__env_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__env_top_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__env_windows_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__p_cast_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__p_source_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__sun_02_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set__sun_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__bench_kick_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_02_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_rim_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__char_wrap_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__fill_carspot_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_cine__flash_bang_layer_frames_v003.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_bty__set_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, s_body_feet_hands · s_body_feet_hands, s_eyes01 · s_eyes01, s_fur_clumpid · s_fur_clumpid, s_head_face_nose · s_head_face_nose, s_nails_soles_palms · s_nails_soles_palms, s_nostrils_mouth_lips · s_nostrils_mouth_lips, s_raccoon_brow_ears · s_raccoon_brow_ears, s_textcolors · s_textcolors, s_tongue_gums_teeth · s_tongue_gums_teeth, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, exitdir · exitdir, exittint · exittint, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, sampler · sampler, surfaceColor · surfaceColor, denoise_original · denoise_original
+  data  m_chars · m_chars, m_fx · m_fx, m_props · m_props, m_sclera · m_sclera, m_set · m_set, m_window_glass · m_window_glass, rendertime · rendertime, pref · pref, s_uv · s_uv, facingRatio · facingRatio, motion · motion, nw · nw, pc · pc, po · po, pow · pow, pw · pw, shadowMatte · shadowMatte, uv · uv, nw_feature · nw_feature, CryptoInstance · CryptoInstance, CryptoInstance00 · CryptoInstance00, CryptoInstance01 · CryptoInstance01, CryptoInstance02 · CryptoInstance02, CryptoUserData_shotObject · CryptoUserData_shotObject, CryptoUserData_shotObject00 · CryptoUserData_shotObject00, CryptoUserData_shotObject01 · CryptoUserData_shotObject01, CryptoUserData_shotObject02 · CryptoUserData_shotObject02
+solemates/unh0400_0010_render_lighting_vol__all__bounce_ground_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__env_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__env_top_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__env_windows_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__fill_carspot_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__p_cast_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__p_source_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__sun_02_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all__sun_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, denoise_original · denoise_original
+  data  shadowMatte · shadowMatte
+solemates/unh0400_0010_render_lighting_vol__all_layer_frames_v005.1037.exr
+  auto  rgba · default
+  image rgba · default, s_body_feet_hands · s_body_feet_hands, s_eyes01 · s_eyes01, s_fur01 · s_fur01, s_fur_clumpid · s_fur_clumpid, s_head_face_nose · s_head_face_nose, s_nails_soles_palms · s_nails_soles_palms, s_nostrils_mouth_lips · s_nostrils_mouth_lips, s_raccoon_brow_ears · s_raccoon_brow_ears, s_textcolors · s_textcolors, s_threadcolor · s_threadcolor, s_tongue_gums_teeth · s_tongue_gums_teeth, diffuse · diffuse, diffuse_direct · diffuse_direct, diffuse_indirect · diffuse_indirect, emission · emission, exitdir · exitdir, exittint · exittint, lightVisibility · lightVisibility, reflection · reflection, reflection_direct · reflection_direct, reflection_indirect · reflection_indirect, sampler · sampler, surfaceColor · surfaceColor, denoise_original · denoise_original
+  data  m_chars · m_chars, m_fx · m_fx, m_props · m_props, m_sclera · m_sclera, m_set · m_set, m_window_glass · m_window_glass, rendertime · rendertime, pref · pref, s_surface_uv · s_surface_uv, s_uv · s_uv, facingRatio · facingRatio, motion · motion, nw · nw, pc · pc, po · po, pow · pow, pw · pw, shadowMatte · shadowMatte, uv · uv, nw_feature · nw_feature, CryptoInstance · CryptoInstance, CryptoInstance00 · CryptoInstance00, CryptoInstance01 · CryptoInstance01, CryptoInstance02 · CryptoInstance02, CryptoUserData_shotObject · CryptoUserData_shotObject, CryptoUserData_shotObject00 · CryptoUserData_shotObject00, CryptoUserData_shotObject01 · CryptoUserData_shotObject01, CryptoUserData_shotObject02 · CryptoUserData_shotObject02
+tearsofsteel/00_0__00_0_000001.exr
+  auto  default
+  image default
+tearsofsteel/00_1a__00_1a_000001.exr
+  auto  default
+  image default
+tearsofsteel/00_1b__00_1b_000076.exr
+  auto  default
+  image default
+tearsofsteel/00_1c__00_1c_000001.exr
+  auto  default
+  image default
+tearsofsteel/00_1d__00_1d_000001.exr
+  auto  default
+  image default
+tearsofsteel/02_1a__02_1a_001252.exr
+  auto  default
+  image default
+tearsofsteel/02_1b__02_1b_001294.exr
+  auto  default
+  image default
+tearsofsteel/02_1d__02_1d_001366.exr
+  auto  default
+  image default
+tearsofsteel/02_3c_h__02_3c_h_000160.exr
+  auto  default
+  image default
+tearsofsteel/02_3d__02_3d_000180.exr
+  auto  default
+  image default
+tearsofsteel/02_4a__02_4a_000100.exr
+  auto  default
+  image default
+tearsofsteel/03_1a__03_1a_000001.exr
+  auto  default
+  image default
+tearsofsteel/03_2a__03_2a_000082.exr
+  auto  default
+  image default
+tearsofsteel/03_2b__03_2b_000103.exr
+  auto  default
+  image default
+tearsofsteel/03_3__03_3_000001.exr
+  auto  default
+  image default
+tearsofsteel/03_3c__03_3c_000489.exr
+  auto  default
+  image default
+tearsofsteel/03_3c_scope__03_3c_scope_000001.exr
+  auto  default
+  image default
+tearsofsteel/04_1a__04_1a_000001.exr
+  auto  default
+  image default
+tearsofsteel/04_1b__04_1b_000052.exr
+  auto  default
+  image default
+tearsofsteel/04_2b__04_2b_000250.exr
+  auto  default
+  image default
+tearsofsteel/04_2e__04_2e_000100.exr
+  auto  default
+  image default
+tearsofsteel/04_3c__04_3c_000313.exr
+  auto  default
+  image default
+tearsofsteel/04_3g__04_3g_000001.exr
+  auto  default
+  image default
+tearsofsteel/04_4a__04_4a_000020.exr
+  auto  default
+  image default
+tearsofsteel/04_4b__04_4b_000073.exr
+  auto  default
+  image default
+tearsofsteel/04_4d__04_4d_000046.exr
+  auto  default
+  image default
+tearsofsteel/04_4e__04_4e_000255.exr
+  auto  default
+  image default
+tearsofsteel/04_4f__04_4f_000040.exr
+  auto  default
+  image default
+tearsofsteel/04_4g__04_4g_000180.exr
+  auto  default
+  image default
+tearsofsteel/04_4h__04_4h_000080.exr
+  auto  default
+  image default
+tearsofsteel/04_4i__04_4i_000030.exr
+  auto  default
+  image default
+tearsofsteel/04_4k__04_4k_000280.exr
+  auto  default
+  image default
+tearsofsteel/04_4k_stabsmoke__04_4k_stabsmoke_000001.exr
+  auto  default
+  image default
+tearsofsteel/04_4k_stabsmoke_eye__04_4k_stabsmoke_eye000280.exr
+  auto  default
+  image default
+tearsofsteel/04_5e__04_5e_000152.exr
+  auto  default
+  image default
+tearsofsteel/04_5f__04_5f_001740.exr
+  auto  default
+  image default
+tearsofsteel/04_5h_h__04_5h_h_000050.exr
+  auto  default
+  image default
+tearsofsteel/04_5i_h__04_5i_h_000215.exr
+  auto  default
+  image default
+tearsofsteel/04_5j__04_5j_000030.exr
+  auto  default
+  image default
+tearsofsteel/04_5j_h__04_5j_h_000030.exr
+  auto  default
+  image default
+tearsofsteel/04_5k_h__04_5k_h_000040.exr
+  auto  default
+  image default
+tearsofsteel/04_5l__04_5l_000125.exr
+  auto  default
+  image default
+tearsofsteel/04_5l_h__04_5l_h_000125.exr
+  auto  default
+  image default
+tearsofsteel/04_5n__04_5n_000066.exr
+  auto  default
+  image default
+tearsofsteel/04_5n_h__04_5n_h_000066.exr
+  auto  default
+  image default
+tearsofsteel/04_6a__04_6a_000001.exr
+  auto  default
+  image default
+tearsofsteel/04_8a__04_8a_000135.exr
+  auto  default
+  image default
+tearsofsteel/05_3d__05_3d_000115.exr
+  auto  default
+  image default
+tearsofsteel/05_3h__05_3h_000780.exr
+  auto  default
+  image default
+tearsofsteel/05_4a__05_4a_000080.exr
+  auto  default
+  image default
+tearsofsteel/05_4d_2__05_4d_2_001155.exr
+  auto  default
+  image default
+tearsofsteel/05_4g__05_4g_001635.exr
+  auto  default
+  image default
+tearsofsteel/06_1a__06_1a_000070.exr
+  auto  default
+  image default
+tearsofsteel/06_1b__06_1b_000106.exr
+  auto  default
+  image default
+tearsofsteel/06_1d__06_1d_000001.exr
+  auto  default
+  image default
+tearsofsteel/06_1d_rob_testing__06_1d_rob_testing_000088.exr
+  auto  default
+  image default
+tearsofsteel/06_1e__06_1e_000000.exr
+  auto  default
+  image default
+tearsofsteel/07_1c__07_1c_000170.exr
+  auto  default
+  image default
+tearsofsteel/07_1g__07_1g_000099.exr
+  auto  default
+  image default
+tearsofsteel/07_2a__07_2a_000120.exr
+  auto  default
+  image default
+tearsofsteel/07_2c__07_2c_000030.exr
+  auto  default
+  image default
+tearsofsteel/07_2d__07_2d_000035.exr
+  auto  default
+  image default
+tearsofsteel/07_2e__07_2e_000100.exr
+  auto  default
+  image default
+tearsofsteel/07_3b__07_3b_000055.exr
+  auto  default
+  image default
+tearsofsteel/07_3c__07_3c_000040.exr
+  auto  default
+  image default
+tearsofsteel/08_4a__08_4a_000050.exr
+  auto  default
+  image default
+tearsofsteel/08_4c__08_4c_000175.exr
+  auto  default
+  image default
+tearsofsteel/08_4c_extension__08_4c_extension_000175.exr
+  auto  default
+  image default
+tearsofsteel/09_1a__09_1a_000001.exr
+  auto  default
+  image default
+tearsofsteel/15_03_why_dont_you_admit_filmshit__15_03_why_dont_you_admit_filmshit_000160.exr
+  auto  default
+  image default
+tearsofsteel/15_12_thom__15_12_thom_000089.exr
+  auto  default
+  image default
+tearsofsteel/lib_oude_kerk_interior__lib_oude_kerk_interior_000001.exr
+  auto  default
+  image default
+tearsofsteel/menu_1__menu_1_000814.exr
+  auto  default
+  image default
+tlrender/Cubes.0001.exr
+  auto  ViewLayer.Combined
+  image ViewLayer.Combined, ViewLayer.DiffCol, ViewLayer.GlossDir
+  data  ViewLayer.Normal

@@ -12,3 +12,5 @@ docs/images/EXRlogo_AImade.JPG
 Vendor/showcase/
 # Release archives -- built by Tools/package-release.sh, attached to GitHub Releases.
 dist/
+# Real-world header corpus -- rebuilt by Tools/corpus/build_corpus.py; only derived facts are committed.
+Vendor/corpus/

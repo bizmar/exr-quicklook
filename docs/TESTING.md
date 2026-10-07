@@ -17,6 +17,7 @@ All of these pass as of 2026-10-06, on macOS 27.0.1, Apple silicon.
 | Suite | What it checks | Size |
 |---|---|---|
 | Layer selection (unit) | Which layer and part becomes the default; that masks, depth, position, motion, normals and cryptomatte never do; Nuke/Blender/Arnold/V-Ray/Redshift naming; data-only files | 139 checks |
+| Real-world layer names | The layer rules run over the part/channel names of 291 openly licensed production and test files (Netflix, Psyop, Blender, Poly Haven, Gaffer, OpenImageIO…), with invariants and a full snapshot. See [LAYER-RULES.md](LAYER-RULES.md) | 1669 checks |
 | Colour (unit) | Primaries → AP1 matrices and Bradford adaptation, against OCIO | 40 checks |
 | Corpus | Files written with the real OpenEXR library: DWAA, DWAB, multi-part, deep, overscan, luminance-chroma, 32-bit float, 43-channel AOV stacks, data passes, plus one real camera plate (DWAA, AP0, overscan) | 33 checks |
 | Malformed files | Truncated files, absurd and overflowing data/display windows, wrong magic — all must be rejected cleanly | 13 files |
@@ -51,11 +52,12 @@ blue) once passed checks that only looked at settings or text.
 - **Spotlight, and Open/Save dialogs.** Whether they use the extensions at all.
 - **Finder's column view and preview pane** on recent macOS. They use the same
   preview code, but have not been rechecked since early development.
-- **Real renders from specific applications.** Layer and data-pass detection
-  is tested against synthetic files named the way renderers name things, and
-  one real Netflix render. Real Redshift, V-Ray, Karma, Arnold, Blender, Octane
-  and RenderMan multi-layer files have not been tried. A layer-picking mistake
-  here is the most likely real-world bug.
+- **Real renders from specific applications.** Layer detection is checked
+  against real files from Arnold, V-Ray, Nuke and Blender, but only against the
+  *documented* default names of Redshift, Karma, Octane, Cycles multilayer,
+  Unreal, RenderMan and Corona: no openly licensed sample files exist. A
+  layer-picking mistake on those is the most likely real-world bug. A header
+  dump (`exrcli -v`) of one of your files is the most useful report.
 - **Non-ACES pipelines.** Untagged files are assumed ACEScg. How often that is
   wrong in practice (Blender's linear Rec.709, for example) is not known.
 - **Very large files.** The performance budget (thumbnail < 300 ms, preview

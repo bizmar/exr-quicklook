@@ -52,7 +52,7 @@ overscan:
 | **Compression** | Everything the OpenEXR 3.4 reference library reads: DWAA, DWAB, ZIP, PIZ, PXR24, B44, RLE, HTJ2K |
 | **Colour** | ACES 2.0 output transform (SDR 100 nits, Display P3), baked from OpenColorIO's ACES 2.0 studio config. Reads `chromaticities` and the OpenEXR 3.4 `colorInteropID`. Untagged files are assumed to be ACEScg. |
 | **Multi-part and multi-layer** | Picks the beauty automatically, never a mask, depth or cryptomatte. Every other layer and part is a click away in the preview. |
-| **Data passes** | Position, depth, motion and normals are listed as "data" and shown untransformed (Raw), with x/y/z mapped to red/green/blue |
+| **Data passes** | Position, depth, motion, normals, IDs and mattes are listed as "data" and shown untransformed (Raw), with x/y/z mapped to red/green/blue. How layers are recognised: [docs/LAYER-RULES.md](docs/LAYER-RULES.md), checked against 291 real production files |
 | **Overscan** | Cropped to the display window. The preview can show the data window. |
 | **Alpha** | Ignored by default, so images look the way the comp sees them. The preview can composite over a checkerboard. |
 | **Safety** | Hardened decode with checked arithmetic, hard size limits and a decode deadline. Malformed files get the generic icon, never a crash. |
