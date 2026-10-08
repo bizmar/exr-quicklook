@@ -1,0 +1,83 @@
+# Does it work on the Macs people actually have? The app is built once, the
+# way releases are (macOS 15, universal), then every runner below:
+#   1. builds and runs the decoder test suite natively (Intel included), and
+#   2. installs that one app build, switches the extensions on, and has Quick
+#      Look itself render thumbnails and previews through them
+#      (Tools/ql-integration.sh), checked against the extensions' own log.
+name: Compatibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Cache OpenEXR
+        id: openexr
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: Vendor/openexr/install
+          key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
+      - name: Build OpenEXR
+        if: steps.openexr.outputs.cache-hit != 'true'
+        run: Tools/build-openexr.sh
+      - name: Build the app (universal, as released)
+        run: |
+          Tools/build-core.sh
+          Tools/build-app.sh
+          # Artifacts drop file modes; a tarball keeps the bundle intact.
+          tar -czf app.tgz -C build "EXR Quick Look.app"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: compat-app
+          path: app.tgz
+          retention-days: 3
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        # macos-14 is the oldest macOS the app supports (and is deprecated on
+        # GitHub, so this entry will go when the image does).
+        os: [macos-14, macos-15, macos-15-intel, macos-26]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Cache OpenEXR
+        id: openexr
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: Vendor/openexr/install
+          key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
+      - name: Build OpenEXR
+        if: steps.openexr.outputs.cache-hit != 'true'
+        run: Tools/build-openexr.sh
+
+      - name: Decoder tests, built natively
+        run: |
+          sw_vers; uname -m
+          Tools/build-core.sh
+          Tools/build-cli.sh
+          Tools/test-all.sh
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: compat-app
+      - name: Install the released-style build
+        run: |
+          mkdir -p build
+          tar -xzf app.tgz -C build
+          Tools/install.sh
+      - name: Quick Look renders through our extensions
+        run: Tools/ql-integration.sh --enable

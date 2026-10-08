@@ -28,6 +28,10 @@ final class ThumbnailProvider: QLThumbnailProvider {
             return
         }
 
+        // The positive signal Tools/ql-integration.sh looks for: this file was
+        // rendered by this extension, not by macOS's own decoder.
+        Self.log.info("rendered \(request.fileURL.lastPathComponent, privacy: .public) \(image.width)x\(image.height)")
+
         let contextSize = request.maximumSize
         let reply = QLThumbnailReply(contextSize: contextSize) { (ctx: CGContext) -> Bool in
             // The drawing context is sized in pixels and is NOT pre-scaled by
