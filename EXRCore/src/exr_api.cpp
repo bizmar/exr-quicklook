@@ -258,13 +258,18 @@ std::string id_for(const std::vector<LayerOption>& layers, const LayerSelection&
     return {};
 }
 
+// Why the last exr_render / exr_open on this thread failed, for the
+// extensions' log. Empty after a success.
+thread_local std::string t_last_error;
+
 std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
                                      bool use_data_window,
                                      const std::string& wanted_layer = {}) {
-    if (!path) return nullptr;
+    t_last_error.clear();
+    if (!path) { t_last_error = "no path"; return nullptr; }
     auto src = std::make_unique<EXRSource>();
     std::string error;
-    if (!inspect_file(path, src->info, error)) return nullptr;
+    if (!inspect_file(path, src->info, error)) { t_last_error = error; return nullptr; }
 
     src->layers = enumerate_layers(src->info.parts);
     for (LayerOption& o : src->layers) o.label = printable(o.label);
@@ -279,7 +284,7 @@ std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
             if (o.id == wanted_layer) { src->selection = o.selection; break; }
         }
     }
-    if (!src->selection.valid()) return nullptr;
+    if (!src->selection.valid()) { t_last_error = "no layer to show"; return nullptr; }
 
     src->active_layer = id_for(src->layers, src->selection);
     for (const LayerOption& o : src->layers) {
@@ -308,6 +313,7 @@ std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
     dopt.max_edge = max_edge;
     dopt.use_data_window = use_data_window;
     if (!decode_layer(path, src->info, src->selection, src->image, error, dopt)) {
+        t_last_error = error;
         return nullptr;
     }
 
@@ -373,9 +379,15 @@ int exr_render(const char* path, const EXRRenderOptions* options, EXRRenderResul
 
     auto src = open_impl(path, opt.max_edge, opt.use_data_window != 0);
     if (!src) return 0;
-    return transform(src->image, src->chromaticities, src->has_chromaticities,
-                     src->active_is_data, opt, *out) ? 1 : 0;
+    if (!transform(src->image, src->chromaticities, src->has_chromaticities,
+                   src->active_is_data, opt, *out)) {
+        t_last_error = "colour transform failed";
+        return 0;
+    }
+    return 1;
 }
+
+const char* exr_last_error(void) { return t_last_error.c_str(); }
 
 void exr_render_free(EXRRenderResult* result) {
     if (!result || !result->pixels) return;

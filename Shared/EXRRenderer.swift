@@ -114,6 +114,9 @@ enum EXRRenderer {
                        shouldInterpolate: true, intent: .defaultIntent)
     }
 
+    /// Why the last `image(at:)` or source open on this thread failed, for logs.
+    static var lastError: String { String(cString: exr_last_error()) }
+
     /// One-shot decode and transform. Returns nil on any failure — callers must
     /// fall back to the generic icon, never render something approximate.
     static func image(at url: URL, settings: Settings = .default) -> CGImage? {

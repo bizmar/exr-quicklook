@@ -75,6 +75,8 @@ jobs:
           Tools/build-core.sh
           Tools/build-cli.sh
           Tools/test-all.sh
+          # Decode speed on this machine, against the 2 s deadline.
+          build/bench Tests/Fixtures/real/LCF_05-01_01_X1_0039_AMaZE.exr
 
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:

@@ -73,6 +73,8 @@ kill "$logger" 2>/dev/null; wait "$logger" 2>/dev/null
 
 say "What the extensions logged"
 grep -E "rendered |prepared " "$LOG" | sed 's/^.*\] /    /' | sort -u
+# Failures, with the reason the extension gives, so a red run says why.
+grep -E "failed for " "$LOG" | sed 's/^.*\] /    /' | sort -u
 for f in "${FILES[@]}"; do
   n=$(basename "$f")
   grep -q "rendered $n" "$LOG" || bad "thumbnail extension never rendered $n"

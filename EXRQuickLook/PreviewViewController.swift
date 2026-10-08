@@ -124,7 +124,7 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
                                            layer: settings.layer),
               let image = src.image(settings: settings)
         else {
-            Self.log.error("render failed for \(url.lastPathComponent, privacy: .public)")
+            Self.log.error("render failed for \(url.lastPathComponent, privacy: .public): \(EXRRenderer.lastError, privacy: .public)")
             handler(CocoaError(.fileReadCorruptFile))
             return
         }

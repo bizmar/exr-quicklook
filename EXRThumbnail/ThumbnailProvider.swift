@@ -23,7 +23,7 @@ final class ThumbnailProvider: QLThumbnailProvider {
         settings.maxEdge = max(pixelEdge, 1)
 
         guard let image = EXRRenderer.image(at: request.fileURL, settings: settings) else {
-            Self.log.error("render failed for \(request.fileURL.lastPathComponent, privacy: .public)")
+            Self.log.error("render failed for \(request.fileURL.lastPathComponent, privacy: .public): \(EXRRenderer.lastError, privacy: .public)")
             handler(nil, CocoaError(.fileReadCorruptFile))
             return
         }

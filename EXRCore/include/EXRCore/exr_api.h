@@ -70,6 +70,10 @@ typedef struct EXRRenderResult {
 int exr_render(const char* path, const EXRRenderOptions* options, EXRRenderResult* out);
 void exr_render_free(EXRRenderResult* result);
 
+// Why the last exr_render or exr_open on the calling thread failed, for logs.
+// Empty after a success. Valid until the next call on that thread.
+const char* exr_last_error(void);
+
 // A decoded file, held so the transform can be re-applied cheaply.
 typedef struct EXRSource EXRSource;
 
