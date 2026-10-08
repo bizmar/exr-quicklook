@@ -1,6 +1,11 @@
 # Builds the universal app and runs every test suite on each push and pull
-# request. On a v* tag it also builds the release DMG and keeps it as a
-# workflow artifact -- publishing the GitHub Release stays a manual step.
+# request. On a v* tag it also builds the release DMG, attests where it came
+# from, and attaches it to a *draft* GitHub release. Publishing stays manual:
+# the maintainer installs that exact DMG and checks it on a real Mac first.
+#
+# Every action is pinned to a full commit SHA (the tag is in the comment), and
+# every pip install is pinned by hash: a moved tag or a compromised package
+# must not be able to change what ends up in the release.
 name: CI
 
 on:
@@ -17,18 +22,14 @@ jobs:
   build-and-test:
     runs-on: macos-15
     timeout-minutes: 60
-    env:
-      # The baked ACES tables are verified against the exact OCIO they were
-      # baked with (docs/lut-provenance.md).
-      OCIO_VERSION: "2.5.1"
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Pinned OpenEXR + Imath, built universal and static. Slow (~10 min), so
       # cached on the build script, which holds the pinned tags.
       - name: Cache OpenEXR
         id: openexr
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: Vendor/openexr/install
           key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
@@ -40,7 +41,7 @@ jobs:
       # crash corpus the decoder must survive.
       - name: Cache openexr-images
         id: images
-        uses: actions/cache@v6
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: Vendor/openexr-images
           key: openexr-images-${{ hashFiles('Tools/fetch-openexr-images.sh') }}
@@ -48,13 +49,15 @@ jobs:
         if: steps.images.outputs.cache-hit != 'true'
         run: Tools/fetch-openexr-images.sh
 
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
+      # The baked ACES tables are verified against the exact OCIO they were
+      # baked with (docs/lut-provenance.md). Build-time only.
       - name: Install OpenColorIO (build-time only)
         run: |
           python -m venv build/ocio
-          build/ocio/bin/pip install --quiet "opencolorio==${OCIO_VERSION}" numpy
+          build/ocio/bin/pip install --quiet --require-hashes -r Tools/ci-requirements.txt
           echo "PYOCIO=$PWD/build/ocio/bin/python" >> "$GITHUB_ENV"
 
       - name: Build
@@ -74,14 +77,54 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
           python -m venv build/dmg/venv
-          build/dmg/venv/bin/pip install --quiet dmgbuild
+          build/dmg/venv/bin/pip install --quiet --require-hashes -r Tools/dmg-requirements.txt
           Tools/package-release.sh --skip-tests   # just tested above
 
       - name: Upload release DMG
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: release-dmg
           path: |
             dist/*.dmg
             dist/*.dmg.sha256
+
+  # A separate job so the build above never holds write permissions. It only
+  # takes the DMG the build produced, attests it and drafts the release.
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write          # create the draft release
+      id-token: write          # Sigstore certificate for the attestation
+      attestations: write      # store the attestation
+      artifact-metadata: write # the attestation's storage record
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: release-dmg
+          path: dist
+
+      - name: The tag matches the app version
+        run: |
+          want="dist/EXR-Quick-Look-${GITHUB_REF_NAME#v}.dmg"
+          [ -f "$want" ] || { echo "tag $GITHUB_REF_NAME, but built: $(ls dist)" >&2; exit 1; }
+          (cd dist && sha256sum -c ./*.dmg.sha256)
+
+      # Users check it with:
+      #   gh attestation verify EXR-Quick-Look-<version>.dmg -R bizmar/exr-quicklook
+      - name: Attest build provenance
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: dist/*.dmg
+
+      - name: Draft the GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.dmg dist/*.dmg.sha256 \
+            --repo "$GITHUB_REPOSITORY" --verify-tag --draft \
+            --title "EXR Quick Look ${GITHUB_REF_NAME#v}" \
+            --notes "Draft built and attested by CI run $GITHUB_RUN_ID. Release notes to follow."

@@ -1060,13 +1060,13 @@ sanitizer report**. A short run, not a substitute for a standing fuzz target
 in CI (still not built), but our code survived it after the fixes above.
 
 **Not fixed here: the release process.** Each of these is a decision:
-- The published DMG is built on the maintainer's Mac; nothing ties it to this
-  repository's source. CI already builds one on a `v*` tag, so it could be
-  published instead, with a GitHub build-provenance attestation that users can
-  check with `gh attestation verify`.
-- Third-party actions are pinned by tag, not commit SHA; pip installs in CI
-  (numpy, dmgbuild) are unpinned. Build-time only, but they feed the DMG if
-  CI ever builds the published release.
+- ~~The published DMG is built on the maintainer's Mac; nothing ties it to
+  this repository's source.~~ Done 2026-10-08: after 0.2.0, CI builds the DMG
+  on a `v*` tag, attests it (`actions/attest`) and drafts the release; users
+  can run `gh attestation verify`.
+- ~~Actions pinned by tag; pip installs unpinned.~~ Done 2026-10-08: actions by
+  commit SHA, pip by hash. The write permissions live in a separate release
+  job that only downloads, attests and drafts.
 - ~~There is no SECURITY.md, and private vulnerability reporting is not enabled
   on the repository.~~ Done 2026-10-08: `SECURITY.md`, reporting enabled.
 - Unsigned by choice: users are told to clear the quarantine flag, which is

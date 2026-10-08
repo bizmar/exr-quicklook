@@ -78,8 +78,16 @@ nothing). This project will not be signed. See phase1-status.md.
 config. This Mac has no SSH keys, so push over HTTPS with the `gh` login
 without touching global config:
 `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
-**Released 0.1.0** 2026-10-06 and **0.2.0** 2026-10-08 as styled DMGs (`Tools/package-release.sh`,
-which needs dmgbuild in `build/dmg/venv`; see the script header).
+**Released 0.1.0** 2026-10-06 and **0.2.0** 2026-10-08 as styled DMGs,
+built locally with `Tools/package-release.sh`.
+**Release process after 0.2.0 (decided 2026-10-08):** bump the version,
+push, then push a `v*` tag. CI builds the DMG, attests its provenance and
+attaches it to a **draft** release. Download that exact asset (release
+downloads are fast here; *artifact* downloads are throttled to <1 KB/s),
+install it, run `build/qlprobe` / `build/qlpreviewprobe`, check
+`gh attestation verify`, write the notes, and publish only on the user's OK.
+Actions are pinned by commit SHA, pip installs by hash
+(`Tools/ci-requirements.txt`, `Tools/dmg-requirements.txt`).
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 
@@ -90,8 +98,8 @@ user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
 docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
 exposure double-click reset dropped, adversarial review (OpenEXR 3.4.16 and
 fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Open from the
-review, each a decision: CI-built + attested release DMG, SHA-pinned actions
-(SECURITY.md + private vulnerability reporting done 2026-10-08); see
+review: all done 2026-10-08 (SECURITY.md + private reporting; CI-built,
+attested, draft releases; SHA-pinned actions, hash-pinned pip); see
 phase1-status.md "Adversarial review".
 
 Still open, roughly in priority order:

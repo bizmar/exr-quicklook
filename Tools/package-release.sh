@@ -6,7 +6,12 @@
 # The app is universal and ad-hoc signed -- this project is not notarised.
 #
 # Needs dmgbuild in build/dmg/venv (it writes Finder's layout without
-# scripting Finder):  python3 -m venv build/dmg/venv && build/dmg/venv/bin/pip install dmgbuild
+# scripting Finder), pinned by hash:
+#   python3 -m venv build/dmg/venv
+#   build/dmg/venv/bin/pip install --require-hashes -r Tools/dmg-requirements.txt
+#
+# Published releases are built by CI on a v* tag, not by running this locally:
+# CI attests the DMG and drafts the release (see .github/workflows/ci.yml).
 #
 # Runs the full test suite first unless --skip-tests is given: a release is the
 # one build other people install.

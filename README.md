@@ -94,6 +94,15 @@ players run natively on macOS, Apple silicon and Intel:
    [latest release](https://github.com/bizmar/exr-quicklook/releases/latest),
    open it, and drag **EXR Quick Look** onto the **Applications** folder in the
    window.
+
+   Optional, but worth it for an unsigned app: check the download was built
+   from this repository by its CI and not altered since. With the
+   [GitHub CLI](https://cli.github.com):
+   ```bash
+   gh attestation verify EXR-Quick-Look-<version>.dmg -R bizmar/exr-quicklook
+   ```
+   (Releases after 0.2.0. 0.2.0 and earlier were built by hand and carry only
+   a SHA-256.)
 2. Open the app once. macOS will refuse at first. Either:
    - open **System Settings → Privacy & Security**, scroll down, and click
      **Open Anyway** next to EXR Quick Look; or
