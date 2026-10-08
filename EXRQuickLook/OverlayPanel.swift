@@ -74,11 +74,16 @@ final class OverlayPanel: NSView {
     // been opened at least once, then permanently below it. Opening info on its
     // own should not leave it floating under an empty gap; once it has moved
     // down it can stay there, which avoids re-laying out on every toggle.
+    //
+    // Superseded 2026-10-08 (the user found info stranded low after closing
+    // the controls): info sits under the controls only while both are open,
+    // otherwise under the buttons. It is moved only when visible and in the
+    // wrong place, so toggling the controls alone still costs no layout.
     private lazy var metaTopBelowButton = metadataBody.topAnchor.constraint(
         equalTo: controlsButton.bottomAnchor, constant: 6)
     private lazy var metaTopBelowControls = metadataBody.topAnchor.constraint(
         equalTo: controlsBody.bottomAnchor, constant: 6)
-    private var metadataHasMovedDown = false
+    private var metadataBelowControls = false
     private var metadataExpanded = false
 
     private static let channelOrder: [EXRChannelView] = [EXR_VIEW_RGB, EXR_VIEW_ALPHA]
@@ -388,12 +393,14 @@ final class OverlayPanel: NSView {
         setPanels(controls: controlsExpanded, metadata: !metadataExpanded)
     }
 
-    /// Opacity and button state only — deliberately no layout work.
+    /// Opacity and button state, plus moving the info panel when it is shown
+    /// and the controls opened or closed above it.
     private func setPanels(controls: Bool, metadata: Bool) {
-        if controls && !metadataHasMovedDown {
-            metadataHasMovedDown = true
-            metaTopBelowButton.isActive = false
-            metaTopBelowControls.isActive = true
+        if metadata && controls != metadataBelowControls {
+            metadataBelowControls = controls
+            // Deactivate before activating, so the two never both hold.
+            (controls ? metaTopBelowButton : metaTopBelowControls).isActive = false
+            (controls ? metaTopBelowControls : metaTopBelowButton).isActive = true
         }
         controlsExpanded = controls
         metadataExpanded = metadata

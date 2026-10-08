@@ -63,14 +63,22 @@ First green run 2026-10-08: macOS 14.8.9, 15.7.9 (arm64 and x86_64), 26.6.2.
 - Settings carrying over while arrowing through a sequence, including frames
   Quick Look built ahead of time. Confirmed by the author by hand.
 - The comparison images in the README are real Quick Look captures.
+- **Hand check, macOS 27, 2026-10-08** (by the author, on the 0.3.1 build plus
+  the fixes below): icon, list, column and Gallery views; the preview pane;
+  the spacebar panel, including settings carrying across a three-frame
+  sequence; a 6K camera plate; a **Spotlight** result's thumbnail; the
+  thumbnails in an **Open dialog** (TextEdit); and a crafted malicious file,
+  which keeps the generic icon. It found one bug: a small image (256x144)
+  opened a panel too short for the overlay, which lost its buttons and showed
+  the frame cut off over black, also in the column-view pane. Fixed after
+  0.3.1, with the info panel now staying under the buttons unless the display
+  options are open.
 
 ## Not tested — help wanted
 
 - **Intel Macs, by hand.** CI runs the x86_64 build on macOS 15 Intel (below),
   but nobody has used it on a real Intel Mac yet.
-- **Spotlight, and Open/Save dialogs.** Whether they use the extensions at all.
-- **Finder's column view and preview pane** on recent macOS. They use the same
-  preview code, but have not been rechecked since early development.
+- **Save dialogs,** and Spotlight on macOS other than 27.
 - **Real renders from specific applications.** Layer detection is checked
   against real files from Arnold, V-Ray, Nuke and Blender, but only against the
   *documented* default names of Redshift, Karma, Octane, Cycles multilayer,

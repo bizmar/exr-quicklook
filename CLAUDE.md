@@ -144,8 +144,10 @@ update, so the posted version must be the trustworthy one).
    This is the version for the r/vfx post.
 
 Still open, lower priority:
-- **Untested by hand:** Spotlight, Open/Save dialogs, Finder column view and
-  preview pane recheck, a real Intel Mac. Needs the user's hands.
+- **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
+  spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
+  small-image panel bug (unreleased: needs 0.3.2). Still untested: a real
+  Intel Mac, Save dialogs.
 - **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
   (plan §6.4). `fuzz.sh` now links a sanitized OpenEXR when
   `Tools/build-openexr-asan.sh` has been run (2026-10-08).
