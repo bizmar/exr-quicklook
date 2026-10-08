@@ -97,11 +97,12 @@ Worked through one at a time with the user, each with a recommendation; the
 user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
 docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
 exposure double-click reset dropped, adversarial review (OpenEXR 3.4.16 and
-fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Open from the
-review: all done 2026-10-08. 6K thumbnail now under budget (adaptive read
-bands, 3 threads unchanged: 347 -> 290 ms); the security items from the (SECURITY.md + private reporting; CI-built,
-attested, draft releases; SHA-pinned actions, hash-pinned pip); see
-phase1-status.md "Adversarial review".
+fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Since then:
+the review's release-process items (SECURITY.md + private reporting; CI-built,
+attested, draft releases; SHA-pinned actions, hash-pinned pip), and the 6K
+thumbnail brought under budget by taller read bands with threads unchanged
+(347 -> 290 ms). See phase1-status.md. **Not yet exercised: the CI release
+job** -- it first runs on the next tag; watch it.
 
 Still open, roughly in priority order:
 - **Shared EXRCore framework** for the two extensions, so the colour tables
