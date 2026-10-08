@@ -96,6 +96,15 @@ def main():
     # 1x1 tiles: millions of chunks, each an offset-table entry and a read.
     cases["tile-count.exr"] = tiled_header(4096, 4096, 1, 1)
 
+    # One channel subsampled 1-in-144 vertically in a 32-line DWAA file.
+    # OpenEXRCore counts one row of it in chunks that hold none, and its DWA
+    # decoder then reads an unset row pointer: a crash in OpenEXR 3.4.16 (and
+    # 3.5.2), found by Tools/fuzz.sh on 2026-10-08. Must be rejected up front.
+    aov = bytearray(Path("Tests/Fixtures/corpus/aov-43-channels.exr").read_bytes())
+    at = aov.index(b"background.G\0") + len(b"background.G\0")
+    struct.pack_into("<i", aov, at + 12, 144)   # type, pLinear, 3 reserved, xSampling, ySampling
+    cases["dwaa-ysampling.exr"] = bytes(aov)
+
     for name, blob in cases.items():
         (out / name).write_bytes(blob)
         print(f"  {name:<32} {len(blob):>10,} bytes")

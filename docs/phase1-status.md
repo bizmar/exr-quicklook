@@ -1172,3 +1172,35 @@ visibly). Also: ImageRenderer aborts in Metal on the Intel VM, so the window
 snapshot is skipped there.
 
 All green: macOS 14.8.9, 15.7.9 (arm64 and x86_64), 26.6.2.
+
+### Fuzzing the 0.3.0 candidate: an OpenEXR crash (2026-10-08)
+
+The 0.3.0 release run of `Tools/fuzz.sh` (40 min, 6 workers) crashed twice
+inside OpenEXRCore's DWA decoder: a null read in `LossyDctDecoder_execute`.
+It reproduces in the shipped code path (`exrcli`, SIGSEGV every time), so the
+thumbnail extension would crash on such a file. It is in 0.2.0 too.
+
+Cause, in OpenEXR itself (`internal_util.h`, `compute_sampled_height`,
+unchanged in 3.4.16, 3.5.2 and main): a channel's row count per chunk is
+`(height - off - 1) / y_sampling + 1`. In a chunk holding none of a channel's
+samples, `height - off - 1` is negative, C truncates toward zero, and the
+count is 1 instead of 0: for y sampling 144 in a 32-line DWAA chunk starting
+at row 32, `(32 - 112 - 1)/144 + 1 == 1`. The DWA decoder pushes row pointers
+for the rows that really exist (none), then decodes the one row it was told
+about through a pointer table that was never allocated. Only scanline parts
+with `y_sampling` above the lines per chunk can get there: OpenEXR's header
+checks hold tiled and deep parts to sampling 1, and the window to multiples of
+the sampling, which makes the short last chunk come out right.
+
+Fix: `chunk_within_limits` rejects such parts up front ("y sampling"). No real
+file is affected: the only subsampling in practice is luminance-chroma's 2,
+and 1-line compressions (NONE, RLE, ZIPS) take a separate, correct branch.
+Regression: `Tests/Fixtures/malformed/dwaa-ysampling.exr`, the 43-channel AOV
+fixture with one channel's y sampling patched to 144; it crashed the old build
+(signal 11) and is rejected by the new one. Both fuzz crashers are rejected.
+Not yet reported upstream.
+
+Also from this release run: the extensions now log *why* a render failed
+(`exr_last_error()`), and `ql-integration.sh` prints those lines, after the
+Intel compatibility runner returned an unexplained thumbnail error for the 6K
+plate (passed on the previous commit).

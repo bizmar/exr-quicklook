@@ -100,10 +100,23 @@ bool chunk_within_limits(const Imf::Header& h, const Box2i& dw, std::string& why
             why = "tile size";
             return false;
         }
-    } else if (!checked_mul(std::min<int64_t>(Imf::getCompressionNumScanlines(h.compression()), ht),
-                            w, unit)) {
-        why = "chunk size";
-        return false;
+    } else {
+        const int64_t lines = Imf::getCompressionNumScanlines(h.compression());
+        // OpenEXRCore miscounts a channel's rows in a chunk that holds none of
+        // its samples when the y sampling exceeds the lines per chunk
+        // (compute_sampled_height: (-81)/144 + 1 == 1), and its DWA decoder
+        // then reads a row pointer that was never set -- a crash, found by
+        // fuzzing 2026-10-08, unfixed upstream as of 3.5.2. Tiled and deep
+        // parts are already held to sampling 1 by OpenEXR's header checks.
+        if (lines > 1) {
+            for (auto it = h.channels().begin(); it != h.channels().end(); ++it) {
+                if (it.channel().ySampling > lines) { why = "y sampling"; return false; }
+            }
+        }
+        if (!checked_mul(std::min<int64_t>(lines, ht), w, unit)) {
+            why = "chunk size";
+            return false;
+        }
     }
     int64_t chunk = 0;
     if (!checked_mul(unit, pixel_bytes, chunk) ||
