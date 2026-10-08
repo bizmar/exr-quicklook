@@ -1199,6 +1199,8 @@ Regression: `Tests/Fixtures/malformed/dwaa-ysampling.exr`, the 43-channel AOV
 fixture with one channel's y sampling patched to 144; it crashed the old build
 (signal 11) and is rejected by the new one. Both fuzz crashers are rejected.
 Reported privately to OpenEXR as GHSA-hcp5-mx7q-9642 (2026-10-08).
+That fuzz run: 3.7 M mutated inputs, these two crashes and nothing else. Rerun
+on the fix (40 min, 6 workers): 4.05 M inputs, no crashes.
 
 Also from this release run: the extensions now log *why* a render failed
 (`exr_last_error()`), and `ql-integration.sh` prints those lines, after the

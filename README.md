@@ -128,7 +128,7 @@ players run natively on macOS, Apple silicon and Intel:
 
 ### Check the download (optional, recommended for an unsigned app)
 
-Every release from 0.3.0 on is built by this repository's GitHub Actions, not
+Every release from 0.3.1 on is built by this repository's GitHub Actions, not
 on anyone's laptop, and GitHub records a signed attestation of exactly which
 commit and workflow produced the DMG. With the
 [GitHub CLI](https://cli.github.com):

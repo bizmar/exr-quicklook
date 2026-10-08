@@ -117,25 +117,42 @@ Look); no fused multiply-add (Intel = Apple silicon to 0.25/255). Details in
 phase1-status.md, newest entries last.
 
 **Goal now: a bulletproof release before the user posts on r/vfx** (few users
-update, so the posted version must be the trustworthy one). Agreed plan, in
-order; the user approved doing 2-4 without further decisions:
+update, so the posted version must be the trustworthy one).
 1. ~~Compatibility matrix~~ done, all green.
-2. **Release 0.3.0 through the new pipeline**: bump the version (three
-   Info.plists), push, push tag `v0.3.0`. CI builds, attests, VirusTotal-scans
-   and drafts. **The release job and the VirusTotal step have never run** --
-   watch the first run closely. Then download the *release asset* (artifact
-   downloads are throttled to <1 KB/s here), install, `Tools/ql-integration.sh`,
-   `gh attestation verify` both predicates, write notes (keep the "Malware
-   scan" section), and publish only on the user's OK.
-3. **README pass as an r/vfx newcomer would read it**: screenshot/GIF of the
-   preview, the Gatekeeper steps made foolproof, verification lines.
-4. **Final fuzz run** on the release candidate (`Tools/fuzz.sh`).
+2. ~~Release pipeline~~ **proven 2026-10-08** on `v0.3.0`: build, attest,
+   draft, VirusTotal (0/61, 14 engines can't read DMGs) and its attestation all
+   worked first time; both `gh attestation verify` checks pass on the
+   downloaded asset; `ql-integration.sh` passes on it on macOS 27.
+   **0.3.0 is never to be published**: its fuzz run found an OpenEXR crash
+   (below). The `v0.3.0` tag and its draft release still exist; deleting them
+   is the user's call (not done).
+3. ~~README pass~~ done: preview screenshot (`docs/images/preview-overlay.jpg`,
+   Sole Mates frame, credited), click-by-click Gatekeeper, verification section,
+   uninstall.
+4. **Fuzz found a crash in OpenEXR 3.4.16's DWA decoder** (null read, crash
+   only; also in 0.2.0): `compute_sampled_height` counts 1 row instead of 0 when
+   y sampling exceeds the chunk height. Rejected in `chunk_within_limits`;
+   fixture `malformed/dwaa-ysampling.exr`; details in phase1-status.md.
+   Reported privately to OpenEXR as **GHSA-hcp5-mx7q-9642** (user approved);
+   watch it, and drop our guard only when a fixed OpenEXR is pinned *and* the
+   fixture still fails cleanly.
+5. **Next: release 0.3.1** = 0.3.0 + the fix + failure-reason logging +
+   README. Version bumped; tag once the clean fuzz run on the fixed build is
+   done. Notes drafted in `dist/RELEASE-NOTES-0.3.1.md` (fill in the hash and
+   the CI's "Malware scan" section; "40-minute fuzz run ... found nothing" must
+   be true). Publish only on the user's OK.
 
 Still open, lower priority:
 - **Untested by hand:** Spotlight, Open/Save dialogs, Finder column view and
   preview pane recheck, a real Intel Mac. Needs the user's hands.
 - **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
-  (plan §6.4).
+  (plan §6.4). The fuzzer links an *unsanitized* OpenEXR, so bad reads inside
+  OpenEXR show only if they segfault; an ASan build of OpenEXR for fuzzing
+  would see more.
+- **Intel compat flake (2026-10-08):** the 6K plate's thumbnail once failed
+  on macos-15-intel with a bare QL error (passed before and after; the plate
+  decodes there in ~690 ms). Extensions now log the reason; if it recurs, read
+  the "failed for" line in the compat log.
 - **Colour, possible follow-ups:** map `colorInteropID` `pq_p3d65_display` /
   `pq_rec2020_display` to the PQ entries (nit level unknown, so not done);
   other writers' colour-space attributes beyond Arnold.
