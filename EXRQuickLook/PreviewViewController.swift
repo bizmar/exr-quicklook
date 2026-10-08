@@ -44,6 +44,11 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
     private var pending: EXRRenderer.Settings?
     private var rendering = false
     private var lastContentSize: NSSize = .zero
+    /// The panel size asked of Quick Look: the image's shape, its longest side
+    /// within these edges, and never smaller than room for the open overlay.
+    private static let maxPanelEdge: CGFloat = 1200
+    private static let minPanelEdge: CGFloat = 720
+    private static let minPanelSize = NSSize(width: 480, height: 420)
     private var renderedWithDataWindow = false
     private var renderedLayer: String?
     // Captured on the main thread at first decode. `source` itself is reassigned
@@ -167,10 +172,16 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
         // Only when it actually changes. Assigning preferredContentSize asks
         // the Quick Look host to resize the panel, which is cross-process; doing
         // it on every exposure tick was a large part of why the UI felt frozen.
+        //
+        // Small images are asked for larger: Quick Look sizes the panel to
+        // this, and a 256x144 frame gave a panel too short for the overlay, which
+        // then hid its buttons (found by hand 2026-10-08). Very wide or tall
+        // images get a minimum box and are letterboxed inside it.
         let longest = CGFloat(max(image.width, image.height))
-        let scale = longest > 1200 ? 1200 / longest : 1
-        let size = NSSize(width: CGFloat(image.width) * scale,
-                          height: CGFloat(image.height) * scale)
+        let scale = longest > Self.maxPanelEdge ? Self.maxPanelEdge / longest
+                  : longest < Self.minPanelEdge ? Self.minPanelEdge / longest : 1
+        let size = NSSize(width: max(CGFloat(image.width) * scale, Self.minPanelSize.width),
+                          height: max(CGFloat(image.height) * scale, Self.minPanelSize.height))
         if abs(size.width - lastContentSize.width) > 0.5 ||
            abs(size.height - lastContentSize.height) > 0.5 {
             lastContentSize = size
@@ -284,11 +295,17 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
             })
         panel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(panel)
+        // Pinned top-right only. Its open bodies are always laid out (opacity,
+        // not isHidden), so the panel is ~300 pt tall even when closed and
+        // taller once the info moves below the controls. Any constraint keeping
+        // it inside the view -- even at high priority, which still beats the
+        // host's window-size priority -- let it grow the *view* past a short
+        // host (a small image's spacebar panel, the column-view pane), and the
+        // host then showed only the view's lower part: no buttons, the image
+        // cut off over black (found by hand 2026-10-08). Now it clips instead.
         NSLayoutConstraint.activate([
             panel.topAnchor.constraint(equalTo: view.topAnchor, constant: 12),
             panel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            panel.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 8),
-            panel.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -8),
         ])
         overlay = panel
     }
