@@ -1198,7 +1198,7 @@ and 1-line compressions (NONE, RLE, ZIPS) take a separate, correct branch.
 Regression: `Tests/Fixtures/malformed/dwaa-ysampling.exr`, the 43-channel AOV
 fixture with one channel's y sampling patched to 144; it crashed the old build
 (signal 11) and is rejected by the new one. Both fuzz crashers are rejected.
-Not yet reported upstream.
+Reported privately to OpenEXR as GHSA-hcp5-mx7q-9642 (2026-10-08).
 
 Also from this release run: the extensions now log *why* a render failed
 (`exr_last_error()`), and `ql-integration.sh` prints those lines, after the
