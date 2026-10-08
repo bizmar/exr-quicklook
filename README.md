@@ -133,8 +133,10 @@ on this repository.
 them. Open a folder you haven't viewed since installing, or log out and back
 in.
 
-Tested on macOS 26 and 27, on Apple silicon. The build is universal (it
-includes Intel), but macOS 14 and 15 and Intel Macs are untested.
+Tested by hand on macOS 26 and 27 (Apple silicon). Every push is also tested
+on GitHub's Macs: **macOS 14, 15 and 26 on Apple silicon, and macOS 15 on
+Intel**, where Quick Look itself renders thumbnails and previews through the
+extensions and the output matches the reference images.
 
 ## Limitations
 
@@ -149,10 +151,10 @@ includes Intel), but macOS 14 and 15 and Intel Macs are untested.
   sequence.
 - **SDR only.** No HDR / EDR output yet.
 - **Not rendered:** deep images, luminance-chroma (`Y`/`RY`/`BY`) files, and
-  files containing only cryptomatte. These keep the generic icon rather than
-  showing something approximate.
-- **Untested:** Spotlight, Open and Save dialogs, macOS 14/15, Intel Macs, and
-  real multi-layer renders from most applications. The full list is in
+  cryptomatte-only files without a preview layer. These keep the generic icon
+  rather than showing something approximate.
+- **Untested:** Spotlight, Open and Save dialogs, Intel Macs by hand (CI only),
+  and real multi-layer renders from most applications. The full list is in
   [docs/TESTING.md](docs/TESTING.md).
 
 ## Build from source

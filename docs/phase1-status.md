@@ -1152,3 +1152,23 @@ Verified on the installed sandboxed app: it logged `update check: upToDate`
 (subsystem `io.github.bizmar.exr-quicklook`, category `update`) with no sandbox
 denial. The CLT lack SwiftUI's macro plugin, so `@State` does not compile;
 the window uses an `ObservableObject` instead.
+
+### Compatibility matrix (2026-10-08)
+
+`.github/workflows/compat.yml`: the app built once as released (macOS 15,
+universal), then on macos-14, macos-15, macos-15-intel and macos-26 the full
+suite natively plus `Tools/ql-integration.sh`, which installs that build,
+enables the extensions with `pluginkit -e use` (CI only -- on the user's Mac
+they switch them on), and has Quick Look render DWAA/DWAB/plate thumbnails and
+previews, each confirmed by an extension log line ("rendered <file>" from the
+thumbnailer, added for this; "prepared <file>" from the previewer). Headless
+CI Macs do run Quick Look extensions; that was the open question.
+
+Found on the first run: Intel rendered `nan-inf.exr` up to 1.9/255 differently.
+Reproduced exactly under Rosetta; cause: arm64 fuses multiply-adds, x86_64's
+baseline cannot. EXRCore now builds with `-ffp-contract=off`: the two agree to
+0.25/255 (libm), no measurable cost. References regenerated (only nan-inf moved
+visibly). Also: ImageRenderer aborts in Metal on the Intel VM, so the window
+snapshot is skipped there.
+
+All green: macOS 14.8.9, 15.7.9 (arm64 and x86_64), 26.6.2.

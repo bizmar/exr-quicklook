@@ -37,6 +37,21 @@ Every render check compares **pixels**, not settings. That rule exists because
 two real bugs (an override that changed nothing, and greyscale layers rendering
 blue) once passed checks that only looked at settings or text.
 
+## On other Macs: the compatibility matrix
+
+Every push, `.github/workflows/compat.yml` builds the app once the way
+releases are built, then on **macOS 14 (Apple silicon), 15 (Apple silicon),
+15 (Intel) and 26 (Apple silicon)**:
+- builds and runs the whole suite above natively, reference images included
+  (Intel matches Apple silicon to 0.25/255 since EXRCore stopped fusing
+  multiply-adds; it differed by 1.9/255 on extreme values before);
+- installs that one app build, switches the extensions on, and has Quick Look
+  render thumbnails and previews of DWAA, DWAB and the camera plate
+  (`Tools/ql-integration.sh`). Each file must show up in the extensions' own
+  log, so a render by macOS's own decoder cannot pass for ours.
+
+First green run 2026-10-08: macOS 14.8.9, 15.7.9 (arm64 and x86_64), 26.6.2.
+
 ## Checked by hand or with probes, on real Quick Look
 
 - Thumbnails and previews served by our extensions, not Apple's, verified with
@@ -50,9 +65,8 @@ blue) once passed checks that only looked at settings or text.
 
 ## Not tested — help wanted
 
-- **macOS 14 and 15.** The app declares macOS 14 as its minimum; only 26 and 27
-  have been run.
-- **Intel Macs.** The build is universal, but the x86_64 half has never run.
+- **Intel Macs, by hand.** CI runs the x86_64 build on macOS 15 Intel (below),
+  but nobody has used it on a real Intel Mac yet.
 - **Spotlight, and Open/Save dialogs.** Whether they use the extensions at all.
 - **Finder's column view and preview pane** on recent macOS. They use the same
   preview code, but have not been rechecked since early development.
@@ -66,16 +80,14 @@ blue) once passed checks that only looked at settings or text.
   wrong in practice (Blender's linear Rec.709, for example) is not known.
 - **Very large files and other Macs.** On an M2 Pro a 4K DWAA frame takes
   77 ms for a thumbnail and 101 ms to first preview paint (budget: 300 / 500 ms),
-  and a 6K DWAA plate 345 / 392 ms (`build/bench`). Base M1/M2 chips, Intel
-  Macs, and 8K/16K frames are unmeasured.
+  and a 6K DWAA plate about 240-290 / 275-336 ms depending on load
+  (`build/bench`). Base M1/M2 chips, Intel Macs, and 8K/16K frames are
+  unmeasured.
 - **Network volumes and slow disks.** Behaviour against the 2-second decode
   deadline.
 - **Multiple displays and wide-gamut or HDR monitors.** Output is SDR Display
   P3, converted by ColorSync; only Apple displays have been looked at.
 - **Continuous fuzzing in CI.** `Tools/fuzz.sh` runs locally; not in CI.
-  Every push runs the full suite in GitHub Actions (macOS 15, Apple silicon),
-  but the extensions themselves can't be exercised there, because CI has no
-  Finder or Quick Look session.
 
 ## Known not to work (by design)
 

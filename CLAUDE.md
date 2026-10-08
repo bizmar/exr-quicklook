@@ -105,34 +105,54 @@ runs on every push, PR and weekly; first run 2026-10-08: 0 alerts.
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 
-### Open loose ends (as of 2026-10-07)
+### Open loose ends (as of 2026-10-08)
 
 Worked through one at a time with the user, each with a recommendation; the
-user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
-docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
-exposure double-click reset dropped, adversarial review (OpenEXR 3.4.16 and
-fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Since then:
-the review's release-process items (SECURITY.md + private reporting; CI-built,
-attested, draft releases; SHA-pinned actions, hash-pinned pip), and the 6K
-thumbnail brought under budget by taller read bands with threads unchanged
-(347 -> 290 ms). See phase1-status.md. **Not yet exercised: the CI release
-job** -- it first runs on the next tag; watch it.
+user decides. **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Since
+then, all pushed: SECURITY.md + private reporting; CI-built, attested, draft
+releases with a VirusTotal scan; SHA-pinned actions, hash-pinned pip; CodeQL;
+6K thumbnail under budget (taller read bands); golden images; in-app update
+check; compatibility matrix (macOS 14/15/26 arm64 + 15 Intel, real Quick
+Look); no fused multiply-add (Intel = Apple silicon to 0.25/255). Details in
+phase1-status.md, newest entries last.
 
-Still open, roughly in priority order:
-- **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder
-  column view / preview pane recheck. Needs the user's hands or other Macs.
-- **Not built:** fuzzing *in CI* (`Tools/fuzz.sh` runs locally),
-  `preview`-attribute / mip-level fast path (plan §6.4).
+**Goal now: a bulletproof release before the user posts on r/vfx** (few users
+update, so the posted version must be the trustworthy one). Agreed plan, in
+order; the user approved doing 2-4 without further decisions:
+1. ~~Compatibility matrix~~ done, all green.
+2. **Release 0.3.0 through the new pipeline**: bump the version (three
+   Info.plists), push, push tag `v0.3.0`. CI builds, attests, VirusTotal-scans
+   and drafts. **The release job and the VirusTotal step have never run** --
+   watch the first run closely. Then download the *release asset* (artifact
+   downloads are throttled to <1 KB/s here), install, `Tools/ql-integration.sh`,
+   `gh attestation verify` both predicates, write notes (keep the "Malware
+   scan" section), and publish only on the user's OK.
+3. **README pass as an r/vfx newcomer would read it**: screenshot/GIF of the
+   preview, the Gatekeeper steps made foolproof, verification lines.
+4. **Final fuzz run** on the release candidate (`Tools/fuzz.sh`).
+
+Still open, lower priority:
+- **Untested by hand:** Spotlight, Open/Save dialogs, Finder column view and
+  preview pane recheck, a real Intel Mac. Needs the user's hands.
+- **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
+  (plan §6.4).
 - **Colour, possible follow-ups:** map `colorInteropID` `pq_p3d65_display` /
   `pq_rec2020_display` to the PQ entries (nit level unknown, so not done);
   other writers' colour-space attributes beyond Arnold.
 - **Layer naming:** no real Redshift/Karma/Octane/Cycles/Unreal/Corona files
   exist openly; ambiguous studio names (`exitdir`, `s_*`) are documented, not handled.
-- The `.xcodeproj` question below is settled in practice: script build only.
-- **Decided 2026-10-08: no shared EXRCore framework.** It would ship the colour
-  tables once (~5 MB off a 19.7 MB DMG), but dynamic loading from the app
-  bundle under ad-hoc signing and the sandbox is new risk for no user-visible
-  gain. Both extensions keep linking EXRCore statically.
+- CodeQL takes ~15-20 min per push: Swift extraction of the SwiftUI host app
+  dominates (measured). Acceptable; superseded runs cancel.
+
+Decided, do not reopen without the user:
+- Script build only, no `.xcodeproj`.
+- **No shared EXRCore framework** (2026-10-08): ~5 MB saving is not worth new
+  dynamic-loading risk under ad-hoc signing and the sandbox.
+- **No Sparkle / auto-installer, no Homebrew cask** (2026-10-08): the window's
+  update notice is the update mechanism. Homebrew dropped casks that fail
+  Gatekeeper from 2026-09-01.
+- **No double-click reset on the exposure slider** (Quick Look owns double-click).
+- **Decode threads stay at 3** (band height was the bottleneck, not threads).
 
 Working with this Mac (learned the hard way, see phase1-status.md):
 - The user switches extensions on/off in System Settings; never do it for them.
@@ -143,6 +163,12 @@ Working with this Mac (learned the hard way, see phase1-status.md):
 - **zsh gotchas** (the Bash tool runs zsh): `log` is a zsh builtin, so use
   `/usr/bin/log show/stream`; and `$VAR` holding several paths is *not* word-
   split, so loop over such lists under `bash -c` or with arrays.
+- **SwiftUI with the Command Line Tools:** `@State` (and other SwiftUI macros)
+  do not compile -- the macro plugin ships only with Xcode. Use
+  `ObservableObject` + `@StateObject`/`@Published`.
+- **CI artifacts download at <1 KB/s on this Mac**; release assets are fast.
+- The `rm -rf` safety check blocks removals inside `bash -c` scripts; write to
+  fresh directories instead of clearing old ones.
 - Downloads: state source, licence and size first. The user granted a 5-10 GB
   budget for the corpus; ~260 MB used (Vendor/corpus/, git-ignored).
 
