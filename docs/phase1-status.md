@@ -1067,8 +1067,8 @@ in CI (still not built), but our code survived it after the fixes above.
 - Third-party actions are pinned by tag, not commit SHA; pip installs in CI
   (numpy, dmgbuild) are unpinned. Build-time only, but they feed the DMG if
   CI ever builds the published release.
-- There is no SECURITY.md, and private vulnerability reporting is not enabled
-  on the repository, so the only reporting route offered is a public issue.
+- ~~There is no SECURITY.md, and private vulnerability reporting is not enabled
+  on the repository.~~ Done 2026-10-08: `SECURITY.md`, reporting enabled.
 - Unsigned by choice: users are told to clear the quarantine flag, which is
   also what a trojaned copy would ask. The SHA-256 in the release notes
   helps only if users check it.

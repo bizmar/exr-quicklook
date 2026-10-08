@@ -90,8 +90,8 @@ user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
 docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
 exposure double-click reset dropped, adversarial review (OpenEXR 3.4.16 and
 fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Open from the
-review, each a decision: SECURITY.md + private vulnerability reporting
-(currently off), CI-built + attested release DMG, SHA-pinned actions; see
+review, each a decision: CI-built + attested release DMG, SHA-pinned actions
+(SECURITY.md + private vulnerability reporting done 2026-10-08); see
 phase1-status.md "Adversarial review".
 
 Still open, roughly in priority order:

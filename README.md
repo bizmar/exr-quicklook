@@ -16,6 +16,7 @@ transform.
 > that. [What is tested, and what isn't](docs/TESTING.md). If you try it,
 > especially on a setup listed there as untested, please
 > [post a test report](https://github.com/bizmar/exr-quicklook/issues/new?template=test-report.yml).
+> Security bugs go through [private reporting](SECURITY.md) instead.
 
 ## Why
 
