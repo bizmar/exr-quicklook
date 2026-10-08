@@ -38,6 +38,12 @@ jobs:
         if: steps.openexr.outputs.cache-hit != 'true'
         run: Tools/build-openexr.sh
 
+      # The generated colour tables (21 MB of numbers) are compiled before
+      # CodeQL starts tracing: there is nothing in them to analyse, and
+      # extracting them dominated the traced build.
+      - name: Pre-build the generated tables (not traced)
+        run: Tools/build-core.sh --arm64-only
+
       - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
         with:
           languages: c-cpp, swift
@@ -45,11 +51,10 @@ jobs:
           queries: security-extended
 
       # One architecture is enough -- the source is the same -- and the
-      # shipped code is what matters. Traced compiles are slow: both
-      # architectures plus the developer CLI took 29 minutes.
+      # shipped code is what matters.
       - name: Build (traced by CodeQL)
         run: |
-          Tools/build-core.sh --arm64-only
+          Tools/build-core.sh --arm64-only --keep-data-object
           Tools/build-app.sh --arm64-only
 
       - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
