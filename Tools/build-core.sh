@@ -4,6 +4,11 @@
 # Produces build/lib/<arch>/libEXRCore.a plus a fat build/lib/libEXRCore.a.
 #
 #   --arm64-only        one architecture
+# -ffp-contract=off: Apple silicon would otherwise fuse multiply-adds, which
+# Intel's baseline cannot, and the two rounded extreme values differently
+# (up to 1.9/255 on nan-inf.exr). Unfused, every Mac renders the same pixels
+# to 0.25/255, at no measurable cost (236 ms either way on the 6K plate).
+#
 #   --keep-data-object  reuse an up-to-date exr_lut_data.o (21 MB of generated
 #                       tables) instead of recompiling it. The CodeQL workflow
 #                       builds it before tracing starts: it is data, and
@@ -45,7 +50,7 @@ for arch in "${ARCHS[@]}"; do
        [ "$d/exr_lut_data.o" -nt "$ROOT/EXRCore/src/exr_lut_data.cpp" ]; then
       continue
     fi
-    c++ -std=c++17 -O2 -fvisibility=hidden -Wall -ffile-prefix-map="$ROOT=." \
+    c++ -std=c++17 -O2 -fvisibility=hidden -Wall -ffile-prefix-map="$ROOT=." -ffp-contract=off \
         -target "$arch-apple-macos$DEPLOY" \
         -I "$ROOT/EXRCore/include" -I "$INS/include" \
         -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \

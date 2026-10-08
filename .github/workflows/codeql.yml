@@ -18,6 +18,11 @@ on:
 permissions:
   contents: read
 
+# A newer push makes an in-flight run of the same branch pointless.
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
     runs-on: macos-15      # Swift analysis needs macOS
@@ -50,11 +55,13 @@ jobs:
           build-mode: manual
           queries: security-extended
 
-      # One architecture is enough -- the source is the same -- and the
-      # shipped code is what matters.
+      # One architecture is enough -- the source is the same -- and only the
+      # shipped code matters, so not the diagnostic helpers. Measured
+      # 2026-10-08: Swift extraction dominates (the SwiftUI host app alone
+      # ~9 minutes), so this job takes a while regardless.
       - name: Build (traced by CodeQL)
         run: |
           Tools/build-core.sh --arm64-only --keep-data-object
-          Tools/build-app.sh --arm64-only
+          Tools/build-app.sh --arm64-only --no-helpers
 
       - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2

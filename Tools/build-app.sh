@@ -23,10 +23,12 @@ DEPLOY=14.0
 
 CONTROL_ONLY=0
 ARCHES=(arm64 x86_64)
+NO_HELPERS=0
 for arg in "$@"; do
   case "$arg" in
     --control-only) CONTROL_ONLY=1 ;;
     --arm64-only)   ARCHES=(arm64) ;;
+    --no-helpers)   NO_HELPERS=1 ;;
     *) echo "unknown option: $arg" >&2; exit 2 ;;
   esac
 done
@@ -168,11 +170,13 @@ codesign --force --sign - --timestamp=none \
 say "Verifying signature"
 codesign --verify --deep --strict --verbose=2 "$APP"
 
-say "Building diagnostic helpers"
-for helper in utitool qlprobe qlpreviewprobe qlpanelprobe; do
-  xcrun swiftc -sdk "$SDK" -target "$(uname -m)-apple-macos$DEPLOY" -O \
-    -o "$BUILD/$helper" "$ROOT/Tools/$helper/main.swift"
-done
+if [ "$NO_HELPERS" = 0 ]; then
+  say "Building diagnostic helpers"
+  for helper in utitool qlprobe qlpreviewprobe qlpanelprobe; do
+    xcrun swiftc -sdk "$SDK" -target "$(uname -m)-apple-macos$DEPLOY" -O \
+      -o "$BUILD/$helper" "$ROOT/Tools/$helper/main.swift"
+  done
+fi
 
 say "Built $APP"
 lipo -archs "$APP/Contents/MacOS/EXRPreview" | sed 's/^/    archs: /'
