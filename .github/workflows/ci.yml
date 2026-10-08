@@ -22,13 +22,13 @@ jobs:
       # baked with (docs/lut-provenance.md).
       OCIO_VERSION: "2.5.1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Pinned OpenEXR + Imath, built universal and static. Slow (~10 min), so
       # cached on the build script, which holds the pinned tags.
       - name: Cache OpenEXR
         id: openexr
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: Vendor/openexr/install
           key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
@@ -40,7 +40,7 @@ jobs:
       # crash corpus the decoder must survive.
       - name: Cache openexr-images
         id: images
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: Vendor/openexr-images
           key: openexr-images-${{ hashFiles('Tools/fetch-openexr-images.sh') }}
@@ -48,7 +48,7 @@ jobs:
         if: steps.images.outputs.cache-hit != 'true'
         run: Tools/fetch-openexr-images.sh
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - name: Install OpenColorIO (build-time only)
@@ -79,7 +79,7 @@ jobs:
 
       - name: Upload release DMG
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-dmg
           path: |
