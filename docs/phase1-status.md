@@ -1072,3 +1072,29 @@ in CI (still not built), but our code survived it after the fixes above.
 - Unsigned by choice: users are told to clear the quarantine flag, which is
   also what a trojaned copy would ask. The SHA-256 in the release notes
   helps only if users check it.
+
+### 6K plates under budget: taller read bands (2026-10-08)
+
+The 6K DWAA thumbnail (347 ms against the 300 ms budget) was an open question
+of whether to raise the decode threads past plan §6.4's 2-4. Measured first:
+
+| Threads | 2 | 3 | 4 | 6 |
+|---|---|---|---|---|
+| 6K thumbnail, 64-line bands | 523 ms | 347 ms | 344 ms | 341 ms |
+
+Past three threads nothing improved, so threads were not the limit. The decode
+read 64 lines per call, and OpenEXR only parallelises the chunks within one
+call; a DWAA chunk is 32 lines, so at most two were ever in flight. With
+256-line bands:
+
+| Band | 3 threads | 4 threads | Peak memory (3 threads) |
+|---|---|---|---|
+| 64 lines | 347 ms | 344 ms | 483 MB |
+| 128 lines | 340 ms | 325 ms | 491 MB |
+| 256 lines | **289 ms** | 278 ms | 500 MB |
+| 512 lines | 288 ms | 256 ms | 527 MB |
+
+Shipped: about 1.5 Mpixel per band, 32 to 256 lines (256 at 6K), threads kept
+at 3. Thumbnail 290 ms, preview 336 ms (was 392). Renders are byte-identical
+to the 64-line version (6K plate at full resolution and five fixtures): rows
+are still accumulated in the same order. The thread count needs no decision now.

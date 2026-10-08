@@ -98,13 +98,12 @@ user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
 docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
 exposure double-click reset dropped, adversarial review (OpenEXR 3.4.16 and
 fixes). **0.2.0 released 2026-10-08** (DMG sha256 41c594ee...). Open from the
-review: all done 2026-10-08 (SECURITY.md + private reporting; CI-built,
+review: all done 2026-10-08. 6K thumbnail now under budget (adaptive read
+bands, 3 threads unchanged: 347 -> 290 ms); the security items from the (SECURITY.md + private reporting; CI-built,
 attested, draft releases; SHA-pinned actions, hash-pinned pip); see
 phase1-status.md "Adversarial review".
 
 Still open, roughly in priority order:
-- **Decode threads for 6K plates** (6K DWAA thumbnail 345 ms vs the 4K budget
-  of 300). Plan §6.4 says 2-4 threads; currently 3 -- raising it is the user's call.
 - **Shared EXRCore framework** for the two extensions, so the colour tables
   ship once (~5 MB off the 19.7 MB DMG). Structural; not started.
 - **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder

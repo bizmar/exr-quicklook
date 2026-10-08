@@ -60,9 +60,15 @@ private:
     std::chrono::steady_clock::time_point end_;
 };
 
-// Scanlines per read. Small enough that the deadline is checked often, large
-// enough that OpenEXR's own threading still has work to chew on.
-constexpr int64_t kBandHeight = 64;
+// Scanlines per read, as a pixel budget. OpenEXR decodes the chunks of one
+// read in parallel, and a DWAA chunk is 32 lines, so a 64-line band kept at
+// most two chunks in flight: on a 6K DWAA plate 256 lines took the thumbnail
+// from 347 to 289 ms with the same three threads (2026-10-08). Bounded both
+// ways so a very wide image does not allocate a huge band, and the deadline is
+// still checked every few tens of milliseconds.
+constexpr int64_t kBandPixels = 1'536'000;   // ~6K x 256
+constexpr int64_t kMinBandHeight = 32;
+constexpr int64_t kMaxBandHeight = 256;
 
 }  // namespace
 
@@ -120,8 +126,10 @@ bool decode_layer(const std::string& path, const FileInfo& info,
         error = "output buffer exceeds memory ceiling";
         return false;
     }
+    const int64_t band_height =
+        std::clamp<int64_t>(kBandPixels / dw_w, kMinBandHeight, kMaxBandHeight);
     int64_t band_samples_checked = 0;
-    if (!checked_mul(dw_w, kBandHeight, band_samples_checked) ||
+    if (!checked_mul(dw_w, band_height, band_samples_checked) ||
         !buffer_bytes(band_samples_checked, 4, sizeof(float), band_bytes)) {
         error = "band buffer exceeds memory ceiling";
         return false;
@@ -174,9 +182,9 @@ bool decode_layer(const std::string& path, const FileInfo& info,
         // The band loop below simply does not execute, leaving the zero-filled
         // output, which is exactly that. Rejecting here was tried and was wrong.
         Deadline deadline(Limits::kDeadlineMillis);
-        for (int64_t y0 = y_begin; y0 <= y_end; y0 += kBandHeight) {
+        for (int64_t y0 = y_begin; y0 <= y_end; y0 += band_height) {
             if (deadline.expired()) { error = "decode deadline exceeded"; return false; }
-            const int64_t y1 = std::min<int64_t>(y0 + kBandHeight - 1, y_end);
+            const int64_t y1 = std::min<int64_t>(y0 + band_height - 1, y_end);
 
             std::fill(pr.begin(), pr.end(), 0.0f);
             std::fill(pg.begin(), pg.end(), 0.0f);
