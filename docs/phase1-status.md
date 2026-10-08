@@ -1206,3 +1206,17 @@ Also from this release run: the extensions now log *why* a render failed
 (`exr_last_error()`), and `ql-integration.sh` prints those lines, after the
 Intel compatibility runner returned an unexplained thumbnail error for the 6K
 plate (passed on the previous commit).
+
+### Fuzzing with a sanitized OpenEXR (2026-10-08)
+
+The DWA crash above was caught only because it read address 0: the fuzzer
+linked the release OpenEXR, so a bad read or write *inside* OpenEXR that does
+not segfault went unseen. `Tools/build-openexr-asan.sh` builds the same pinned
+sources with ASan + UBSan (this Mac's architecture, ~20 s, fuzzing only), and
+`Tools/fuzz.sh` links it when present, with UBSan halting on error.
+
+First run: within minutes UBSan flagged `ImfInputFile.cpp:417`, the frame
+buffer's base-pointer-minus-origin idiom wrapping for a negative data window
+(x = -256). Benign and universal (our own `point_slice` does the same), so it
+is suppressed by file and check only (`Tools/fuzz/ubsan-openexr.supp`, with the
+reason). Then 40 min, 6 workers: 3.43 M inputs, no reports.

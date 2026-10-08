@@ -147,9 +147,8 @@ Still open, lower priority:
 - **Untested by hand:** Spotlight, Open/Save dialogs, Finder column view and
   preview pane recheck, a real Intel Mac. Needs the user's hands.
 - **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
-  (plan §6.4). The fuzzer links an *unsanitized* OpenEXR, so bad reads inside
-  OpenEXR show only if they segfault; an ASan build of OpenEXR for fuzzing
-  would see more.
+  (plan §6.4). `fuzz.sh` now links a sanitized OpenEXR when
+  `Tools/build-openexr-asan.sh` has been run (2026-10-08).
 - **Intel compat flake (2026-10-08):** the 6K plate's thumbnail once failed
   on macos-15-intel with a bare QL error (passed before and after; the plate
   decodes there in ~690 ms). Extensions now log the reason; if it recurs, read
@@ -318,6 +317,7 @@ Tools/corpus/manifest.py       # -> Tests/Fixtures/realworld/ (names only), used
 
 build/bench <files>            # thumbnail / preview / exposure timings vs the §6.7 budget
 Tools/fuzz.sh [secs] [workers]  # ASan+UBSan mutation fuzzer over the public API; crashers -> build/fuzz/crashes
+Tools/build-openexr-asan.sh    # sanitized OpenEXR for fuzz.sh (used automatically when built)
 build/qlprobe <files>          # headless: classify QL thumbnails by colour
 build/qlpreviewprobe <files>   # headless: drive a real QLPreviewView
 build/qlpanelprobe <files>     # the real spacebar panel, stepping items like ↓

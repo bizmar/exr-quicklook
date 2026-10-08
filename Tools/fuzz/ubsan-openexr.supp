@@ -1,0 +1,9 @@
+# UBSan reports inside OpenEXR that are its intended idiom, not faults.
+# Used by Tools/fuzz.sh with the sanitized OpenEXR. Keep each entry narrow
+# and say why it is benign.
+
+# The frame-buffer convention: a slice's base pointer is the buffer minus the
+# data window origin, which lands outside the allocation (and here wraps) for
+# a negative window. Every EXR reader does this; the address is never
+# dereferenced out of range. Found 2026-10-08, PXR24 tiled file, x = -256.
+pointer-overflow:ImfInputFile.cpp

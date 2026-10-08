@@ -31,6 +31,7 @@ All of these pass as of 2026-10-08, on macOS 27.0.1, Apple silicon.
 | Golden images | Every fixture and the real camera plate, rendered at 256 px in the default view and in Raw, against reference PNGs in `Tests/Golden` (1/255 tolerance). Any pixel change shows up as a reviewable image diff; files that must not render stay rejected | 72 renders |
 | Update check | Version comparison, refusing links outside this repository's releases, drafts and pre-releases, garbage answers; one live call to GitHub; the app window rendered in every update state | 12 checks + live + 3 renders |
 | Hostile input | A file swapped between header read and decode is refused (it once overflowed a buffer); text in a file cannot forge info-panel rows or reorder text; a 2,000-layer file gets a bounded menu. Found in the [adversarial review](phase1-status.md#adversarial-review-2026-10-08), which also ran a sanitizer fuzzer over 370,000 mutated files | 10 checks |
+| Fuzzing | `Tools/fuzz.sh`: mutated fixtures through the public API under AddressSanitizer and UBSan, our code *and* OpenEXR itself sanitized. Found one OpenEXR crash, fixed in 0.3.1 | 0.3.1: 4.05 M inputs, then 3.43 M with OpenEXR sanitized; no crashes |
 | ACES tables | The baked LUTs re-bake to the same hashes, and the shipped runtime matches OCIO within tolerance | hash + numeric |
 
 Every render check compares **pixels**, not settings. That rule exists because

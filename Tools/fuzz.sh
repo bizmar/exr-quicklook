@@ -3,9 +3,13 @@
 #   Tools/fuzz.sh [seconds=300] [workers=4]
 # Seeds: the fixture corpus plus small openexr-images files if fetched.
 # Crashers (input + report) are kept in build/fuzz/crashes/.
+# Links the sanitized OpenEXR from Tools/build-openexr-asan.sh when it exists,
+# so faults inside OpenEXR are caught too, UB included; otherwise the release
+# build, where only a segfault shows.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-INS="$ROOT/Vendor/openexr/install"
+INS="$ROOT/Vendor/openexr/install-asan"
+[ -f "$INS/lib/libOpenEXR-3_4.a" ] || INS="$ROOT/Vendor/openexr/install"
 OUT="$ROOT/build/fuzz"
 SECS="${1:-300}"; WORKERS="${2:-4}"
 [ -f "$INS/lib/libOpenEXR-3_4.a" ] || { echo "Run Tools/build-openexr.sh first." >&2; exit 1; }
@@ -22,13 +26,13 @@ seeds=()
 while IFS= read -r f; do seeds+=("$f"); done < <(
   find "$ROOT/Tests/Fixtures/corpus" "$ROOT/Tests/Fixtures/spike" -name '*.exr' -size -2M
   find "$ROOT/Vendor/openexr-images" -name '*.exr' -size -300k 2>/dev/null | head -80)
-echo "${#seeds[@]} seeds, $WORKERS workers, ${SECS}s"
+echo "${#seeds[@]} seeds, $WORKERS workers, ${SECS}s, OpenEXR from $(basename "$INS")"
 
 for w in $(seq 1 "$WORKERS"); do
   (
     end=$((SECONDS + SECS)); n=0
     while [ $SECONDS -lt $end ]; do
-      if ! ASAN_OPTIONS=detect_leaks=0:abort_on_error=1 UBSAN_OPTIONS=print_stacktrace=1 \
+      if ! ASAN_OPTIONS=detect_leaks=0:abort_on_error=1 UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1:suppressions="$ROOT/Tools/fuzz/ubsan-openexr.supp" \
            "$OUT/fuzz" "$OUT/work$w.exr" $((end - SECONDS)) "$RANDOM$w" "${seeds[@]}" \
            > "$OUT/log$w.txt" 2>&1; then
         n=$((n + 1))
