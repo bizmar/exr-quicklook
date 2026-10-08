@@ -101,8 +101,12 @@ players run natively on macOS, Apple silicon and Intel:
    ```bash
    gh attestation verify EXR-Quick-Look-<version>.dmg -R bizmar/exr-quicklook
    ```
-   (Releases after 0.2.0. 0.2.0 and earlier were built by hand and carry only
-   a SHA-256.)
+   Each release's notes also link a [VirusTotal](https://www.virustotal.com)
+   scan of the DMG by ~70 antivirus engines, run and attested by CI. A clean
+   scan means no engine knows anything bad about the file; it is not a
+   guarantee, which is why the build attestation above matters more.
+   (Both from releases after 0.2.0. 0.2.0 and earlier were built by hand and
+   carry only a SHA-256.)
 2. Open the app once. macOS will refuse at first. Either:
    - open **System Settings → Privacy & Security**, scroll down, and click
      **Open Anyway** next to EXR Quick Look; or

@@ -91,7 +91,11 @@ downloads are fast here; *artifact* downloads are throttled to <1 KB/s),
 install it, run `build/qlprobe` / `build/qlpreviewprobe`, check
 `gh attestation verify`, write the notes, and publish only on the user's OK.
 Actions are pinned by commit SHA, pip installs by hash
-(`Tools/ci-requirements.txt`, `Tools/dmg-requirements.txt`).
+(`Tools/ci-requirements.txt`, `Tools/dmg-requirements.txt`). The release job
+also uploads the DMG to VirusTotal (`Tools/virustotal.sh`), attests the result
+and appends a "Malware scan" section to the draft notes -- keep it when writing
+the final notes. Needs the `VT_API_KEY` repository secret, which only the user
+can create (their free VirusTotal account); without it the scan is skipped.
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 

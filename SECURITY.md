@@ -36,6 +36,10 @@ best-effort basis, usually within days, not hours. Fixes ship in a new
 release, and only the **latest release** is fixed. You'll be credited in the
 release notes unless you'd rather not be.
 
+Releases after 0.2.0 are built by CI, with an attestation tying each DMG to
+this repository and a VirusTotal scan whose result is attested too; see the
+README's install section for how to check both.
+
 How the code defends itself (checked arithmetic, hard limits, a decode
 deadline) and what a past review found are described in
 [docs/phase1-status.md](docs/phase1-status.md#adversarial-review-2026-10-08).
