@@ -5,15 +5,17 @@
 # EXR Quick Look
 
 [![CI](https://github.com/bizmar/exr-quicklook/actions/workflows/ci.yml/badge.svg)](https://github.com/bizmar/exr-quicklook/actions/workflows/ci.yml)
+[![Compatibility](https://github.com/bizmar/exr-quicklook/actions/workflows/compat.yml/badge.svg)](https://github.com/bizmar/exr-quicklook/actions/workflows/compat.yml)
 
 Finder thumbnails and Quick Look previews for modern OpenEXR files on macOS:
 DWAA/DWAB, multi-part and multi-layer, rendered through the ACES 2.0 output
 transform.
 
 > [!NOTE]
-> **Disclaimer:** built and vibecoded with Claude Code. It works for my own
-> production files on macOS 26 and 27, but has not been tested much beyond
-> that. [What is tested, and what isn't](docs/TESTING.md). If you try it,
+> **Disclaimer:** built and vibecoded with Claude Code. I use it on my own
+> production files on macOS 26 and 27, and every change is tested automatically
+> on macOS 14, 15 and 26, Apple silicon and Intel, but few people have tried it
+> yet. [What is tested, and what isn't](docs/TESTING.md). If you try it,
 > especially on a setup listed there as untested, please
 > [post a test report](https://github.com/bizmar/exr-quicklook/issues/new?template=test-report.yml).
 > Security bugs go through [private reporting](SECURITY.md) instead.
@@ -61,6 +63,8 @@ overscan:
 
 ### The preview overlay
 
+![The spacebar preview of a Sole Mates render, with the display options open](docs/images/preview-overlay.jpg)
+
 Press Space on an EXR. Two buttons sit in the corner:
 
 - **Display options**: exposure, RGB or alpha, layer and part, view transform
@@ -88,39 +92,61 @@ players run natively on macOS, Apple silicon and Intel:
 ## Install
 
 > **The app is not signed or notarised.** This project has no Apple Developer
-> account and won't have one, so macOS will warn the first time you open it.
+> account and won't have one, so macOS blocks it the first time. The steps
+> below get past that once; after that it behaves like any other app.
 
-1. Download `EXR-Quick-Look-<version>.dmg` from the
-   [latest release](https://github.com/bizmar/exr-quicklook/releases/latest),
-   open it, and drag **EXR Quick Look** onto the **Applications** folder in the
+1. **Download** `EXR-Quick-Look-<version>.dmg` from the
+   [latest release](https://github.com/bizmar/exr-quicklook/releases/latest).
+   Open it and drag **EXR Quick Look** onto the **Applications** folder in the
    window.
+2. **Open the app once.** Double-click it in Applications. macOS says it
+   cannot check or verify the app; click **Done** or **OK** (not Move to
+   Trash). Then:
+   1. open **System Settings → Privacy & Security** and scroll down to
+      **Security**;
+   2. next to *"EXR Quick Look" was blocked*, click **Open Anyway**, and enter
+      your password;
+   3. click **Open Anyway** once more in the dialog that follows.
 
-   Optional, but worth it for an unsigned app: check the download was built
-   from this repository by its CI and not altered since. With the
-   [GitHub CLI](https://cli.github.com):
+   The app's window opens. You only do this once.
+
+   <details>
+   <summary>Prefer Terminal? One command instead.</summary>
+
    ```bash
-   gh attestation verify EXR-Quick-Look-<version>.dmg -R bizmar/exr-quicklook
+   xattr -dr com.apple.quarantine "/Applications/EXR Quick Look.app"
    ```
-   Each release's notes also link a [VirusTotal](https://www.virustotal.com)
-   scan of the DMG by ~70 antivirus engines, run and attested by CI. A clean
-   scan means no engine knows anything bad about the file; it is not a
-   guarantee, which is why the build attestation above matters more.
-   (Both from releases after 0.2.0. 0.2.0 and earlier were built by hand and
-   carry only a SHA-256.)
-2. Open the app once. macOS will refuse at first. Either:
-   - open **System Settings → Privacy & Security**, scroll down, and click
-     **Open Anyway** next to EXR Quick Look; or
-   - remove the quarantine flag in Terminal:
-     ```bash
-     xattr -dr com.apple.quarantine "/Applications/EXR Quick Look.app"
-     ```
+   Then double-click the app. (Right-click → **Open** no longer bypasses this
+   on macOS 15 and later; Apple removed that shortcut.)
+   </details>
+3. **Turn the extensions on.** The app's window has a button that takes you
+   there: **System Settings → General → Login Items & Extensions**, scroll to
+   **Extensions**, and open **Quick Look** (or **EXR Quick Look**, if the list
+   is sorted by app). Switch on both **EXR Quick Look Preview** and
+   **EXR Quick Look Thumbnail**.
+4. **Try it.** Select an EXR in Finder and press Space.
 
-   The old shortcut of right-clicking the app and choosing **Open** only works
-   on macOS 14 and earlier. Apple removed it in macOS 15.
-3. Turn the extensions on: **System Settings → General → Login Items &
-   Extensions**, find **EXR Quick Look Extensions**, and switch on both
-   **EXR Quick Look Preview** and **EXR Quick Look Thumbnail**. The app's window
-   has a button that opens this pane.
+### Check the download (optional, recommended for an unsigned app)
+
+Every release from 0.3.0 on is built by this repository's GitHub Actions, not
+on anyone's laptop, and GitHub records a signed attestation of exactly which
+commit and workflow produced the DMG. With the
+[GitHub CLI](https://cli.github.com):
+
+```bash
+gh attestation verify EXR-Quick-Look-<version>.dmg -R bizmar/exr-quicklook
+```
+
+It should print `✓ Verification succeeded!` and name
+`.github/workflows/ci.yml@refs/tags/v<version>` as the build workflow. Any
+change to the file after the build makes it fail. Each release's notes also
+link a [VirusTotal](https://www.virustotal.com) scan of the same DMG by about
+60 antivirus engines, run by CI and attested too. A clean scan means no engine knows
+anything bad about the file; it is not a guarantee, which is why the build
+attestation matters more. (0.2.0 and earlier were built by hand and carry only
+a SHA-256.)
+
+### After installing
 
 **Updates.** The app's window checks GitHub for a newer release when you open
 it, and offers a link if there is one; it downloads and installs nothing
@@ -132,6 +158,16 @@ on this repository.
 **Thumbnails already in Finder may not change straight away.** macOS caches
 them. Open a folder you haven't viewed since installing, or log out and back
 in.
+
+**Still a generic icon?** Check both switches in step 3 are on. A few kinds of
+file deliberately keep the generic icon (deep images, luminance-chroma); see
+[Limitations](#limitations).
+
+**Uninstall:** drag **EXR Quick Look** from Applications to the Trash. The
+extensions live inside the app and go with it. The only other trace is the
+small settings folder macOS keeps for every sandboxed app, in
+`~/Library/Containers/io.github.bizmar.exr-quicklook*`, which you can delete
+too.
 
 Tested by hand on macOS 26 and 27 (Apple silicon). Every push is also tested
 on GitHub's Macs: **macOS 14, 15 and 26 on Apple silicon, and macOS 15 on
@@ -183,7 +219,7 @@ OpenJPH, libdeflate) and their licences are listed in
 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). ACES tables are generated
 with [OpenColorIO](https://opencolorio.org).
 
-Comparison images: NAS Sole Mates - HDR Production Example Copyright 2025
+Comparison and preview images: NAS Sole Mates - HDR Production Example Copyright 2025
 Netflix, Inc. All rights reserved. Used under the ASWF Digital Assets License
 v1.1; details and how the images differ from the original are in
 [`docs/images/CREDITS.md`](docs/images/CREDITS.md).

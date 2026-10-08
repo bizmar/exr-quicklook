@@ -53,8 +53,9 @@ EXR Quick Look $VERSION
 2. Open it once. macOS will block it because it is not notarised. Then either
    - System Settings > Privacy & Security > scroll down > Open Anyway, or
    - in Terminal: xattr -dr com.apple.quarantine "/Applications/EXR Quick Look.app"
-3. System Settings > General > Login Items & Extensions > EXR Quick Look
-   Extensions: switch on both Preview and Thumbnail.
+3. System Settings > General > Login Items & Extensions > Extensions >
+   Quick Look (or EXR Quick Look, sorted by app): switch on both Preview and
+   Thumbnail. The app's window has a button that opens this pane.
 
 Existing Finder thumbnails may not change until you open a folder you have not
 viewed since installing, or log out and back in.

@@ -16,6 +16,14 @@ are otherwise unchanged. The left-hand panels show macOS's built-in rendering,
 the right-hand panels EXR Quick Look's. The source frames are not
 redistributed in this repository.
 
+## Preview screenshot (`preview-overlay.jpg`)
+
+Derived from the same asset: frame 1037 of
+`exr_sequences/unh0400_0010_lighting`, as shown by EXR Quick Look in the macOS
+Quick Look panel with its display options open. A window screenshot,
+downscaled to 1400 px wide and JPEG-compressed; the source frame is not
+redistributed.
+
 The use of these images does not imply endorsement by, sponsorship by, or
 affiliation with the copyright holder.
 
