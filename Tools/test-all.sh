@@ -69,6 +69,16 @@ c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_golden.cpp build/lib/li
 # After a deliberate pixel change: add --update, then review the changed PNGs.
 build/test_golden Tests/Golden Tests/Fixtures/corpus Tests/Fixtures/real Tests/Fixtures/spike
 
+hr "update checker (host app)"
+xcrun swiftc -parse-as-library -O EXRPreview/UpdateChecker.swift Tools/test-update-checker.swift \
+    -o build/test_update_checker
+build/test_update_checker
+
+hr "window renders in every update state"
+xcrun swiftc -parse-as-library -D SNAPSHOT EXRPreview/EXRPreviewApp.swift EXRPreview/UpdateChecker.swift \
+    Tools/snapshot-window.swift -o build/snapshot-window
+mkdir -p build/snapshots && build/snapshot-window build/snapshots
+
 hr "hostile input: file swap, forged info rows, layer flood"
 mkdir -p build/hostile
 c++ -std=c++17 -O1 -I EXRCore/include -I "$INS/include" -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \

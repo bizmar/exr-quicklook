@@ -122,6 +122,13 @@ players run natively on macOS, Apple silicon and Intel:
    **EXR Quick Look Preview** and **EXR Quick Look Thumbnail**. The app's window
    has a button that opens this pane.
 
+**Updates.** The app's window checks GitHub for a newer release when you open
+it, and offers a link if there is one; it downloads and installs nothing
+itself. That one request to `api.github.com` is the only network access in the
+project: the Quick Look extensions have none. Turn it off in the window. To
+hear about releases without opening the app, use **Watch → Custom → Releases**
+on this repository.
+
 **Thumbnails already in Finder may not change straight away.** macOS caches
 them. Open a folder you haven't viewed since installing, or log out and back
 in.

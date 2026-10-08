@@ -96,6 +96,10 @@ also uploads the DMG to VirusTotal (`Tools/virustotal.sh`), attests the result
 and appends a "Malware scan" section to the draft notes -- keep it when writing
 the final notes. Needs the `VT_API_KEY` repository secret, which only the user
 can create (their free VirusTotal account); set 2026-10-08.
+**Update check (2026-10-08):** the host app window asks the GitHub releases API
+once when opened (`EXRPreview/UpdateChecker.swift`; network entitlement on the
+host app only), shows a banner linking the release page, installs nothing.
+Off switch in the window. Logged as `io.github.bizmar.exr-quicklook:update`.
 CodeQL (`.github/workflows/codeql.yml`, security-extended, C++ and Swift)
 runs on every push, PR and weekly; first run 2026-10-08: 0 alerts.
 The real plate was published with its serials and capture timestamps stripped
@@ -136,6 +140,9 @@ Working with this Mac (learned the hard way, see phase1-status.md):
   ignores SIGTERM and can hold stale extension state after re-registration;
   the cure is a log-out. `Tools/install.sh` now verifies both extensions
   registered (a pluginkit race once dropped one silently).
+- **zsh gotchas** (the Bash tool runs zsh): `log` is a zsh builtin, so use
+  `/usr/bin/log show/stream`; and `$VAR` holding several paths is *not* word-
+  split, so loop over such lists under `bash -c` or with arrays.
 - Downloads: state source, licence and size first. The user granted a 5-10 GB
   budget for the corpus; ~260 MB used (Vendor/corpus/, git-ignored).
 

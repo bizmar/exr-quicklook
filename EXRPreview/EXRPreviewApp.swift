@@ -1,6 +1,10 @@
 import SwiftUI
 
+// Tools/snapshot-window.swift renders the window to an image with its own
+// entry point, so it builds this file with -D SNAPSHOT.
+#if !SNAPSHOT
 @main
+#endif
 struct EXRPreviewApp: App {
     var body: some Scene {
         Window("EXR Quick Look", id: "main") {
@@ -31,9 +35,23 @@ struct AppWindow: View {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—"
     }
 
+    /// One look at GitHub's latest release each time the window opens, unless
+    /// turned off below. See UpdateChecker for what is and is not done.
+    /// (An ObservableObject rather than @State: the Command Line Tools lack the
+    /// SwiftUI macro plugin that @State needs in current SDKs.)
+    @AppStorage(UpdateChecker.enabledKey) private var checkForUpdates = true
+    @StateObject private var updates: UpdateState
+
+    init(updates: UpdateState = UpdateState()) {
+        _updates = StateObject(wrappedValue: updates)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             header
+            if case .available(let release) = updates.outcome {
+                updateBanner(release)
+            }
             Divider()
             enablingSection
             Divider()
@@ -42,6 +60,41 @@ struct AppWindow: View {
             notesSection
         }
         .padding(22)
+        .task(id: checkForUpdates) {
+            guard checkForUpdates else { updates.outcome = nil; return }
+            updates.checking = true
+            updates.outcome = await UpdateChecker.check(current: version)
+            updates.checking = false
+        }
+    }
+
+    private var updateStatus: String {
+        guard checkForUpdates else { return "" }
+        if updates.checking { return " · checking for updates…" }
+        switch updates.outcome {
+        case .upToDate: return " · up to date"
+        case .failed: return " · could not check for updates"
+        case .available, nil: return ""
+        }
+    }
+
+    private func updateBanner(_ release: UpdateChecker.Release) -> some View {
+        HStack(alignment: .center, spacing: 12) {
+            Image(systemName: "arrow.down.circle.fill")
+                .font(.title2).foregroundStyle(.tint)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Version \(release.version) is available").font(.callout.weight(.semibold))
+                Text("Download it from GitHub and install it like the first time. "
+                     + "macOS will ask you to approve it again.")
+                    .font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 8)
+            Button("What's new & download") { NSWorkspace.shared.open(release.page) }
+                .keyboardShortcut(.defaultAction)
+        }
+        .padding(12)
+        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: 8))
     }
 
     private var header: some View {
@@ -55,7 +108,7 @@ struct AppWindow: View {
                      + "the ACES 2.0 output transform.")
                     .font(.callout).foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                Text("Version \(version)")
+                Text("Version \(version)\(updateStatus)")
                     .font(.caption).foregroundStyle(.tertiary)
             }
         }
@@ -110,6 +163,14 @@ struct AppWindow: View {
             tip("exclamationmark.triangle",
                 "Deep images, and files that fail to decode, keep the generic icon "
                 + "rather than showing something approximate.")
+            Toggle(isOn: $checkForUpdates) {
+                Text("Check GitHub for a newer version when this window opens. "
+                     + "Only this window does; the Quick Look extensions never use the network.")
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .font(.callout)
+            .foregroundStyle(.secondary)
+            .padding(.top, 4)
         }
     }
 
@@ -122,4 +183,10 @@ struct AppWindow: View {
         .font(.callout)
         .foregroundStyle(.secondary)
     }
+}
+
+/// Written only from the view's .task, which runs on the main actor.
+final class UpdateState: ObservableObject {
+    @Published var outcome: UpdateChecker.Outcome?
+    @Published var checking = false
 }

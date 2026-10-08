@@ -1130,3 +1130,25 @@ notarisation:
   is analysed. First run: 98 C++ and 30 Swift queries, **0 alerts**. Traced
   builds are slow (29 min for both architectures plus the CLI), so it now
   traces arm64 and the shipped code only.
+
+### Update check (2026-10-08)
+
+Asked for by the user. Options weighed: Sparkle (embedded framework and XPC
+helpers, against the no-framework decision; its documented route assumes a
+Developer ID; and a silent self-installer is a high-value target), a Homebrew
+cask (Homebrew announced the end of casks that fail Gatekeeper from
+2026-09-01), and a notice in the app window. Chosen: the notice.
+
+`EXRPreview/UpdateChecker.swift`: when the window opens, one ephemeral HTTPS
+request to the GitHub "latest release" API (no cookies or cache, 10 s
+timeout). A newer numeric version shows a banner whose button opens the
+release page; nothing is downloaded. Links outside
+`github.com/bizmar/exr-quicklook/releases/`, drafts, pre-releases and
+malformed answers are refused and the check fails quietly. Off switch in the
+window (the host app's own defaults, which work unsigned). The network
+entitlement is on the host app only; the extensions still have none.
+
+Verified on the installed sandboxed app: it logged `update check: upToDate`
+(subsystem `io.github.bizmar.exr-quicklook`, category `update`) with no sandbox
+denial. The CLT lack SwiftUI's macro plugin, so `@State` does not compile;
+the window uses an `ObservableObject` instead.

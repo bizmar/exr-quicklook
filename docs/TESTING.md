@@ -29,6 +29,7 @@ All of these pass as of 2026-10-08, on macOS 27.0.1, Apple silicon.
 | PQ HDR masters | The P3-D65 / Rec.2100 PQ inputs reproduce OCIO's full chain (PQ → inverse ACES 2.0 HDR → SDR) within 2/255; exposure acts after the inverse; Raw is untouched. Also checked by eye on Netflix's Cosmos Laundromat and Nocturne | 12 byte comparisons |
 | Colour tags | `colorInteropID` and `arnold/color_space` are honoured in the right order (aliases, Arnold's `linear`), and display or unknown names are ignored | 22 byte comparisons |
 | Golden images | Every fixture and the real camera plate, rendered at 256 px in the default view and in Raw, against reference PNGs in `Tests/Golden` (1/255 tolerance). Any pixel change shows up as a reviewable image diff; files that must not render stay rejected | 72 renders |
+| Update check | Version comparison, refusing links outside this repository's releases, drafts and pre-releases, garbage answers; one live call to GitHub; the app window rendered in every update state | 12 checks + live + 3 renders |
 | Hostile input | A file swapped between header read and decode is refused (it once overflowed a buffer); text in a file cannot forge info-panel rows or reorder text; a 2,000-layer file gets a bounded menu. Found in the [adversarial review](phase1-status.md#adversarial-review-2026-10-08), which also ran a sanitizer fuzzer over 370,000 mutated files | 10 checks |
 | ACES tables | The baked LUTs re-bake to the same hashes, and the shipped runtime matches OCIO within tolerance | hash + numeric |
 
