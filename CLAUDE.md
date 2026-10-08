@@ -83,7 +83,9 @@ config. This Mac has no SSH keys, so push over HTTPS with the `gh` login
 without touching global config:
 `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
 **Released 0.1.0** 2026-10-06 and **0.2.0** 2026-10-08 as styled DMGs,
-built locally with `Tools/package-release.sh`.
+built locally with `Tools/package-release.sh`; **0.3.1** 2026-10-08, the
+first built, attested and scanned by CI (DMG sha256 f2c4027e...). There is no
+0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
 push, then push a `v*` tag. CI builds the DMG, attests its provenance and
 attaches it to a **draft** release. Download that exact asset (release
@@ -123,9 +125,8 @@ update, so the posted version must be the trustworthy one).
    draft, VirusTotal (0/61, 14 engines can't read DMGs) and its attestation all
    worked first time; both `gh attestation verify` checks pass on the
    downloaded asset; `ql-integration.sh` passes on it on macOS 27.
-   **0.3.0 is never to be published**: its fuzz run found an OpenEXR crash
-   (below). The `v0.3.0` tag and its draft release still exist; deleting them
-   is the user's call (not done).
+   0.3.0 was never published: its fuzz run found an OpenEXR crash (below);
+   its draft and tag were deleted with the user's OK.
 3. ~~README pass~~ done: preview screenshot (`docs/images/preview-overlay.jpg`,
    Sole Mates frame, credited), click-by-click Gatekeeper, verification section,
    uninstall.
@@ -136,11 +137,11 @@ update, so the posted version must be the trustworthy one).
    Reported privately to OpenEXR as **GHSA-hcp5-mx7q-9642** (user approved);
    watch it, and drop our guard only when a fixed OpenEXR is pinned *and* the
    fixture still fails cleanly.
-5. **Next: release 0.3.1** = 0.3.0 + the fix + failure-reason logging +
-   README. Version bumped; tag once the clean fuzz run on the fixed build is
-   done. Notes drafted in `dist/RELEASE-NOTES-0.3.1.md` (fill in the hash and
-   the CI's "Malware scan" section; "40-minute fuzz run ... found nothing" must
-   be true). Publish only on the user's OK.
+5. ~~Release 0.3.1~~ **published 2026-10-08** (fix + failure-reason logging +
+   README). Verified before publishing: hash, both attestations, VirusTotal
+   0/58, `ql-integration.sh` on macOS 27, the crash fixture rejected by the
+   installed extension, 40-min fuzz on the fix clean (4.05 M inputs).
+   This is the version for the r/vfx post.
 
 Still open, lower priority:
 - **Untested by hand:** Spotlight, Open/Save dialogs, Finder column view and
