@@ -1,0 +1,53 @@
+# CodeQL static analysis of our own C++ (EXRCore, the tests and tools it
+# builds) and Swift (app and extensions), on every push, every pull request
+# and weekly, so new CodeQL queries also run over unchanged code. Alerts appear
+# under Security -> Code scanning. Free for public repositories.
+#
+# OpenEXR is built (or restored from cache) *before* CodeQL starts watching
+# the compiler, so only this project's code is analysed, not the library.
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 4 * * 1"   # Mondays 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: macos-15      # Swift analysis needs macOS
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      security-events: write   # upload the results
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Cache OpenEXR
+        id: openexr
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: Vendor/openexr/install
+          key: openexr-${{ runner.os }}-${{ hashFiles('Tools/build-openexr.sh') }}
+      - name: Build OpenEXR
+        if: steps.openexr.outputs.cache-hit != 'true'
+        run: Tools/build-openexr.sh
+
+      - uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          languages: c-cpp, swift
+          build-mode: manual
+          queries: security-extended
+
+      - name: Build (traced by CodeQL)
+        run: |
+          Tools/build-core.sh
+          Tools/build-cli.sh
+          Tools/build-app.sh
+
+      - uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
