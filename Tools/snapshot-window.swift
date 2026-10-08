@@ -3,18 +3,11 @@
 //   swiftc -parse-as-library -D SNAPSHOT EXRPreview/*.swift Shared/EXRPreferences.swift \
 //          Tools/snapshot-window.swift -o build/snapshot-window && build/snapshot-window build/
 import AppKit
-import Metal
 import SwiftUI
 
 @main
 struct Snapshot {
     @MainActor static func main() {
-        // ImageRenderer draws through Metal, and a Mac with no GPU (GitHub's
-        // Intel runners are VMs) aborts inside Metal instead of failing.
-        guard MTLCreateSystemDefaultDevice() != nil else {
-            print("  skipped: no Metal device on this machine")
-            return
-        }
         _ = NSApplication.shared
         let out = CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "."
         let release = UpdateChecker.Release(

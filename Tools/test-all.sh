@@ -77,7 +77,13 @@ build/test_update_checker
 hr "window renders in every update state"
 xcrun swiftc -parse-as-library -D SNAPSHOT EXRPreview/EXRPreviewApp.swift EXRPreview/UpdateChecker.swift \
     Tools/snapshot-window.swift -o build/snapshot-window
-mkdir -p build/snapshots && build/snapshot-window build/snapshots
+# ImageRenderer aborts inside Metal on Intel virtual machines (GitHub's Intel
+# runners), though it reports a device there; the app itself is unaffected.
+if [ "$(uname -m)" = x86_64 ] && [ "$(sysctl -n kern.hv_vmm_present 2>/dev/null)" = 1 ]; then
+  echo "  skipped: Intel virtual machine (Metal cannot render offscreen here)"
+else
+  mkdir -p build/snapshots && build/snapshot-window build/snapshots
+fi
 
 hr "hostile input: file swap, forged info rows, layer flood"
 mkdir -p build/hostile
