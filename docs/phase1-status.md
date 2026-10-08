@@ -1007,7 +1007,8 @@ fade-in, which first made the test look broken).
 Size: the three tables are +4.8 MB per architecture per binary. The host app
 no longer links EXRCore at all (it never used it), which more than paid for
 it in the app: 63 MB → 43 MB, DMG 14.8 → 19.7 MB. A framework shared by the
-two extensions would hold the tables once (~5 MB more off the DMG) — not done.
+two extensions would hold the tables once (~5 MB more off the DMG) — declined
+2026-10-08: new loading risk under ad-hoc signing for no visible gain.
 
 ### Exposure double-click reset — removed (2026-10-07)
 

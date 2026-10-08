@@ -105,8 +105,6 @@ thumbnail brought under budget by taller read bands with threads unchanged
 job** -- it first runs on the next tag; watch it.
 
 Still open, roughly in priority order:
-- **Shared EXRCore framework** for the two extensions, so the colour tables
-  ship once (~5 MB off the 19.7 MB DMG). Structural; not started.
 - **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder
   column view / preview pane recheck. Needs the user's hands or other Macs.
 - **Not built:** golden-image regression, fuzzing *in CI* (`Tools/fuzz.sh` runs
@@ -117,6 +115,10 @@ Still open, roughly in priority order:
 - **Layer naming:** no real Redshift/Karma/Octane/Cycles/Unreal/Corona files
   exist openly; ambiguous studio names (`exitdir`, `s_*`) are documented, not handled.
 - The `.xcodeproj` question below is settled in practice: script build only.
+- **Decided 2026-10-08: no shared EXRCore framework.** It would ship the colour
+  tables once (~5 MB off a 19.7 MB DMG), but dynamic loading from the app
+  bundle under ad-hoc signing and the sandbox is new risk for no user-visible
+  gain. Both extensions keep linking EXRCore statically.
 
 Working with this Mac (learned the hard way, see phase1-status.md):
 - The user switches extensions on/off in System Settings; never do it for them.
