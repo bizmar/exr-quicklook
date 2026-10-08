@@ -1113,3 +1113,20 @@ as "rejected" in `MANIFEST.txt`.
 Checked that it bites: clamping decoded values at 64 instead of 65504 failed
 `nan-inf.exr` by up to 10/255. Regenerate with `--update` and review the
 changed images in the diff.
+
+### Release scanning and code scanning (2026-10-08)
+
+Asked for by the user to make up, as far as possible, for the missing Apple
+notarisation:
+- **VirusTotal**: the release job uploads the DMG (`Tools/virustotal.sh`), waits
+  for ~70 engines, attests the result under its own predicate type and adds a
+  "Malware scan" section to the draft notes. A flag warns, it does not block:
+  unsigned apps draw occasional false positives and the draft is read before
+  publishing. Needs the `VT_API_KEY` secret (the user's free account; set).
+  Framed honestly in the README: no engine knowing anything bad is not proof
+  of safety; the build attestation is the stronger guarantee.
+- **CodeQL**: security-extended queries over the C++ and Swift sources on every
+  push, PR and weekly. OpenEXR is built before tracing starts, so only our code
+  is analysed. First run: 98 C++ and 30 Swift queries, **0 alerts**. Traced
+  builds are slow (29 min for both architectures plus the CLI), so it now
+  traces arm64 and the shipped code only.

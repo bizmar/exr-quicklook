@@ -38,7 +38,8 @@ release notes unless you'd rather not be.
 
 Releases after 0.2.0 are built by CI, with an attestation tying each DMG to
 this repository and a VirusTotal scan whose result is attested too; see the
-README's install section for how to check both.
+README's install section for how to check both. The C++ and Swift sources are
+also analysed by GitHub's CodeQL on every push (Security → Code scanning).
 
 How the code defends itself (checked arithmetic, hard limits, a decode
 deadline) and what a past review found are described in

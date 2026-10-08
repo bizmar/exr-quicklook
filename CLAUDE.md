@@ -95,7 +95,9 @@ Actions are pinned by commit SHA, pip installs by hash
 also uploads the DMG to VirusTotal (`Tools/virustotal.sh`), attests the result
 and appends a "Malware scan" section to the draft notes -- keep it when writing
 the final notes. Needs the `VT_API_KEY` repository secret, which only the user
-can create (their free VirusTotal account); without it the scan is skipped.
+can create (their free VirusTotal account); set 2026-10-08.
+CodeQL (`.github/workflows/codeql.yml`, security-extended, C++ and Swift)
+runs on every push, PR and weekly; first run 2026-10-08: 0 alerts.
 The real plate was published with its serials and capture timestamps stripped
 losslessly; the untouched original is in `~/Documents/exr-quicklook-originals/`.
 
