@@ -10,7 +10,7 @@
 set -euo pipefail
 
 IMATH_TAG=v3.2.2
-OPENEXR_TAG=v3.4.5
+OPENEXR_TAG=v3.4.16
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 V="$ROOT/Vendor/openexr"
@@ -48,6 +48,10 @@ else
     -DBUILD_SHARED_LIBS=OFF
     -DBUILD_TESTING=OFF
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    # Source paths end up in the binary through __FILE__ (OpenJPH's error
+    # macros); keep the builder's home directory out of the shipped app.
+    -DCMAKE_C_FLAGS="-ffile-prefix-map=$ROOT=."
+    -DCMAKE_CXX_FLAGS="-ffile-prefix-map=$ROOT=."
   )
 
   say "Building Imath $IMATH_TAG"
@@ -76,15 +80,8 @@ else
         > "$V/openexr-build.log" 2>&1
   cmake --install "$V/build-openexr" > "$V/openexr-install.log" 2>&1
 
-  # OpenEXR 3.4 links OpenEXRCore against OpenJPH for HTJ2K. When fetched
-  # internally the archive is not installed, so place it with the rest --
-  # otherwise every downstream link fails on ojph:: symbols.
-  jph=$(find "$V/build-openexr" -name 'libopenjph*.a' | head -1)
-  if [ -n "$jph" ]; then
-    cp "$jph" "$INSTALL/lib/libopenjph.a"
-  else
-    echo "WARNING: libopenjph.a not found; HTJ2K links will fail" >&2
-  fi
+  # Since 3.4.16 OpenJPH (HTJ2K) is vendored and compiled into OpenEXRCore,
+  # so there is no separate archive to install or link.
 fi
 
 say "Installed static libraries"

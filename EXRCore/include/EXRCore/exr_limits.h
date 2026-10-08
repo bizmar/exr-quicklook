@@ -19,7 +19,15 @@ struct Limits {
     static constexpr int64_t kMaxChannels    = 1024;         // per part
     static constexpr int64_t kMaxParts       = 256;
     static constexpr int64_t kMaxTiles       = 4'000'000;
+    // Entries in the preview's layer menu. A file may list ~260,000 (parts x
+    // channels); a menu that long freezes the preview. Real files have tens.
+    static constexpr int64_t kMaxLayerOptions = 1024;
     static constexpr int64_t kMaxBytes       = 4LL << 30;    // 4 GiB decode ceiling
+    // What OpenEXR itself allocates to decode one chunk (every channel of the
+    // part, not only those we read), or the row of tiles it caches when a
+    // tiled part is read as scanlines. Real files peak near 2 MB; a 1.8 MB
+    // hostile file with one 65535 x 4577 tile took 7.2 GB before this bound.
+    static constexpr int64_t kMaxChunkBytes  = 512LL << 20;
     static constexpr int     kDecodeThreads  = 3;            // sandboxed appex
     static constexpr int64_t kDeadlineMillis = 2000;         // plan §6.7 hard ceiling
 };

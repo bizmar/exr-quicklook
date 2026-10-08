@@ -42,6 +42,8 @@ namespace {
 // sane way to look at a data pass (plan §8). Not a LUT, so it has no table.
 constexpr const char* kRawViewId = "raw";
 
+std::string printable(const std::string& in);   // file text, made safe to display
+
 // Named input primaries for the D9 override.
 
 const NamedSpace* find_space(const char* id) {
@@ -265,6 +267,7 @@ std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
     if (!inspect_file(path, src->info, error)) return nullptr;
 
     src->layers = enumerate_layers(src->info.parts);
+    for (LayerOption& o : src->layers) o.label = printable(o.label);
     src->selection = select_primary_layer(src->info.parts);
     src->auto_layer = id_for(src->layers, src->selection);
 
@@ -283,6 +286,24 @@ std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
         if (o.id == src->active_layer) src->active_is_data = o.data_pass;
     }
 
+    // Keep the menu to a sane length, always including what is shown and what
+    // would be shown automatically.
+    if (src->layers.size() > static_cast<std::size_t>(Limits::kMaxLayerOptions)) {
+        std::vector<LayerOption> kept(src->layers.begin(),
+                                      src->layers.begin() + Limits::kMaxLayerOptions);
+        for (const std::string& id : {src->active_layer, src->auto_layer}) {
+            const auto in = [&](const std::vector<LayerOption>& v) {
+                return std::any_of(v.begin(), v.end(),
+                                   [&](const LayerOption& o) { return o.id == id; });
+            };
+            if (in(kept)) continue;
+            for (const LayerOption& o : src->layers) {
+                if (o.id == id) { kept.push_back(o); break; }
+            }
+        }
+        src->layers = std::move(kept);
+    }
+
     DecodeOptions dopt;
     dopt.max_edge = max_edge;
     dopt.use_data_window = use_data_window;
@@ -299,8 +320,37 @@ std::unique_ptr<EXRSource> open_impl(const char* path, int32_t max_edge,
     return src;
 }
 
+// File-supplied text made safe to display. The info panel is "label\tvalue"
+// lines, so a tab or newline inside a layer name or tag would forge a row of
+// its own (a second "Colour" line, say); bidirectional overrides can reorder
+// what is shown. Control characters become spaces, direction controls go.
+std::string printable(const std::string& in) {
+    std::string out;
+    out.reserve(in.size());
+    const auto* p = reinterpret_cast<const unsigned char*>(in.data());
+    const std::size_t n = in.size();
+    for (std::size_t i = 0; i < n; ++i) {
+        const unsigned char c = p[i];
+        if (c < 0x20 || c == 0x7F) { out += ' '; continue; }
+        // C1 controls, U+0080..U+009F: C2 80..C2 9F.
+        if (c == 0xC2 && i + 1 < n && p[i + 1] >= 0x80 && p[i + 1] <= 0x9F) {
+            out += ' '; ++i; continue;
+        }
+        // U+200E/F, U+202A..U+202E, U+2066..U+2069: E2 80 8E/8F, E2 80 AA..AE, E2 81 A6..A9.
+        if (c == 0xE2 && i + 2 < n) {
+            const unsigned char b = p[i + 1], d = p[i + 2];
+            if ((b == 0x80 && (d == 0x8E || d == 0x8F || (d >= 0xAA && d <= 0xAE))) ||
+                (b == 0x81 && d >= 0xA6 && d <= 0xA9)) {
+                i += 2; continue;
+            }
+        }
+        out += static_cast<char>(c);
+    }
+    return out;
+}
+
 void append(std::string& s, const char* label, const std::string& value) {
-    s += label; s += "\t"; s += value; s += "\n";
+    s += label; s += "\t"; s += printable(value); s += "\n";
 }
 
 const char* pixel_type_name(PixelType t) {

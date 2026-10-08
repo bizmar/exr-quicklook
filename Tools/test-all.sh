@@ -31,7 +31,7 @@ if [ -f build/lib/libEXRCore.a ]; then
   INS="$ROOT/Vendor/openexr/install"
   c++ -std=c++17 -O2 -I EXRCore/include EXRCore/tests/test_d7.cpp build/lib/libEXRCore.a \
       -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-      -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_d7
+      -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_d7
   build/test_d7 Tests/Fixtures/corpus/dwaa-multilayer-acescg.exr
 else
   echo "  skipped (run Tools/build-core.sh)"
@@ -41,26 +41,34 @@ hr "input-colourspace override changes pixels"
 INS="$ROOT/Vendor/openexr/install"
 c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_input_override.cpp build/lib/libEXRCore.a \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_input_override
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_input_override
 build/test_input_override Tests/Fixtures/corpus
 
 hr "data passes render raw"
 c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_raw_view.cpp build/lib/libEXRCore.a \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_raw_view
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_raw_view
 build/test_raw_view Tests/Fixtures/corpus
 
 hr "colour tags: colorInteropID, arnold/color_space"
 c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_interop.cpp build/lib/libEXRCore.a \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_interop
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_interop
 build/test_interop Tests/Fixtures/corpus
 
 hr "PQ HDR masters"
 c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_pq.cpp build/lib/libEXRCore.a \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph -o build/test_pq
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_pq
 build/test_pq Tests/Fixtures/corpus
+
+hr "hostile input: file swap, forged info rows, layer flood"
+mkdir -p build/hostile
+c++ -std=c++17 -O1 -I EXRCore/include -I "$INS/include" -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \
+    EXRCore/tests/test_hostile.cpp build/lib/libEXRCore.a \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_hostile
+build/test_hostile build/hostile
 
 hr "LUT provenance + runtime vs OCIO"
 if [ -x "${PYOCIO:-/opt/homebrew/bin/python3.14}" ] && \

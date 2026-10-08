@@ -23,7 +23,7 @@ slices=()
 for arch in "${ARCHS[@]}"; do
   d="$OUT/$arch"; mkdir -p "$d"
   for s in "${SRCS[@]}"; do
-    c++ -std=c++17 -O2 -fvisibility=hidden -Wall \
+    c++ -std=c++17 -O2 -fvisibility=hidden -Wall -ffile-prefix-map="$ROOT=." \
         -target "$arch-apple-macos$DEPLOY" \
         -I "$ROOT/EXRCore/include" -I "$INS/include" \
         -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \

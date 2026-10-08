@@ -58,7 +58,7 @@ CORE_SWIFT_FLAGS=(
 CORE_LINK_FLAGS=(
   -L"$ROOT/build/lib" -lEXRCore
   -L"$OEXR/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4
-  -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph
+  -lIlmThread-3_4 -lIex-3_4 -lImath-3_2
   -lc++
 )
 
@@ -73,6 +73,7 @@ compile() {
       -target "$arch-apple-macos$DEPLOY" \
       -swift-version 5 \
       -O -parse-as-library \
+      -file-prefix-map "$ROOT=." \
       -module-name "$name" \
       "$@" \
       -o "$out" \

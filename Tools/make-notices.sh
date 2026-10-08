@@ -6,7 +6,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC="$ROOT/Vendor/openexr/src"
-JPH="$ROOT/Vendor/openexr/build-openexr/_deps/openjph-src"
+# OpenEXR >= 3.4.16 vendors OpenJPH and compiles it into OpenEXRCore.
+JPH="$SRC/openexr/external/OpenJPH"
 OCIO_LICENSE="${OCIO_LICENSE:-$(ls /opt/homebrew/Cellar/opencolorio/*/LICENSE 2>/dev/null | tail -1)}"
 OUT="$ROOT/THIRD_PARTY_NOTICES.md"
 
@@ -19,7 +20,7 @@ done
 exr_ver=$(awk -F= '/^OPENEXR_TAG=/ {sub(/^v/, "", $2); print $2}' "$ROOT/Tools/build-openexr.sh")
 imath_ver=$(awk -F= '/^IMATH_TAG=/ {sub(/^v/, "", $2); print $2}' "$ROOT/Tools/build-openexr.sh")
 jph_ver=$(awk '/OPENJPH_VERSION_(MAJOR|MINOR|PATCH)/ {printf "%s%s", sep, $3; sep="."}' \
-          "$JPH/src/core/common/ojph_version.h")
+          "$JPH/src/core/openjph/ojph_version.h")
 deflate_ver=$(awk -F'"' '/LIBDEFLATE_VERSION_STRING/ {print $2}' \
               "$SRC/openexr/external/deflate/libdeflate.h")
 

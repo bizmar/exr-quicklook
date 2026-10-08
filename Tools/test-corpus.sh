@@ -61,7 +61,7 @@ if [ ! -x "$ROOT/build/nancheck" ] && [ -f "$ROOT/build/lib/libEXRCore.a" ]; the
   c++ -std=c++17 -O1 -I "$ROOT/EXRCore/include" "$ROOT/EXRCore/tests/nancheck.cpp" \
       "$ROOT/build/lib/libEXRCore.a" \
       -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
-      -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lopenjph \
+      -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 \
       -o "$ROOT/build/nancheck" 2>/dev/null
 fi
 if [ -x "$ROOT/build/nancheck" ]; then

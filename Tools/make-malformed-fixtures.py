@@ -31,6 +31,30 @@ def patch_box(data, name, box):
     return data[:off] + struct.pack("<iiii", *box) + data[off + 16:]
 
 
+def attr(name, kind, value):
+    return name.encode() + b"\0" + kind.encode() + b"\0" + struct.pack("<i", len(value)) + value
+
+
+def tiled_header(width, height, tile_w, tile_h, channels="RGB"):
+    """A tiled header with no pixel data after it. The header is all the
+    resource limits need to see: these files must be rejected before
+    OpenEXR allocates anything for their chunks."""
+    chlist = b"".join(c.encode() + b"\0" + struct.pack("<iB3xii", 1, 0, 1, 1)
+                      for c in channels) + b"\0"
+    box = struct.pack("<iiii", 0, 0, width - 1, height - 1)
+    body = (attr("channels", "chlist", chlist)
+            + attr("compression", "compression", bytes([3]))           # ZIP
+            + attr("dataWindow", "box2i", box)
+            + attr("displayWindow", "box2i", box)
+            + attr("lineOrder", "lineOrder", bytes([0]))
+            + attr("pixelAspectRatio", "float", struct.pack("<f", 1.0))
+            + attr("screenWindowCenter", "v2f", struct.pack("<ff", 0, 0))
+            + attr("screenWindowWidth", "float", struct.pack("<f", 1.0))
+            + attr("tiles", "tiledesc", struct.pack("<IIB", tile_w, tile_h, 0))
+            + b"\0")
+    return struct.pack("<ii", 20000630, 2 | 0x200) + body + bytes(8)
+
+
 def main():
     src = Path(sys.argv[1] if len(sys.argv) > 1
                else "Tests/Fixtures/spike/spike-acescg.exr")
@@ -65,6 +89,12 @@ def main():
                                                  1_000_000, 1_000_000))
     # A negative-extent display window.
     cases["displaywindow-inverted.exr"] = patch_box(good, "displayWindow", (10, 10, 0, 0))
+
+    # One tile covering the whole frame. Within the pixel limit, yet reading it
+    # as scanlines made OpenEXR cache 7.2 GB for a 1.8 MB file.
+    cases["tile-huge.exr"] = tiled_header(65535, 4577, 65535, 4577)
+    # 1x1 tiles: millions of chunks, each an offset-table entry and a read.
+    cases["tile-count.exr"] = tiled_header(4096, 4096, 1, 1)
 
     for name, blob in cases.items():
         (out / name).write_bytes(blob)

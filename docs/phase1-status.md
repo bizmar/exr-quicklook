@@ -21,7 +21,7 @@ You were asleep; these are stated rather than agreed, and both are reversible.
 
 | Component | State |
 |---|---|
-| `Tools/build-openexr.sh` | Imath v3.2.2 + OpenEXR v3.4.5, pinned, universal static |
+| `Tools/build-openexr.sh` | Imath v3.2.2 + OpenEXR v3.4.16, pinned, universal static (was 3.4.5 until 2026-10-08) |
 | `EXRCore/exr_limits.h` | Bounds + checked arithmetic (§6.6) |
 | `EXRCore/exr_layers.*` | Full primary layer selection (§6.3) |
 | `EXRCore/exr_reader.*` | Header inspection (§6.2) |
@@ -1019,3 +1019,56 @@ by opening the file; the extension's view never gets the second click. Nothing
 on the extension side can claim it, so the feature is gone from the code, the
 tooltip, the host app's tips and the README. "Reset to defaults" in the panel
 still returns exposure to 0 along with everything else.
+
+### Adversarial review (2026-10-08)
+
+Asked for by the user before 0.2.0: look for bugs an attacker could use, from
+angles the existing tests do not cover. The threat model is a hostile EXR that
+reaches Finder (a download, mail attachment, network share or synced folder):
+thumbnails are generated without the user opening anything. The extensions are
+sandboxed with no network access, so the worst outcome of a memory-safety bug
+is code execution inside that sandbox, with read access to the file being
+previewed; the realistic outcomes are crashes and denial of service.
+
+Every finding below was demonstrated before it was fixed; the proofs are now
+regression tests.
+
+| # | Finding | Severity | Status |
+|---|---|---|---|
+| 1 | **OpenEXR 3.4.5 was 29 security fixes behind.** Counting only advisories that apply to a 64-bit reader of flat images (not deep data, Python bindings, writers or the command-line tools), 29 were published Mar–Sep 2026, 13 rated high: heap out-of-bounds writes in the DWA, PIZ, B44 and HTJ2K decoders, and unbounded allocation in IDManifest parsing, which runs on every header read. 0.1.0 shipped with all of them. | High | Fixed: pinned to **3.4.16**, the newest 3.4 release. Every advisory that reaches our decode path is fixed in it. The remaining open ones affect OpenEXRUtil's checker, deep ZSTD (3.5 only) and command-line tools, none of which are linked or used. |
+| 2 | **File swapped between header read and decode.** `inspect_file()` and `decode_layer()` opened the file separately; the decode sized its buffers from the first header and OpenEXR wrote wherever the slices pointed. Swapping a 16 px-wide file for a 4096 px one wrote ~11 KB of file-controlled pixel data past a 4 KB heap buffer (AddressSanitizer). The window is the milliseconds between two opens, so triggers are a hostile SMB/WebDAV server that serves different bytes on each open (deterministic), a local race, or by chance a renderer rewriting the frame at that moment. | High | Fixed: the decode refuses unless the re-read data window matches. `test_hostile`. |
+| 3 | **OpenEXR's own allocations were outside the memory ceiling.** `kMaxBytes` only covered our buffers, and `kMaxTiles` was declared but never checked. A 1.8 MB file with one 65535 × 4577 tile took **7.2 GB** and 2.9 s; in the extension that is a jetsam kill, which also fails every other thumbnail the process was generating (a "poison file" for its folder). | Medium | Fixed: per-part bound on the decompressed chunk (all channels) and on the tiled row cache, 512 MiB (real files peak near 2 MB); tile count enforced; OpenEXR's `setMaxImageSize`/`setMaxTileSize` set as a second layer. Now rejected in 0.3 s using 2 MB. `tile-huge.exr`, `tile-count.exr` in the malformed corpus. |
+| 4 | **Forged info-panel rows.** The panel is `label\tvalue\n` lines and file text was inserted raw, so a `colorInteropID` (or layer name) containing a newline added rows of its own, e.g. a second "Colour" line claiming Rec.709. Bidirectional-override characters could reorder text. | Low | Fixed: control characters become spaces, direction controls are removed, in the panel and the layer menu. `test_hostile`. |
+| 5 | **Layer flood.** Within the part and channel limits a file can list 261,632 layers; the preview would build a menu that long on its main thread. | Low | Fixed: the menu keeps 1024 entries plus the shown and automatic layers. `test_hostile`. |
+| 6 | **Undefined behaviour on `dwaCompressionLevel`.** A NaN or huge float was converted to `int`. | Low | Fixed: only finite, plausible values are shown. |
+| 7 | **Build paths in the shipped binaries.** OpenJPH's `__FILE__` macros embedded 24 absolute paths with the builder's home directory. | Low (privacy) | Fixed: `-ffile-prefix-map` in all three build scripts. |
+
+Checked and found sound: the LUT lookups clamp NaN and infinity before
+indexing; degenerate chromaticities produce NaN pixels that the shaper maps
+to black, never an out-of-range index; every size feeding our own allocations
+is checked; `setGlobalThreadCount` is a no-op when the count is unchanged, so
+concurrent thumbnails do not rebuild the pool; the session store is
+in-process only and takes nothing from files; the extensions request no
+network or file entitlements beyond Quick Look's own.
+
+**Fuzzing.** A mutation fuzzer (`Tools/fuzz.sh`; no libFuzzer in the Command Line Tools) ran
+the whole public API -- open, render in several views, layer switch, describe
+-- under AddressSanitizer and UndefinedBehaviorSanitizer on EXRCore, seeded
+with the fixture corpus and openexr-images: 4 workers x 5 minutes,
+**370,650 mutated files, 59,225 of them valid enough to open and render, no
+sanitizer report**. A short run, not a substitute for a standing fuzz target
+in CI (still not built), but our code survived it after the fixes above.
+
+**Not fixed here: the release process.** Each of these is a decision:
+- The published DMG is built on the maintainer's Mac; nothing ties it to this
+  repository's source. CI already builds one on a `v*` tag, so it could be
+  published instead, with a GitHub build-provenance attestation that users can
+  check with `gh attestation verify`.
+- Third-party actions are pinned by tag, not commit SHA; pip installs in CI
+  (numpy, dmgbuild) are unpinned. Build-time only, but they feed the DMG if
+  CI ever builds the published release.
+- There is no SECURITY.md, and private vulnerability reporting is not enabled
+  on the repository, so the only reporting route offered is a public issue.
+- Unsigned by choice: users are told to clear the quarantine flag, which is
+  also what a trojaned copy would ask. The SHA-256 in the release notes
+  helps only if users check it.

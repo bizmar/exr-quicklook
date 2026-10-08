@@ -12,7 +12,7 @@ showed the wrong layer for a Redshift render": attach the output of
 
 ## Automated: `Tools/test-all.sh`
 
-All of these pass as of 2026-10-06, on macOS 27.0.1, Apple silicon.
+All of these pass as of 2026-10-08, on macOS 27.0.1, Apple silicon.
 
 | Suite | What it checks | Size |
 |---|---|---|
@@ -20,7 +20,7 @@ All of these pass as of 2026-10-06, on macOS 27.0.1, Apple silicon.
 | Real-world layer names | The layer rules run over the part/channel names of 291 openly licensed production and test files (Netflix, Psyop, Blender, Poly Haven, Gaffer, OpenImageIO…), with invariants and a full snapshot. See [LAYER-RULES.md](LAYER-RULES.md) | 1669 checks |
 | Colour (unit) | Primaries → AP1 matrices and Bradford adaptation, against OCIO | 40 checks |
 | Corpus | Files written with the real OpenEXR library: DWAA, DWAB, multi-part, deep, overscan, luminance-chroma, 32-bit float, 43-channel AOV stacks, data passes, plus one real camera plate (DWAA, AP0, overscan) | 33 checks |
-| Malformed files | Truncated files, absurd and overflowing data/display windows, wrong magic — all must be rejected cleanly | 13 files |
+| Malformed files | Truncated files, absurd and overflowing data/display windows, wrong magic, tile memory bombs — all must be rejected cleanly | 15 files |
 | Official OpenEXR images | The ASWF `openexr-images` collection: valid images render, deep and Y/RY/BY are refused, display-window edge cases | 77 files |
 | Damaged / fuzz corpus | The OpenEXR project's ASAN/ClusterFuzz crash files: must never crash or hang | 185 files, 0 crashes, 0 hangs |
 | Thumbnail = preview (D7) | Both code paths produce identical pixels | byte comparison |
@@ -28,6 +28,7 @@ All of these pass as of 2026-10-06, on macOS 27.0.1, Apple silicon.
 | Data passes / Raw view | Position, depth and motion render untransformed; greyscale is grey | 14 byte comparisons |
 | PQ HDR masters | The P3-D65 / Rec.2100 PQ inputs reproduce OCIO's full chain (PQ → inverse ACES 2.0 HDR → SDR) within 2/255; exposure acts after the inverse; Raw is untouched. Also checked by eye on Netflix's Cosmos Laundromat and Nocturne | 12 byte comparisons |
 | Colour tags | `colorInteropID` and `arnold/color_space` are honoured in the right order (aliases, Arnold's `linear`), and display or unknown names are ignored | 22 byte comparisons |
+| Hostile input | A file swapped between header read and decode is refused (it once overflowed a buffer); text in a file cannot forge info-panel rows or reorder text; a 2,000-layer file gets a bounded menu. Found in the [adversarial review](phase1-status.md#adversarial-review-2026-10-08), which also ran a sanitizer fuzzer over 370,000 mutated files | 10 checks |
 | ACES tables | The baked LUTs re-bake to the same hashes, and the shipped runtime matches OCIO within tolerance | hash + numeric |
 
 Every render check compares **pixels**, not settings. That rule exists because

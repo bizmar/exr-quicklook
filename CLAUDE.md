@@ -89,8 +89,11 @@ Worked through one at a time with the user, each with a recommendation; the
 user decides. Done since 0.1.0 and pushed: CI, real-world layer corpus +
 docs/LAYER-RULES.md, `arnold/color_space`, benchmark, PQ input entries,
 exposure double-click reset dropped. **0.2.0 prepared 2026-10-08** (version
-bump, CI actions on Node 24, DMG built, notes in `dist/RELEASE-NOTES-0.2.0.md`)
--- tagging and publishing wait for the user's OK.
+bump, CI actions on Node 24, adversarial review fixes incl. OpenEXR 3.4.16,
+DMG built, notes in `dist/RELEASE-NOTES-0.2.0.md`) -- pushing, tagging and
+publishing wait for the user's OK. Release-process security items from the
+review (CI-built + attested DMG, SHA-pinned actions, SECURITY.md / private
+reporting) are open decisions; see phase1-status.md "Adversarial review".
 
 Still open, roughly in priority order:
 - **Decode threads for 6K plates** (6K DWAA thumbnail 345 ms vs the 4K budget
@@ -99,8 +102,8 @@ Still open, roughly in priority order:
   ship once (~5 MB off the 19.7 MB DMG). Structural; not started.
 - **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder
   column view / preview pane recheck. Needs the user's hands or other Macs.
-- **Not built:** golden-image regression, fuzz target, `preview`-attribute /
-  mip-level fast path (plan §6.4).
+- **Not built:** golden-image regression, fuzzing *in CI* (`Tools/fuzz.sh` runs
+  locally), `preview`-attribute / mip-level fast path (plan §6.4).
 - **Colour, possible follow-ups:** map `colorInteropID` `pq_p3d65_display` /
   `pq_rec2020_display` to the PQ entries (nit level unknown, so not done);
   other writers' colour-space attributes beyond Arnold.
@@ -195,6 +198,17 @@ The equivalent Apple decoder shipped a zero-click heap overflow (CVE-2026-28977)
 - Hard upper bounds on width, height, pixel count, channel count, part count, tile counts. Reject rather than clamp.
 - Decode deadline and memory ceiling. On breach, fail to the generic icon. Never crash, never hang.
 - Treat every input as hostile.
+- **The memory ceiling must cover OpenEXR's own allocations**, not just ours:
+  a decompressed chunk holds every channel of the part, and a tiled part read
+  as scanlines caches a full-width row of tiles (`kMaxChunkBytes`, `kMaxTiles`).
+- **The file can change between opens.** Anything sized from one open must be
+  re-checked against the next (`decode_layer` re-reads the data window).
+- **File text is untrusted in the UI too**: control and direction characters
+  are stripped before display (`printable()` in exr_api.cpp).
+- **Keep OpenEXR current.** Check its security advisories before every release
+  (`gh api repos/AcademySoftwareFoundation/openexr/security-advisories`); the
+  pin went stale once (3.4.5 shipped in 0.1.0, 29 applicable advisories behind).
+  Adversarial review and its proofs: phase1-status.md "Adversarial review".
 
 ## Working agreement
 
@@ -233,6 +247,7 @@ Tools/corpus/build_corpus.py   # real-world EXR headers into Vendor/corpus/ (Ran
 Tools/corpus/manifest.py       # -> Tests/Fixtures/realworld/ (names only), used by test_realworld
 
 build/bench <files>            # thumbnail / preview / exposure timings vs the §6.7 budget
+Tools/fuzz.sh [secs] [workers]  # ASan+UBSan mutation fuzzer over the public API; crashers -> build/fuzz/crashes
 build/qlprobe <files>          # headless: classify QL thumbnails by colour
 build/qlpreviewprobe <files>   # headless: drive a real QLPreviewView
 build/qlpanelprobe <files>     # the real spacebar panel, stepping items like ↓

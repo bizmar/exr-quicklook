@@ -133,6 +133,19 @@ bool decode_layer(const std::string& path, const FileInfo& info,
         Imf::MultiPartInputFile file(path.c_str());
         Imf::InputPart part(file, sel.part_index);
 
+        // The file is opened again here, so it may no longer be the one
+        // inspect_file() read: rewritten by a renderer since, or served
+        // differently on each open by a hostile network share. Every buffer
+        // below is sized from the first header and OpenEXR writes wherever the
+        // slices point, so a wider data window now would write past them --
+        // demonstrated under AddressSanitizer. Decode only the file we sized.
+        const Imath::Box2i now = part.header().dataWindow();
+        if (now.min.x != dw.min_x || now.min.y != dw.min_y ||
+            now.max.x != dw.max_x || now.max.y != dw.max_y) {
+            error = "file changed since its header was read";
+            return false;
+        }
+
         out.width = static_cast<int32_t>(out_w);
         out.height = static_cast<int32_t>(out_h);
         out.rgba.assign(static_cast<std::size_t>(out_pixels) * 4, 0.0f);
