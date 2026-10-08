@@ -62,6 +62,13 @@ c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_pq.cpp build/lib/libEXR
     -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -o build/test_pq
 build/test_pq Tests/Fixtures/corpus
 
+hr "golden images (Tests/Golden)"
+c++ -std=c++17 -O1 -I EXRCore/include EXRCore/tests/test_golden.cpp build/lib/libEXRCore.a \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lz -o build/test_golden
+# After a deliberate pixel change: add --update, then review the changed PNGs.
+build/test_golden Tests/Golden Tests/Fixtures/corpus Tests/Fixtures/real Tests/Fixtures/spike
+
 hr "hostile input: file swap, forged info rows, layer flood"
 mkdir -p build/hostile
 c++ -std=c++17 -O1 -I EXRCore/include -I "$INS/include" -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \

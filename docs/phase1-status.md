@@ -1099,3 +1099,17 @@ Shipped: about 1.5 Mpixel per band, 32 to 256 lines (256 at 6K), threads kept
 at 3. Thumbnail 290 ms, preview 336 ms (was 392). Renders are byte-identical
 to the 64-line version (6K plate at full resolution and five fixtures): rows
 are still accumulated in the same order. The thread count needs no decision now.
+
+### Golden images (2026-10-08)
+
+Plan §9's golden-image regression, built after the band change showed nothing
+would have caught a pixel drift. `test_golden` renders every fixture (corpus,
+the real plate, the Phase 0 frames) at 256 px in the default view and in Raw
+and compares with `Tests/Golden/*.png`: 72 renders, 3.4 MB of 16-bit P3 PNGs
+written and read by a small built-in codec so no colour management touches
+them. Tolerance 1/255 per channel. Deep and luminance-chroma files are pinned
+as "rejected" in `MANIFEST.txt`.
+
+Checked that it bites: clamping decoded values at 64 instead of 65504 failed
+`nan-inf.exr` by up to 10/255. Regenerate with `--update` and review the
+changed images in the diff.

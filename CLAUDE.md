@@ -25,6 +25,10 @@ phase1-status.md). The probes cannot drive a control change.
 `build/qlpanelprobe` drives the real spacebar panel for lifecycle tracing. Data passes (P, depth, motion) render Raw
 by default; see phase1-status.md "Data passes".
 
+**Golden images** (`Tests/Golden`, `test_golden`, built 2026-10-08): 72 renders
+of every fixture, default view and Raw, 1/255 tolerance. A deliberate pixel
+change needs `--update` and a review of the changed PNGs.
+
 Layer rules are documented for humans in @docs/LAYER-RULES.md and checked
 against 291 real production files (`test_realworld`, part of `Tools/run-tests.sh`);
 a rule change shows as a diff of `Tests/Fixtures/realworld/expected.txt`.
@@ -107,8 +111,8 @@ job** -- it first runs on the next tag; watch it.
 Still open, roughly in priority order:
 - **Untested:** Spotlight, Open/Save dialogs, macOS 14/15, Intel Macs, Finder
   column view / preview pane recheck. Needs the user's hands or other Macs.
-- **Not built:** golden-image regression, fuzzing *in CI* (`Tools/fuzz.sh` runs
-  locally), `preview`-attribute / mip-level fast path (plan §6.4).
+- **Not built:** fuzzing *in CI* (`Tools/fuzz.sh` runs locally),
+  `preview`-attribute / mip-level fast path (plan §6.4).
 - **Colour, possible follow-ups:** map `colorInteropID` `pq_p3d65_display` /
   `pq_rec2020_display` to the PQ entries (nit level unknown, so not done);
   other writers' colour-space attributes beyond Arnold.
