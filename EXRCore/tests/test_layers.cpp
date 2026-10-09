@@ -406,7 +406,10 @@ static void test_realworld_names() {
     for (const char* n : {"uCryptoObject", "uCryptoObject00", "uCryptoAsset01", "uCryptoMaterial",
                           "CryptoInstance00", "CryptoUserData_shotObject", "nw", "nw_feature", "po",
                           "pc", "pow", "rendertime", "facingRatio", "s_uv", "instanceID", "objectId",
-                          "m_chars", "m_window_glass", "shadowMatte", "Pz", "zdepth"}) {
+                          "m_chars", "m_window_glass", "shadowMatte", "Pz", "zdepth",
+                          // ambient occlusion: a multiplier, shown straight (2026-10-09)
+                          "AO", "ViewLayer.AO", "ao", "s_ao", "AO_pass", "ambient_occlusion",
+                          "AmbientOcclusion", "VRayExtraTex_occlusion"}) {
         if (!is_never_auto_layer(n)) std::printf("  (not flagged: %s)\n", n);
         CHECK(is_never_auto_layer(n));
     }
@@ -416,7 +419,7 @@ static void test_realworld_names() {
                           "selfIllum", "GI", "SSS", "DR", "reflection_indirect", "diffuse_direct",
                           "denoise_original", "surfaceColor", "Cd", "albedo", "coat", "s_textcolors",
                           "emission", "transmission", "volume", "sheen", "thin_film", "midground",
-                          "humid", "fluid_sim"}) {
+                          "humid", "fluid_sim", "chaos", "paola", "Kaos", "aov_extra"}) {
         if (is_never_auto_layer(n)) std::printf("  (wrongly flagged: %s)\n", n);
         CHECK(!is_never_auto_layer(n));
     }
@@ -468,10 +471,10 @@ static void test_documented_renderer_names() {
         {"Blender", "ViewLayer.IndexOB", true}, {"Blender", "ViewLayer.IndexMA", true},
         {"Blender", "ViewLayer.UV", true}, {"Blender", "ViewLayer.Position", true},
         {"Blender", "ViewLayer.DiffDir", false}, {"Blender", "ViewLayer.GlossInd", false},
-        {"Blender", "ViewLayer.AO", false}, {"Blender", "ViewLayer.Emit", false},
+        {"Blender", "ViewLayer.AO", true}, {"Blender", "ViewLayer.Emit", false},
         {"Unreal", "SceneDepth", true}, {"Unreal", "WorldNormal", true}, {"Unreal", "Velocity", true},
         {"Unreal", "ObjectId", true}, {"Unreal", "ActorHitProxyMask", true},
-        {"Unreal", "BaseColor", false}, {"Unreal", "AmbientOcclusion", false},
+        {"Unreal", "BaseColor", false}, {"Unreal", "AmbientOcclusion", true},
         {"Octane", "Z depth", true}, {"Octane", "Geometric normal", true}, {"Octane", "UV coordinates", true},
         {"Octane", "Material ID", true}, {"Octane", "Diffuse direct", false},
         {"V-Ray", "VRayZDepth", true}, {"V-Ray", "VRayRenderID", true}, {"V-Ray", "VRayMtlID", true},

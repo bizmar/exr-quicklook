@@ -67,9 +67,9 @@ name the part after the pass.
 | Tier | Rule | Examples |
 |---|---|---|
 | 1 | **"crypto" anywhere** | `CryptoObject00`, `uCryptoAsset`, `crypto_material` |
-| 2 | **A distinctive word anywhere**: depth, position, normal, motion, velocity, vector, matte, mask, rendertime, cputime, raycount, facingratio, dpdtime, volumez, samplerinfo, wirecolor | `VRayZDepth`, `MotionVectors`, `WorldPosition`, `PuzzleMatte`, `shadowMatte`, `facingRatio` |
-| 3 | **A short name as a whole dot-component**: `z` `zback` `pz` · `n` `nn` `nw` `ng` `ngn` `nt` `tn` `vn` · `p` `po` `pc` `pow` `pref` `pw` `pworld` `wp` · `mv` `mvec` `forward` `backward` · `uv` `st` `uvw` · `id` `objectid` `materialid` `instanceid` · `indexob` `indexma` `mist` | `Z`, `P`, `N`, `Pz`, `ViewLayer.Mist`, `ViewLayer.IndexOB`, `uv` |
-| 4 | **A word inside a compound name**: `uv` `uvw` `st` `id` `nw` `nworld` `mv` `mvec` `pref` `pworld` `zdepth` (words split at `_` `-` `.`, digits and camelCase) | `s_uv`, `instanceID`, `Op_Id`, `__Nworld`, `CGeometry_UvwMap` |
+| 2 | **A distinctive word anywhere**: depth, position, normal, motion, velocity, vector, matte, mask, rendertime, cputime, raycount, facingratio, dpdtime, volumez, samplerinfo, wirecolor, occlusion | `VRayZDepth`, `MotionVectors`, `WorldPosition`, `PuzzleMatte`, `shadowMatte`, `facingRatio`, `AmbientOcclusion` |
+| 3 | **A short name as a whole dot-component**: `z` `zback` `pz` · `n` `nn` `nw` `ng` `ngn` `nt` `tn` `vn` · `p` `po` `pc` `pow` `pref` `pw` `pworld` `wp` · `mv` `mvec` `forward` `backward` · `uv` `st` `uvw` · `id` `objectid` `materialid` `instanceid` · `indexob` `indexma` `mist` · `ao` | `Z`, `P`, `N`, `Pz`, `ViewLayer.Mist`, `ViewLayer.IndexOB`, `uv`, `ViewLayer.AO` |
+| 4 | **A word inside a compound name**: `uv` `uvw` `st` `id` `nw` `nworld` `mv` `mvec` `pref` `pworld` `zdepth` `ao` (words split at `_` `-` `.`, digits and camelCase) | `s_uv`, `instanceID`, `Op_Id`, `__Nworld`, `CGeometry_UvwMap` |
 | 5 | **The `m_` prefix** many studios use for mattes | `m_chars`, `m_set` |
 | 6 | **By content**: x/y/z or u/v channels, a file tagged `colorInteropID = data`, or a lone extra channel | `foo.x foo.y foo.z`, a `Z` beside RGB |
 
@@ -79,7 +79,7 @@ groups such as `rim_n` or `key_p`. So they only count when they are the
 *whole* component (`P`, `N.x`, `depth.Z`).
 
 **What stays imagery** (and goes through the ACES view): lighting passes
-(diffuse, specular, reflection, refraction, SSS, GI, emission, AO, volume,
+(diffuse, specular, reflection, refraction, SSS, GI, emission, volume,
 shadows), filters and albedo, light groups, and anything not caught above.
 
 ## 4. Known ambiguities

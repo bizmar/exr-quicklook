@@ -284,6 +284,7 @@ bool is_never_auto_layer(const std::string& layer_name) {
         "dpdtime",        // RenderMan motion
         "volumez",        // Redshift volume depth
         "samplerinfo", "wirecolor",                           // V-Ray
+        "occlusion",      // ambient occlusion: a 0-1 multiplier, read straight
     };
     for (const char* k : kAnywhere) {
         if (n.find(k) != std::string::npos) return true;
@@ -301,6 +302,7 @@ bool is_never_auto_layer(const std::string& layer_name) {
         "id", "objectid", "materialid", "instanceid",  // ids
         "indexob", "indexma",                          // Blender object/material index
         "mist",                                        // Blender mist (a depth ramp)
+        "ao",                                          // ambient occlusion (Blender ViewLayer.AO)
     };
     const std::vector<std::string> comps = components(n);
     for (const std::string& c : comps) {
@@ -312,7 +314,7 @@ bool is_never_auto_layer(const std::string& layer_name) {
     // 4. A few unambiguous words of two letters or more, as a word inside a
     //    compound name: "s_uv", "instanceID", "objectId", "nw_feature".
     static const char* const kWord[] = {"uv", "uvw", "st", "id", "nw", "nworld", "mv", "mvec",
-                                        "pref", "pworld", "zdepth"};
+                                        "pref", "pworld", "zdepth", "ao"};
     for (const std::string& w : words(layer_name)) {
         for (const char* k : kWord) {
             if (w == k) return true;

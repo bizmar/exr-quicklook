@@ -1329,3 +1329,7 @@ it. Asked what else needs that treatment:
 Open question for the user: single-channel utility passes that are not
 caught as data (AO/occlusion and similar 0-1 multipliers) still go through the
 ACES view, where 1.0 is light grey.
+Decided (user, same day): ambient occlusion is data, shown Raw like mattes:
+`occlusion` anywhere, `ao` as a component or a compound word. No corpus file
+changed; Blender `ViewLayer.AO` and Unreal `AmbientOcclusion` flipped in the
+documented-names test.
