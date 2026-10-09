@@ -94,7 +94,9 @@ attaches it to a **draft** release. Download that exact asset (release
 downloads are fast here; *artifact* downloads are throttled to <1 KB/s),
 install it, run `build/qlprobe` / `build/qlpreviewprobe`, check
 `gh attestation verify`, write the notes, and publish only on the user's OK.
-**After publishing:** `Tools/bump-tap.sh <version>` points the Homebrew cask
+**Before tagging:** a 40-minute `Tools/fuzz.sh 2400 6` on the release
+commit, with the sanitized OpenEXR (`Tools/build-openexr-asan.sh`); any
+crasher blocks the release. **After publishing:** `Tools/bump-tap.sh <version>` points the Homebrew cask
 at it (audits against the real download, refuses a draft or non-latest).
 Actions are pinned by commit SHA, pip installs by hash
 (`Tools/ci-requirements.txt`, `Tools/dmg-requirements.txt`). The release job
@@ -155,9 +157,7 @@ Still open, lower priority:
   2026-10-09; the app is now installed **from Homebrew in /Applications**,
   not by `Tools/install.sh` -- reinstalling a dev build there means two
   copies with one bundle id (uninstall the cask first, or test via probes).
-- **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
-  (plan §6.4). `fuzz.sh` now links a sanitized OpenEXR when
-  `Tools/build-openexr-asan.sh` has been run (2026-10-08).
+- **Not built:** `preview`-attribute / mip-level fast path (plan §6.4).
 - **Intel compat flake (2026-10-08):** the 6K plate's thumbnail once failed
   on macos-15-intel with a bare QL error (passed before and after; the plate
   decodes there in ~690 ms). Extensions now log the reason; if it recurs, read
@@ -182,6 +182,10 @@ Decided, do not reopen without the user:
   `Casks/exr-quicklook.rb`; the cask does **not** strip quarantine (users do
   Open Anyway, as with the DMG) and prints the steps as caveats.
 - **No double-click reset on the exposure slider** (Quick Look owns double-click).
+- **No fuzzing in CI** (2026-10-09, user's call; plan §9 asked for it): the
+  repo is public, so CI logs and artifacts would publish a new crash and its
+  reproducer before the upstream report. Fuzzing is local, before each
+  release (see the release process).
 - **Decode threads: 6** (2026-10-09, user's call; was 3 while band height was
   the bottleneck). The decode deadline grows from 2 s at 8K to 5 s at 16K
   (`deadline_millis`), so 16K frames get a thumbnail on slower Macs.
