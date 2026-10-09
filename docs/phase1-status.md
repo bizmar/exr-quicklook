@@ -1346,3 +1346,20 @@ arithmetic (defined, wraps the same way). Renders unchanged (golden 0.00/255,
 OpenEXR DisplayWindow set). New `Tools/fuzz/replay.cpp` (built by fuzz.sh as
 build/fuzz/replay) replays a file through the fuzzer's calls without mutating
 it: the crasher aborts the old code and passes the new.
+
+## After 0.3.3 (2026-10-09, unreleased)
+
+- **Corner buttons subtler** (user: the 0.3.3 disc was too big). Compared four
+  variants on black, grey, beige and white; the user picked a 22 pt disc at
+  45% with no system bezel (`CornerButton`, drawn from `state`), the click area
+  still 26 pt. An open panel shows as an accent disc, and the glyph stays white
+  there; the orange override tint applies only while the panel is closed (the
+  orange dot badges it either way).
+- **Exposure ↺**: a button beside the exposure value puts it back to 0 and
+  leaves the other settings alone. Disabled at 0. Checked by
+  `test-overlay-clicks`.
+- **sRGB monitors: left as is** (user's call). The preview does not switch
+  view by display; ColorSync converts the P3 render (aces-transform-options §8:
+  ~0.1/255 mean on photographed frames). A remembered view could only reach the
+  preview (no shared storage unsigned), so it would be a permanent badged
+  divergence from thumbnails.

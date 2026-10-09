@@ -21,6 +21,27 @@ final class HUDBackground: NSView {
     required init?(coder: NSCoder) { fatalError("not used") }
 }
 
+/// A corner button: the symbol on a small dark disc, with no system bezel.
+///
+/// The disc keeps the button visible on any image, white included (a solid
+/// alpha shown straight made the bare bezel vanish, found 2026-10-09). 0.3.3
+/// filled the whole 26 pt frame and read as heavy; the disc is now 22 pt and
+/// lighter, while the click area stays 26 pt. An open panel shows as an accent
+/// disc. Drawn from `state` on every redraw, so it follows clicks and
+/// programmatic changes alike.
+final class CornerButton: NSButton {
+    static let disc: CGFloat = 22
+
+    override func draw(_ dirtyRect: NSRect) {
+        let d = Self.disc
+        let r = NSRect(x: bounds.midX - d / 2, y: bounds.midY - d / 2, width: d, height: d)
+        (state == .on ? NSColor.controlAccentColor.withAlphaComponent(0.85)
+                      : NSColor(calibratedWhite: 0.05, alpha: 0.45)).setFill()
+        NSBezierPath(ovalIn: r).fill()
+        super.draw(dirtyRect)
+    }
+}
+
 /// The floating HUD from plan §8: two collapsed buttons in the upper right,
 /// one for display controls and one for metadata, each expanding a translucent
 /// panel.
@@ -32,8 +53,8 @@ final class OverlayPanel: NSView {
 
     // MARK: - Chrome
 
-    private let controlsButton = NSButton()
-    private let metadataButton = NSButton()
+    private let controlsButton = CornerButton()
+    private let metadataButton = CornerButton()
     private let badgeDot = NSView()
     private let controlsBody = HUDBackground()
     private let metadataBody = HUDBackground()
@@ -47,6 +68,9 @@ final class OverlayPanel: NSView {
         stops == 0 ? "Exposure  0.0" : String(format: "Exposure  %+.1f", stops)
     }
     private let exposureSlider = NSSlider()
+    /// Back to 0 in one click: parking the slider exactly on zero is fiddly,
+    /// and Quick Look takes the double-click a slider reset would use.
+    private let exposureZero = NSButton()
     private let channelControl = NSSegmentedControl(
         labels: ["RGB", "Alpha"],
         trackingMode: .selectOne, target: nil, action: nil)
@@ -170,6 +194,14 @@ final class OverlayPanel: NSView {
         exposureSlider.target = self
         exposureSlider.action = #selector(controlChanged)
 
+        exposureZero.image = NSImage(systemSymbolName: "arrow.counterclockwise",
+                                     accessibilityDescription: "Reset exposure")
+        exposureZero.isBordered = false
+        exposureZero.toolTip = "Exposure back to 0"
+        exposureZero.target = self
+        exposureZero.action = #selector(exposureToZero)
+        exposureZero.isEnabled = false
+
         channelControl.selectedSegment = 0
         channelControl.segmentStyle = .roundRect
         channelControl.target = self
@@ -248,7 +280,7 @@ final class OverlayPanel: NSView {
 
     private func configureButton(_ b: NSButton, symbol: String,
                                  description: String, action: Selector) {
-        b.bezelStyle = .circular
+        b.isBordered = false
         // A latching button so the click registers visually the instant it
         // happens, and the button stays lit while its panel is open, rather
         // than the UI appearing frozen until the panel finishes laying out.
@@ -260,16 +292,6 @@ final class OverlayPanel: NSView {
         b.target = self
         b.action = action
         b.translatesAutoresizingMaskIntoConstraints = false
-        // A dark disc and a soft shadow, so the buttons stay visible on any
-        // image: on a white frame (a solid alpha shown straight, say) the bare
-        // bezel disappeared, leaving only the badge (found by hand 2026-10-09).
-        b.wantsLayer = true
-        b.layer?.backgroundColor = NSColor(calibratedWhite: 0.05, alpha: 0.6).cgColor
-        b.layer?.cornerRadius = 13
-        b.layer?.shadowColor = NSColor.black.cgColor
-        b.layer?.shadowOpacity = 0.5
-        b.layer?.shadowRadius = 3
-        b.layer?.shadowOffset = .zero
     }
 
     private func configureBody(_ v: HUDBackground) {
@@ -284,8 +306,10 @@ final class OverlayPanel: NSView {
     }
 
     private func buildControlsBody() {
+        let exposureRow = NSStackView(views: [exposureLabel, NSView(), exposureZero])
+        exposureRow.orientation = .horizontal
         let stack = NSStackView(views: [
-            exposureLabel, exposureSlider,
+            exposureRow, exposureSlider,
             layerLabel,
             layerPopup,
             channelControl,
@@ -308,6 +332,7 @@ final class OverlayPanel: NSView {
             stack.trailingAnchor.constraint(equalTo: controlsBody.trailingAnchor, constant: -10),
             stack.bottomAnchor.constraint(equalTo: controlsBody.bottomAnchor, constant: -10),
             exposureSlider.widthAnchor.constraint(equalToConstant: 240),
+            exposureRow.widthAnchor.constraint(equalTo: exposureSlider.widthAnchor),
             channelControl.widthAnchor.constraint(equalToConstant: 240),
             layerPopup.widthAnchor.constraint(lessThanOrEqualToConstant: 260),
             viewPopup.widthAnchor.constraint(equalToConstant: 240),
@@ -445,6 +470,7 @@ final class OverlayPanel: NSView {
         metadataBody.alphaValue = metadata ? 1 : 0
         controlsButton.state = controls ? .on : .off
         metadataButton.state = metadata ? .on : .off
+        updateBadge()
     }
 
     /// What the view popup shows when nothing is picked: the committed default
@@ -465,7 +491,7 @@ final class OverlayPanel: NSView {
         var stops = Float((exposureSlider.doubleValue * 10).rounded() / 10)
         if stops == 0 { stops = 0 }
         settings.exposureStops = stops
-        exposureLabel.stringValue = Self.exposureText(stops)
+        showExposure(stops)
 
         // Picking the layer §6.3 would choose anyway is not an override.
         let li = layerPopup.indexOfSelectedItem
@@ -511,6 +537,17 @@ final class OverlayPanel: NSView {
         onChange(settings)
     }
 
+    private func showExposure(_ stops: Float) {
+        exposureLabel.stringValue = Self.exposureText(stops)
+        exposureZero.isEnabled = stops != 0
+    }
+
+    /// Exposure only; every other setting is left as it is.
+    @objc private func exposureToZero() {
+        exposureSlider.doubleValue = 0
+        controlChanged(exposureZero)
+    }
+
     @objc private func resetTapped() {
         exposureSlider.doubleValue = 0
         channelControl.selectedSegment = 0
@@ -519,7 +556,7 @@ final class OverlayPanel: NSView {
         selectView(automaticView(forLayerAt: layerPopup.indexOfSelectedItem))
         checkerToggle.state = .off
         dataWindowToggle.state = .off
-        exposureLabel.stringValue = Self.exposureText(0)
+        showExposure(0)
         settings = .default
         updateBadge()
         onResetRequested()
@@ -548,7 +585,7 @@ final class OverlayPanel: NSView {
         // A view carried from another layer may be this layer's automatic one.
         if s.view == automaticView(forLayerAt: layerPopup.indexOfSelectedItem) { s.view = nil }
         exposureSlider.doubleValue = Double(s.exposureStops)
-        exposureLabel.stringValue = Self.exposureText(s.exposureStops)
+        showExposure(s.exposureStops)
         showChannel(s.channel)
         selectView(s.view ?? automaticView(forLayerAt: layerPopup.indexOfSelectedItem))
         selectSpace(s.inputColorspace)
@@ -564,7 +601,9 @@ final class OverlayPanel: NSView {
     private func updateBadge() {
         let active = settings.isOverridden
         badgeDot.isHidden = !active
-        controlsButton.contentTintColor = active ? .systemOrange : nil
+        // Orange on the accent disc of an open panel is hard to read; the dot
+        // still badges it there.
+        controlsButton.contentTintColor = active && !controlsExpanded ? .systemOrange : nil
         controlsButton.toolTip = active
             ? String(format: "Overrides active (exposure %+.1f). Click to adjust or reset.",
                      settings.exposureStops)

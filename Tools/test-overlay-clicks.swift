@@ -67,6 +67,22 @@ struct OverlayClicks {
                     print("  FAIL  Alpha button \(enabled ? "enabled" : "disabled") for a layer that \(expectAlpha ? "has" : "lacks") alpha")
                 }
             }
+            // The ↺ beside exposure: disabled at 0, and puts the slider back.
+            if let slider = all(root, NSSlider.self).first,
+               let zero = buttons.first(where: { $0.toolTip == "Exposure back to 0" }) {
+                let wasEnabled = zero.isEnabled
+                slider.doubleValue = 2; slider.sendAction(slider.action, to: slider.target)
+                let enabledAt2 = zero.isEnabled
+                zero.performClick(nil)
+                if !wasEnabled && enabledAt2 && slider.doubleValue == 0 && !zero.isEnabled {
+                    print("  ok    exposure ↺ resets the slider to 0")
+                } else {
+                    failures += 1
+                    print("  FAIL  exposure ↺: enabled at 0 \(wasEnabled), at +2 \(enabledAt2), slider after \(slider.doubleValue)")
+                }
+            } else {
+                failures += 1; print("  FAIL  exposure ↺ not found")
+            }
             info.performClick(nil); check("both open")
             settings.performClick(nil); check("file info only")
             info.performClick(nil); check("both closed")

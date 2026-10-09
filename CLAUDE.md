@@ -218,7 +218,9 @@ Working with this Mac (learned the hard way, see phase1-status.md):
   /Applications) leaves Finder's QuickLookUIService on the old path: Space
   shows nothing and the log has Apple's `axr_error_unsupported_EXR_type`.
   `qlmanage -r` does not help; `killall Finder` (a fresh QuickLookUIService)
-  does. Thumbnails recover on their own.
+  does. Thumbnails usually recover on their own; on 2026-10-09 (to
+  /Applications via brew) ThumbnailsAgent kept routing EXRs to Apple's
+  ImageExtension, which only a log-out cures (never kill the agent).
 - **Testing the overlay:** `Tools/test-overlay-clicks.swift` (in test-all)
   hit-tests every control in every panel state; screenshots alone missed the
   0.3.2 regression. For real clicks in the panel, Quick Look delivers a click
