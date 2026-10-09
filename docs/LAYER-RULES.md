@@ -110,7 +110,14 @@ Which primaries a file is assumed to have, in order:
    config spellings ("ACES - ACEScg", "Utility - Linear - sRGB") work. Arnold's
    built-in name `linear` means linear sRGB / Rec.709, its default rendering
    space since Arnold 5. Display spaces and unknown names are ignored;
-5. the default, **ACEScg**.
+5. **Blender before 5.0**: those versions wrote no colour tag, and their
+   default working space was linear Rec.709. Such a file is recognised by
+   Blender's metadata stamp (a `File` attribute naming a `.blend`, a
+   `BlenderMultiChannel` attribute, or `cycles.*` keys) and shown as linear
+   Rec.709. Blender 5.0 and later name themselves (`Software: Blender …`) and
+   write `colorInteropID`, so they are left to step 3. If you rendered Blender
+   4 with an ACES config, pick ACEScg once; it carries across the sequence;
+6. the default, **ACEScg**.
 
 The info panel says which of these decided, and when a tag was ignored.
 
@@ -128,8 +135,9 @@ carries across the sequence.
 below, **none** carry `chromaticities` or `colorInteropID`. Not Netflix's ACES
 camera footage, not its PQ-encoded HDR films, not Blender's renders, not Poly
 Haven's HDRIs. A handful of Arnold files carry `arnold/color_space` (`ACEScg`,
-`linear`). In practice the ACEScg default decides almost every file, which is
-why the input-colourspace override carries across a sequence.
+`linear`), and 77 carry the Blender stamp of step 5 (Tears of Steel, some Poly
+Haven HDRIs). Otherwise the ACEScg default decides, which is why the
+input-colourspace override carries across a sequence.
 
 ## 6. Evidence
 

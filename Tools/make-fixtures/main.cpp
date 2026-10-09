@@ -126,12 +126,14 @@ void make_named_beauty(const std::string& path) {
 
 void make_simple(const std::string& path, Imf::Compression c, const Imf::Chromaticities* chroma,
                  bool with_alpha, Imf::PixelType type = Imf::HALF,
-                 const char* interop_id = nullptr, const char* arnold_cs = nullptr) {
+                 const char* interop_id = nullptr, const char* arnold_cs = nullptr,
+                 const std::vector<std::pair<const char*, const char*>>& extra = {}) {
     Imf::Header hdr(W, H);
     hdr.compression() = c;
     if (chroma) Imf::addChromaticities(hdr, *chroma);
     if (interop_id) Imf::addColorInteropID(hdr, interop_id);
     if (arnold_cs) hdr.insert("arnold/color_space", Imf::StringAttribute(arnold_cs));
+    for (const auto& [name, value] : extra) hdr.insert(name, Imf::StringAttribute(value));
     static std::vector<half> r, g, b, a;
     static std::vector<float> rf, gf, bf;
     Imf::FrameBuffer fb;
@@ -560,6 +562,22 @@ int main(int argc, char** argv) {
                     "lin_ap1_scene", "ACES2065-1");          // the interop ID wins
         make_simple(dir + "/arnold-linear.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
                     nullptr, "linear");      // Arnold's built-in manager: linear sRGB
+        // Blender before 5.0: no colour tag, recognised by its metadata stamp
+        // (values as Tears of Steel and Poly Haven files carry them).
+        make_simple(dir + "/blender-4-stamp.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, nullptr, {{"File", "/projects/shot/lighting.blend"},
+                                       {"RenderTime", "00:13.14"}, {"Scene", "Scene"}});
+        make_simple(dir + "/blender-4-multilayer.exr", Imf::ZIP_COMPRESSION, nullptr, false,
+                    Imf::HALF, nullptr, nullptr,
+                    {{"BlenderMultiChannel", "Blender V2.55.1 and newer"}});
+        make_simple(dir + "/blender-4-cycles.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    nullptr, nullptr, {{"cycles.View Layer.samples", "128"}});
+        // Blender 5.0+ names itself and tags its files: left to its own tags.
+        make_simple(dir + "/blender-5-untagged.exr", Imf::ZIP_COMPRESSION, nullptr, false,
+                    Imf::HALF, nullptr, nullptr,
+                    {{"Software", "Blender 5.0.0"}, {"File", "/projects/shot/lighting.blend"}});
+        make_simple(dir + "/blender-4-tagged.exr", Imf::ZIP_COMPRESSION, nullptr, false, Imf::HALF,
+                    "lin_ap0_scene", nullptr, {{"File", "/projects/shot/lighting.blend"}});
         make_depth_only(dir + "/depth-only.exr");
         make_position_only(dir + "/position-only.exr");
     } catch (const std::exception& e) {

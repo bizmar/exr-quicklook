@@ -13,8 +13,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <exception>
 #include <mutex>
+#include <strings.h>
 
 namespace exrcore {
 namespace {
@@ -61,6 +63,30 @@ Box2i convert(const Imath::Box2i& b) {
 }
 
 bool close_to(float a, float b) { return std::fabs(a - b) < 0.001f; }
+
+// Blender before 5.0 (D9, amended 2026-10-09). Its default metadata stamp
+// writes "File" (the .blend path); multilayer files add "BlenderMultiChannel";
+// Cycles adds "cycles.*" keys. Blender 5.0 began writing "Software: Blender
+// x.y" together with colorInteropID (Blender commits 8ac0a15, 2143d49,
+// September 2025), so a file naming Blender as its software is left to its
+// own tags, or to the assumed default.
+bool written_by_blender_before_5(const Imf::Header& h) {
+    if (const auto* sw = h.findTypedAttribute<Imf::StringAttribute>("Software")) {
+        if (sw->value().rfind("Blender", 0) == 0) return false;
+    }
+    if (h.findTypedAttribute<Imf::StringAttribute>("BlenderMultiChannel")) return true;
+    if (const auto* f = h.findTypedAttribute<Imf::StringAttribute>("File")) {
+        const std::string& v = f->value();
+        if (v.size() >= 6 && v.size() <= 4096 &&
+            strcasecmp(v.c_str() + v.size() - 6, ".blend") == 0) {
+            return true;
+        }
+    }
+    for (auto it = h.begin(); it != h.end(); ++it) {
+        if (std::strncmp(it.name(), "cycles.", 7) == 0) return true;
+    }
+    return false;
+}
 
 // The memory OpenEXR needs for one part, which our own buffer checks never
 // see: one decompressed chunk holds every channel of the part, and a tiled
@@ -161,7 +187,7 @@ std::string name_chromaticities(const float c[8]) {
                                       0.131f, 0.046f, 0.3127f, 0.3290f};
     if (matches(c, kACEScg))  return "ACEScg (AP1)";
     if (matches(c, kACES2065)) return "ACES2065-1 (AP0)";
-    if (matches(c, kRec709))  return "Rec.709 / sRGB";
+    if (matches(c, kRec709))  return "Linear Rec.709 / sRGB";
     if (matches(c, kP3D65))   return "P3-D65";   // the picker's label, so the two match
     if (matches(c, kRec2020)) return "Rec.2020";
     return "";
@@ -251,6 +277,7 @@ bool inspect_file(const std::string& path, FileInfo& out, std::string& error) {
                     detail.writer_colorspace_attr = "arnold/color_space";
                 }
             }
+            detail.blender_before_5 = written_by_blender_before_5(h);
 
             if (Imf::hasChromaticities(h)) {
                 const Imf::Chromaticities& ch = Imf::chromaticities(h);

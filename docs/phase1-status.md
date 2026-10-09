@@ -1274,3 +1274,25 @@ slower Mac (the Intel runner is ~2.4x slower), giving the generic icon. The
 deadline is now `deadline_millis(data-window pixels)`: 2 s up to 40 Mpixel
 (8K), then proportional, capped at 5 s (16K and above). A hostile file can
 cost at most 5 s plus one band, still a hard bound.
+
+### Blender before 5.0: linear Rec.709 (2026-10-09)
+
+Untagged Blender 4.x renders looked oversaturated under the ACEScg default.
+Verified in Blender's source (`imbuf/intern/openexr/openexr_api.cpp`): 5.0
+added `Software: Blender x.y` (8ac0a15) and `colorInteropID` (2143d49), both
+September 2025; earlier versions wrote no tag and defaulted to linear Rec.709.
+They are recognised by the default metadata stamp: `File` = *.blend,
+`BlenderMultiChannel`, or `cycles.*` keys, and never when `Software` names
+Blender. New colour step after `arnold/color_space`; the picker says
+"Linear Rec.709 / sRGB, Blender's default" and the info panel calls it an
+assumption. 77 of the 291 corpus files carry the stamp, none a tag. Fixtures:
+`blender-4-{stamp,multilayer,cycles,tagged}.exr`, `blender-5-untagged.exr`;
+golden references added (the 72 existing ones unchanged). The user decided
+the general default stays ACEScg (their Nuke work); the Rec.709 picker entry
+is now labelled "Linear Rec.709 / sRGB", as Nuke users call it.
+
+Also from the user's testing: the exposure label showed "-0.0" and carried
+-0 as a value after dragging back to zero; zero is now exactly 0 and reads
+"0.0". Once, the overlay controls did not respond in a freshly launched
+preview process (it exited without rendering 20 s later; the next one was
+fine). Not reproduced; no error in the log.

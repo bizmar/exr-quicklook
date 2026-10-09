@@ -14,7 +14,7 @@ const NamedSpace kSpaces[] = {
     {"aces2065_1", "ACES2065-1 (AP0)", "lin_ap0_scene",
      "ACES2065-1|aces2065_1|aces|ACES - ACES2065-1|lin_ap0|lin_ap0_scene",
      {0.734700f, 0.265300f, 0.000000f, 1.000000f, 0.000100f, -0.077000f, 0.321680f, 0.337670f}},
-    {"linear_rec_709_srgb", "Rec.709 / sRGB", "lin_rec709_scene",
+    {"linear_rec_709_srgb", "Linear Rec.709 / sRGB", "lin_rec709_scene",
      "Linear Rec.709 (sRGB)|lin_rec709_srgb|lin_rec709|lin_rec709_scene|lin_srgb|Utility - Linear - sRGB|Utility - Linear - Rec.709",
      {0.642493f, 0.330357f, 0.305713f, 0.599990f, 0.151431f, 0.061512f, 0.321680f, 0.337670f}},
     {"linear_p3_d65", "P3-D65", "lin_p3d65_scene",

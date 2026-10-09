@@ -270,6 +270,15 @@ These were settled deliberately. Raise it with me before deviating from any of t
    then the normal SDR view. Matches OCIO's full chain to 0.07/255 mean.
    Never applied automatically: real PQ files carry no tag (Netflix Cosmos
    Laundromat, Nocturne). Raw still shows the file's own code values.
+   **Amended 2026-10-09 — Blender before 5.0 means linear Rec.709**, after
+   `arnold/color_space`: override → `chromaticities` → `colorInteropID` →
+   `arnold/color_space` → Blender stamp → assumed default. Blender ≤4.x wrote
+   no tag and worked in linear Rec.709 by default; it is recognised by its
+   metadata stamp (`File` = *.blend, `BlenderMultiChannel`, `cycles.*`) and
+   *not* when `Software` names Blender (5.0+, which writes `colorInteropID`).
+   Shown as "Linear Rec.709 / sRGB, Blender's default", and the info panel
+   calls it an assumption. The user's Nuke files keep the ACEScg default:
+   they want that out of the box, with the picker to change it.
 10. Permissive licence — **BSD-3-Clause, chosen 2026-10-06** (`LICENSE`).
     Never copy from GPL sources. Bundled-library notices live in
     `THIRD_PARTY_NOTICES.md` and are copied into the app bundle.

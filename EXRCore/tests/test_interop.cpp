@@ -106,6 +106,27 @@ int main(int argc, char** argv) {
     expect(d_disp.find("sRGB - Display") != std::string::npos && d_disp.find("ignored") != std::string::npos,
            "and says when it was ignored");
 
+    // Blender before 5.0: untagged, its default working space linear Rec.709,
+    // recognised by its metadata stamp. Ranks after every tag.
+    const auto ref_709 = render(untagged, "linear_rec_709_srgb");
+    for (const char* f : {"blender-4-stamp.exr", "blender-4-multilayer.exr", "blender-4-cycles.exr"}) {
+        const std::string path = dir + "/" + f;
+        expect(render(path) == ref_709, (std::string(f) + ": Blender before 5.0 renders as linear Rec.709").c_str());
+    }
+    const std::string b4 = dir + "/blender-4-stamp.exr";
+    expect(stated_name(b4) == "Linear Rec.709 / sRGB, Blender's default",
+           "the picker names it as Blender's default, not as a tag");
+    expect(describe(b4).find("assumed: no colour tag, written by Blender before 5.0") != std::string::npos,
+           "the info panel says it is an assumption, and why");
+    expect(render(b4, "acescg") == ref_untagged, "an explicit override still wins");
+    expect(render(dir + "/blender-5-untagged.exr") == ref_untagged &&
+               stated_name(dir + "/blender-5-untagged.exr").empty(),
+           "Blender 5.0+ (Software: Blender) is left to its tags, here the assumed default");
+    expect(render(dir + "/blender-4-tagged.exr") == ref_ap0,
+           "any colour tag outranks the Blender default");
+    expect(render(untagged) == ref_untagged && stated_name(untagged).empty(),
+           "a file with no Blender stamp still gets the assumed default (ACEScg)");
+
     const std::string d_ap0 = describe(ap0_id), d_log = describe(log_id);
     expect(d_ap0.find("lin_ap0_scene") != std::string::npos,
            "the info panel shows the ID");

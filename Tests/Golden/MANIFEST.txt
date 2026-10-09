@@ -17,6 +17,16 @@ arnold-linear.exr default png
 arnold-linear.exr raw png
 arnold-vs-interop.exr default png
 arnold-vs-interop.exr raw png
+blender-4-cycles.exr default png
+blender-4-cycles.exr raw png
+blender-4-multilayer.exr default png
+blender-4-multilayer.exr raw png
+blender-4-stamp.exr default png
+blender-4-stamp.exr raw png
+blender-4-tagged.exr default png
+blender-4-tagged.exr raw png
+blender-5-untagged.exr default png
+blender-5-untagged.exr raw png
 data-passes.exr default png
 data-passes.exr raw png
 deep-scanline.exr default rejected

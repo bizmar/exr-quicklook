@@ -60,7 +60,7 @@ overscan:
 | | |
 |---|---|
 | **Compression** | Everything the OpenEXR 3.4 reference library reads: DWAA, DWAB, ZIP, PIZ, PXR24, B44, RLE, HTJ2K |
-| **Colour** | ACES 2.0 output transform (SDR 100 nits, Display P3), baked from OpenColorIO's ACES 2.0 studio config. Reads `chromaticities`, the OpenEXR 3.4 `colorInteropID` and Arnold's `arnold/color_space`. Untagged files are assumed to be ACEScg; 18 other scene-linear spaces, plus PQ HDR masters (P3-D65 and Rec.2100), can be chosen in the preview. |
+| **Colour** | ACES 2.0 output transform (SDR 100 nits, Display P3), baked from OpenColorIO's ACES 2.0 studio config. Reads `chromaticities`, the OpenEXR 3.4 `colorInteropID` and Arnold's `arnold/color_space`, and recognises renders from Blender before 5.0 (linear Rec.709). Other untagged files are assumed to be ACEScg; 18 other scene-linear spaces, plus PQ HDR masters (P3-D65 and Rec.2100), can be chosen in the preview. |
 | **Multi-part and multi-layer** | Picks the beauty automatically, never a mask, depth or cryptomatte. Every other layer and part is a click away in the preview. |
 | **Data passes** | Position, depth, motion, normals, IDs and mattes are listed as "data" and shown untransformed (Raw), with x/y/z mapped to red/green/blue. How layers are recognised: [docs/LAYER-RULES.md](docs/LAYER-RULES.md), checked against 291 real production files |
 | **Overscan** | Cropped to the display window. The preview can show the data window. |
@@ -204,9 +204,9 @@ extensions and the output matches the reference images.
   ID can turn the preference plumbing back on.
 - **Untagged files are assumed to be ACEScg.** Many real files carry no colour
   tag. Nuke, for example, writes none unless "write ACES compliant EXR" is
-  ticked, and Blender's linear Rec.709 output will look oversaturated under
-  that assumption. Correct it in the overlay; the correction carries across the
-  sequence.
+  ticked, so a linear Rec.709 Nuke render looks oversaturated. Pick **Linear
+  Rec.709 / sRGB** in the overlay; the correction carries across the sequence.
+  Blender renders are recognised (see [the colour rules](docs/LAYER-RULES.md#5-colour-briefly)).
 - **SDR only.** No HDR / EDR output yet.
 - **Not rendered:** deep images, luminance-chroma (`Y`/`RY`/`BY`) files, and
   cryptomatte-only files without a preview layer. These keep the generic icon

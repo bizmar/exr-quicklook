@@ -23,6 +23,9 @@ struct PartDetail {
     // from ("arnold/color_space"). Empty when absent.
     std::string writer_colorspace;
     std::string writer_colorspace_attr;
+    // Written by Blender before 5.0, recognised by its metadata stamp. Those
+    // versions wrote no colour tag and worked in linear Rec.709 by default.
+    bool blender_before_5 = false;
     bool has_preview = false;
     float pixel_aspect_ratio = 1.0f;
     int64_t pixel_count = 0;

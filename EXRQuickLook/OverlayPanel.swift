@@ -40,7 +40,12 @@ final class OverlayPanel: NSView {
 
     // MARK: - Controls
 
-    private let exposureLabel = NSTextField(labelWithString: "Exposure  +0.0")
+    private let exposureLabel = NSTextField(labelWithString: OverlayPanel.exposureText(0))
+
+    /// "Exposure  0.0" at zero (no sign), otherwise signed: "+1.5", "-0.7".
+    static func exposureText(_ stops: Float) -> String {
+        stops == 0 ? "Exposure  0.0" : String(format: "Exposure  %+.1f", stops)
+    }
     private let exposureSlider = NSSlider()
     private let channelControl = NSSegmentedControl(
         labels: ["RGB", "Alpha"],
@@ -423,9 +428,12 @@ final class OverlayPanel: NSView {
     }
 
     @objc private func controlChanged(_ sender: Any?) {
-        let stops = Float((exposureSlider.doubleValue * 10).rounded() / 10)
+        // Rounding a small negative value gives -0.0, which showed as "-0.0" and
+        // was carried as an override. Zero is zero.
+        var stops = Float((exposureSlider.doubleValue * 10).rounded() / 10)
+        if stops == 0 { stops = 0 }
         settings.exposureStops = stops
-        exposureLabel.stringValue = String(format: "Exposure  %+.1f", stops)
+        exposureLabel.stringValue = Self.exposureText(stops)
 
         // Picking the layer §6.3 would choose anyway is not an override.
         let li = layerPopup.indexOfSelectedItem
@@ -476,7 +484,7 @@ final class OverlayPanel: NSView {
         selectView(automaticView(forLayerAt: layerPopup.indexOfSelectedItem))
         checkerToggle.state = .off
         dataWindowToggle.state = .off
-        exposureLabel.stringValue = "Exposure  +0.0"
+        exposureLabel.stringValue = Self.exposureText(0)
         settings = .default
         updateBadge()
         onResetRequested()
@@ -505,7 +513,7 @@ final class OverlayPanel: NSView {
         // A view carried from another layer may be this layer's automatic one.
         if s.view == automaticView(forLayerAt: layerPopup.indexOfSelectedItem) { s.view = nil }
         exposureSlider.doubleValue = Double(s.exposureStops)
-        exposureLabel.stringValue = String(format: "Exposure  %+.1f", s.exposureStops)
+        exposureLabel.stringValue = Self.exposureText(s.exposureStops)
         if let seg = Self.channelOrder.firstIndex(of: s.channel) {
             channelControl.selectedSegment = seg
         }

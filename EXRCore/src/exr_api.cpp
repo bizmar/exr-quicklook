@@ -94,7 +94,8 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
     //      the user has to be able to correct it. It is either named primaries
     //      or, for a PQ HDR master, an input transform (inverse HDR view);
     //   2. what the file states (`has_chroma`): chromaticities, colorInteropID
-    //      or arnold/color_space, resolved by stated_space();
+    //      or arnold/color_space, or linear Rec.709 for an untagged file from
+    //      Blender before 5.0 -- all resolved by stated_space();
     //   3. the assumed default for an untagged file (D9a), ACEScg if unset.
     // An unknown override id falls through rather than failing, so a stale id
     // carried from an older build degrades to the file's own primaries.
@@ -204,9 +205,10 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
     return true;
 }
 
-// What a part states about its primaries (D9, amended 2026-10-06/07): its
+// What a part states about its primaries (D9, amended 2026-10-06/07/09): its
 // chromaticities, else a recognised scene-linear colorInteropID, else a
-// renderer's colour-space attribute naming a known scene-linear space. Shared
+// renderer's colour-space attribute naming a known scene-linear space, else
+// linear Rec.709 when Blender before 5.0 wrote it (its untagged default). Shared
 // by the renderer and the info panel so the two can never disagree.
 // The space a renderer's colour-space attribute names: an OCIO name or alias,
 // or Arnold's built-in-manager name "linear" -- its default rendering space
@@ -226,6 +228,7 @@ struct StatedSpace {
     std::string name;
     bool from_interop = false;
     std::string from_attr;   // e.g. "arnold/color_space" when that decided it
+    bool from_blender = false;  // assumed: written by Blender before 5.0
 };
 
 StatedSpace stated_space(const PartDetail& d, const PartInfo& p) {
@@ -244,6 +247,13 @@ StatedSpace stated_space(const PartDetail& d, const PartInfo& p) {
         s.chroma = w->chroma;
         s.name = w->label;
         s.from_attr = d.writer_colorspace_attr;
+    } else if (const NamedSpace* r709 = d.blender_before_5 ? find_space("linear_rec_709_srgb") : nullptr) {
+        // Blender before 5.0 wrote no tag; its default working space was linear
+        // Rec.709. An assumption, so the picker and info panel say whose.
+        s.stated = true;
+        s.chroma = r709->chroma;
+        s.name = std::string(r709->label) + ", Blender's default";
+        s.from_blender = true;
     }
     return s;
 }
@@ -469,6 +479,7 @@ int exr_describe(const char* path, char* buffer, size_t len) {
     if (stated.stated) {
         append(s, "Colour", stated.from_interop ? stated.name + " (from colour interop ID)"
                           : !stated.from_attr.empty() ? stated.name + " (from " + stated.from_attr + ")"
+                          : stated.from_blender ? stated.name + " (assumed: no colour tag, written by Blender before 5.0)"
                           : stated.name);
     } else if (interop == "data") {
         append(s, "Colour", "data \u2014 shown without a colour transform");

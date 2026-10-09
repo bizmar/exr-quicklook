@@ -30,7 +30,7 @@ AP0 = (0.7347, 0.2653, 0.0, 1.0, 0.0001, -0.0770, 0.32168, 0.33767)
 LABELS = {
     "ACES2065-1": "ACES2065-1 (AP0)",
     "ACEScg": "ACEScg (AP1)",
-    "Linear Rec.709 (sRGB)": "Rec.709 / sRGB",
+    "Linear Rec.709 (sRGB)": "Linear Rec.709 / sRGB",   # Nuke users look for "linear"
     "Linear P3-D65": "P3-D65",
     "Linear Rec.2020": "Rec.2020",
     "Linear AdobeRGB": "Adobe RGB (1998)",
