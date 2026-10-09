@@ -85,8 +85,14 @@ without touching global config:
 **Released 0.1.0** 2026-10-06 and **0.2.0** 2026-10-08 as styled DMGs,
 built locally with `Tools/package-release.sh`; **0.3.1** 2026-10-08, the
 first built, attested and scanned by CI (DMG sha256 f2c4027e...); **0.3.2**
-2026-10-09, the small-image preview fix (sha256 5cc8fa70..., VirusTotal
-0/61), also on Homebrew. **0.3.2 is the version for the r/vfx post.** There is no
+2026-10-09, the small-image preview fix (sha256 5cc8fa70...), also on
+Homebrew -- **but 0.3.2 has dead overlay controls** (see below).
+**0.3.3 is DRAFTED and verified, awaiting the user's OK to publish**
+(2026-10-09): tag v0.3.3 at 8f925a0; hash, both attestations, VirusTotal
+0/61, ql-integration on macOS 27 all pass; notes in dist/RELEASE-NOTES-0.3.3.md
+are already on the draft. On publish: `gh release edit v0.3.3 --draft=false
+--latest`, then `Tools/bump-tap.sh 0.3.3`. **0.3.3 is the version for the
+r/vfx post.** There is no
 0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
 push, then push a `v*` tag. CI builds the DMG, attests its provenance and
@@ -150,6 +156,10 @@ update, so the posted version must be the trustworthy one).
    Superseded for the r/vfx post by 0.3.2 (preview fix from the hand check).
 
 Still open, lower priority:
+- **The user's Mac now runs the 0.3.3 DMG's app from ~/Applications** (via
+  Tools/install.sh), not Homebrew. To move them back to Homebrew after the
+  publish: `Tools/uninstall.sh`, `brew install --cask bizmar/tap/exr-quicklook`,
+  then **relaunch Finder** (see gotchas).
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay
@@ -207,6 +217,16 @@ Working with this Mac (learned the hard way, see phase1-status.md):
 - **CI artifacts download at <1 KB/s on this Mac**; release assets are fast.
 - The `rm -rf` safety check blocks removals inside `bash -c` scripts; write to
   fresh directories instead of clearing old ones.
+- **Moving the installed app between locations** (~/Applications <->
+  /Applications) leaves Finder's QuickLookUIService on the old path: Space
+  shows nothing and the log has Apple's `axr_error_unsupported_EXR_type`.
+  `qlmanage -r` does not help; `killall Finder` (a fresh QuickLookUIService)
+  does. Thumbnails recover on their own.
+- **Testing the overlay:** `Tools/test-overlay-clicks.swift` (in test-all)
+  hit-tests every control in every panel state; screenshots alone missed the
+  0.3.2 regression. For real clicks in the panel, Quick Look delivers a click
+  ~1.17 s late (the double-click interval), so capture >= 2.5 s after it.
+- `brew uninstall` of our cask needs the full name `bizmar/tap/exr-quicklook`.
 - Downloads: state source, licence and size first. The user granted a 5-10 GB
   budget for the corpus; ~260 MB used (Vendor/corpus/, git-ignored).
 
