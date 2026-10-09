@@ -1250,3 +1250,27 @@ by bundle id; a first install may find them off. Also: macOS refuses `mv`/`rm`
 of an app's sandbox containers from Terminal without Full Disk Access, so the
 README says to trash them in Finder; the group container is now in the
 cask's `zap` list.
+
+### Large frames: six threads, a size-scaled deadline (2026-10-09)
+
+TESTING.md listed 8K/16K as unmeasured. Synthetic frames (smooth gradients,
+a sun, light noise; 17-333 MB), `build/bench`, M2 Pro, thumbnail ms:
+
+| Frame | 3 threads | 6 threads | 8 threads |
+|---|---|---|---|
+| 16K PIZ | 1556 | 1145 | 1146 |
+| 16K ZIP | 1115 | 883 | 778 |
+| 16K DWAA | 1154 | 922 | 929 |
+| 8K PIZ | 359 | 280 | 232 |
+| 6K camera plate (DWAA) | 234 | 187 | 175 |
+
+Threads were held at 3 when 64-line bands were the limit; since the bands grew
+to ~1.5 Mpixel, decompression is the limit and threads pay. Peak memory: +2 to
++14 MB at 6 threads (all under 160 MB). Golden renders unchanged (0.00/255):
+rows are accumulated in the same order. Now 6 threads.
+
+16K at 1.1-1.6 s was inside the 2 s deadline here but would miss it on a
+slower Mac (the Intel runner is ~2.4x slower), giving the generic icon. The
+deadline is now `deadline_millis(data-window pixels)`: 2 s up to 40 Mpixel
+(8K), then proportional, capped at 5 s (16K and above). A hostile file can
+cost at most 5 s plus one band, still a hard bound.

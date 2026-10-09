@@ -28,9 +28,30 @@ struct Limits {
     // tiled part is read as scanlines. Real files peak near 2 MB; a 1.8 MB
     // hostile file with one 65535 x 4577 tile took 7.2 GB before this bound.
     static constexpr int64_t kMaxChunkBytes  = 512LL << 20;
-    static constexpr int     kDecodeThreads  = 3;            // sandboxed appex
-    static constexpr int64_t kDeadlineMillis = 2000;         // plan §6.7 hard ceiling
+    // Decode threads (plan §6.4 suggested 2-4). Three was right while reads
+    // were 64 lines, when band height was the limit; with ~1.5 Mpixel bands
+    // decompression is, and six cut 20-30% everywhere (16K PIZ 1556 -> 1145 ms,
+    // 6K plate 234 -> 187 ms) for at most 14 MB more peak memory. Eight added
+    // little. Measured 2026-10-09 on an M2 Pro; phase1-status.md.
+    static constexpr int     kDecodeThreads  = 6;
+    // Decode deadline (plan §6.7): 2 s up to kDeadlinePixels of data window,
+    // then growing with the pixel count to kMaxDeadlineMillis. A 16K frame took
+    // 1.1-1.6 s on an M2 Pro and would miss 2 s on a slower Mac (GitHub's Intel
+    // runner is ~2.4x slower), getting the generic icon. Still a hard bound: a
+    // hostile file costs at most 5 s plus one band.
+    static constexpr int64_t kDeadlineMillis    = 2000;
+    static constexpr int64_t kDeadlinePixels    = 40'000'000;   // 8K and below
+    static constexpr int64_t kMaxDeadlineMillis = 5000;
 };
+
+// The decode deadline for a data window of `pixels`, in milliseconds.
+[[nodiscard]] inline int64_t deadline_millis(int64_t pixels) {
+    if (pixels <= Limits::kDeadlinePixels) return Limits::kDeadlineMillis;
+    if (pixels >= Limits::kMaxPixels) return Limits::kMaxDeadlineMillis;
+    // Both factors are bounded (2000 x 3e8), so this cannot overflow.
+    const int64_t scaled = Limits::kDeadlineMillis * pixels / Limits::kDeadlinePixels;
+    return scaled < Limits::kMaxDeadlineMillis ? scaled : Limits::kMaxDeadlineMillis;
+}
 
 // Checked arithmetic. Each returns false on overflow or on a negative operand;
 // callers must treat false as "reject this file", never as "use a default".

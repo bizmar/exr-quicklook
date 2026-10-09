@@ -223,6 +223,15 @@ static void test_limits() {
     CHECK_EQ(out, int64_t(1'843'200));
     CHECK(!buffer_bytes(300'000'000, 40, 4, out));   // 48 GB, over the ceiling
     CHECK(!buffer_bytes(INT64_MAX, 4, 2, out));      // overflow, not a huge number
+
+    // The decode deadline: 2 s through 8K, growing with size, capped at 5 s.
+    CHECK_EQ(deadline_millis(0), int64_t(2000));
+    CHECK_EQ(deadline_millis(6144LL * 3240), int64_t(2000));          // 6K
+    CHECK_EQ(deadline_millis(8192LL * 4320), int64_t(2000));          // 8K DCI
+    CHECK_EQ(deadline_millis(60'000'000), int64_t(3000));
+    CHECK_EQ(deadline_millis(16384LL * 8192), int64_t(5000));         // 16K, capped
+    CHECK_EQ(deadline_millis(Limits::kMaxPixels), int64_t(5000));
+    CHECK_EQ(deadline_millis(INT64_MAX), int64_t(5000));
 }
 
 static const LayerOption* option_named(const std::vector<LayerOption>& opts,

@@ -182,7 +182,9 @@ Decided, do not reopen without the user:
   `Casks/exr-quicklook.rb`; the cask does **not** strip quarantine (users do
   Open Anyway, as with the DMG) and prints the steps as caveats.
 - **No double-click reset on the exposure slider** (Quick Look owns double-click).
-- **Decode threads stay at 3** (band height was the bottleneck, not threads).
+- **Decode threads: 6** (2026-10-09, user's call; was 3 while band height was
+  the bottleneck). The decode deadline grows from 2 s at 8K to 5 s at 16K
+  (`deadline_millis`), so 16K frames get a thumbnail on slower Macs.
 
 Working with this Mac (learned the hard way, see phase1-status.md):
 - The user switches extensions on/off in System Settings; never do it for them.

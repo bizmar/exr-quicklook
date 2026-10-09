@@ -87,11 +87,13 @@ First green run 2026-10-08: macOS 14.8.9, 15.7.9 (arm64 and x86_64), 26.6.2.
   dump (`exrcli -v`) of one of your files is the most useful report.
 - **Non-ACES pipelines.** Untagged files are assumed ACEScg. How often that is
   wrong in practice (Blender's linear Rec.709, for example) is not known.
-- **Very large files and other Macs.** On an M2 Pro a 4K DWAA frame takes
-  77 ms for a thumbnail and 101 ms to first preview paint (budget: 300 / 500 ms),
-  and a 6K DWAA plate about 240-290 / 275-336 ms depending on load
-  (`build/bench`). Base M1/M2 chips, Intel Macs, and 8K/16K frames are
-  unmeasured.
+- **Other Macs, by hand.** On an M2 Pro (2026-10-09, six decode threads,
+  `build/bench`), thumbnail / preview: 6K DWAA camera plate 187 / 210 ms;
+  synthetic 8K DCI frames 229-280 / 247-298 ms; 16K lat-long frames
+  0.8-1.14 s (ZIP, tiled ZIP, PIZ, DWAA), inside a deadline that grows from
+  2 s at 8K to 5 s at 16K. Budget: 300 / 500 ms. Base M1/M2 chips and real
+  Intel Macs are unmeasured (GitHub's Intel runner decodes the 6K plate in
+  ~690 ms).
 - **Network volumes and slow disks.** Behaviour against the 2-second decode
   deadline.
 - **Multiple displays and wide-gamut or HDR monitors.** Output is SDR Display

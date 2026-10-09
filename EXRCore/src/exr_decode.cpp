@@ -134,7 +134,6 @@ bool decode_layer(const std::string& path, const FileInfo& info,
         error = "band buffer exceeds memory ceiling";
         return false;
     }
-    (void)dw_pixels;
 
     try {
         Imf::setGlobalThreadCount(Limits::kDecodeThreads);
@@ -181,7 +180,7 @@ bool decode_layer(const std::string& path, const FileInfo& info,
         // entire display window should be filled with the background color."
         // The band loop below simply does not execute, leaving the zero-filled
         // output, which is exactly that. Rejecting here was tried and was wrong.
-        Deadline deadline(Limits::kDeadlineMillis);
+        Deadline deadline(deadline_millis(dw_pixels));
         for (int64_t y0 = y_begin; y0 <= y_end; y0 += band_height) {
             if (deadline.expired()) { error = "decode deadline exceeded"; return false; }
             const int64_t y1 = std::min<int64_t>(y0 + band_height - 1, y_end);
