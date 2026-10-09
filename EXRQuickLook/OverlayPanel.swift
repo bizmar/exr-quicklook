@@ -260,6 +260,16 @@ final class OverlayPanel: NSView {
         b.target = self
         b.action = action
         b.translatesAutoresizingMaskIntoConstraints = false
+        // A dark disc and a soft shadow, so the buttons stay visible on any
+        // image: on a white frame (a solid alpha shown straight, say) the bare
+        // bezel disappeared, leaving only the badge (found by hand 2026-10-09).
+        b.wantsLayer = true
+        b.layer?.backgroundColor = NSColor(calibratedWhite: 0.05, alpha: 0.6).cgColor
+        b.layer?.cornerRadius = 13
+        b.layer?.shadowColor = NSColor.black.cgColor
+        b.layer?.shadowOpacity = 0.5
+        b.layer?.shadowRadius = 3
+        b.layer?.shadowOffset = .zero
     }
 
     private func configureBody(_ v: HUDBackground) {
