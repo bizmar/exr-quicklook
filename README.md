@@ -20,6 +20,13 @@ transform.
 > [post a test report](https://github.com/bizmar/exr-quicklook/issues/new?template=test-report.yml).
 > Security bugs go through [private reporting](SECURITY.md) instead.
 
+> [!TIP]
+> **Annoyed that macOS can't read these files itself? Tell Apple.** This
+> project fixes Finder and Quick Look, but only Apple can fix Preview and the
+> rest of the system, and it counts reports.
+> [How to file a Feedback report, with text to paste](docs/TELL-APPLE.md):
+> about five minutes.
+
 ## Why
 
 macOS's built-in EXR support has not kept up with the format. OpenEXR gained
