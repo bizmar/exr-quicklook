@@ -1333,3 +1333,16 @@ Decided (user, same day): ambient occlusion is data, shown Raw like mattes:
 `occlusion` anywhere, `ao` as a component or a compound word. No corpus file
 changed; Blender `ViewLayer.AO` and Unreal `AmbientOcclusion` flipped in the
 documented-names test.
+
+### 0.3.3 release fuzz: undefined pointer arithmetic in our decoder (2026-10-09)
+
+The release run (sanitized OpenEXR, 40 min) stopped on UBSan in *our* code,
+`point_slice` (exr_decode.cpp): the slice base, buffer minus the data-window
+origin, overflowed the address space for a window at row 8,388,608. Same idiom
+as OpenEXR's own (suppressed there as benign): OpenEXR adds the offset back and
+touches only the band's pixels, so nothing was read or written out of bounds,
+but forming that pointer is undefined. Now computed as integer address
+arithmetic (defined, wraps the same way). Renders unchanged (golden 0.00/255,
+OpenEXR DisplayWindow set). New `Tools/fuzz/replay.cpp` (built by fuzz.sh as
+build/fuzz/replay) replays a file through the fuzzer's calls without mutating
+it: the crasher aborts the old code and passes the new.

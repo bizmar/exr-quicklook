@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstdint>
 #include <cstring>
 #include <exception>
 
@@ -38,10 +39,18 @@ struct Plane {
 void point_slice(Imf::FrameBuffer& fb, const std::string& channel, std::vector<float>& buf,
                  int64_t dw_w, int32_t dx0, int64_t band_y0, float fill) {
     if (channel.empty()) return;
-    char* base = reinterpret_cast<char*>(buf.data())
-               - (static_cast<std::ptrdiff_t>(dx0) * static_cast<std::ptrdiff_t>(sizeof(float)))
-               - (static_cast<std::ptrdiff_t>(band_y0) * static_cast<std::ptrdiff_t>(dw_w)
-                  * static_cast<std::ptrdiff_t>(sizeof(float)));
+    // OpenEXR's convention: the base is where pixel (0,0) would be, so for a
+    // window far from the origin it lies far outside the buffer. OpenEXR adds
+    // the offset back and only touches this band's pixels, but forming that
+    // address with pointer arithmetic is undefined once it leaves the
+    // allocation (UBSan flagged a file with an extreme data window,
+    // 2026-10-09). Integer address arithmetic is defined, and wraps the same
+    // way. Bounded: |dx0| < 2^31, |band_y0| < 2^31, dw_w <= 65535, so the
+    // offset fits easily in 64 bits.
+    const int64_t offset = (static_cast<int64_t>(dx0) + band_y0 * dw_w)
+                         * static_cast<int64_t>(sizeof(float));
+    char* base = reinterpret_cast<char*>(reinterpret_cast<std::uintptr_t>(buf.data())
+                                         - static_cast<std::uintptr_t>(offset));
     fb.insert(channel, Imf::Slice(Imf::FLOAT, base, sizeof(float),
                                   static_cast<std::size_t>(dw_w) * sizeof(float),
                                   1, 1, fill));

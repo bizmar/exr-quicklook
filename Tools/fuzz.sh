@@ -2,7 +2,8 @@
 # Fuzzes EXRCore under AddressSanitizer + UndefinedBehaviorSanitizer.
 #   Tools/fuzz.sh [seconds=300] [workers=4]
 # Seeds: the fixture corpus plus small openexr-images files if fetched.
-# Crashers (input + report) are kept in build/fuzz/crashes/.
+# Crashers (input + report) are kept in build/fuzz/crashes/; replay one, with
+# the same sanitizers and suppressions, with build/fuzz/replay <file>.
 # Links the sanitized OpenEXR from Tools/build-openexr-asan.sh when it exists,
 # so faults inside OpenEXR are caught too, UB included; otherwise the release
 # build, where only a segfault shows.
@@ -21,6 +22,13 @@ c++ -std=c++17 -g -O1 -fsanitize=address,undefined -fno-sanitize-recover=undefin
     "$ROOT"/EXRCore/src/*.cpp "$ROOT/Tools/fuzz/main.cpp" \
     -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRCore-3_4 -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 \
     -o "$OUT/fuzz"
+# The same calls without mutation, to replay a crasher: build/fuzz/replay <file>
+c++ -std=c++17 -g -O1 -fsanitize=address,undefined -fno-sanitize-recover=undefined \
+    -fno-omit-frame-pointer -I "$ROOT/EXRCore/include" \
+    -isystem "$INS/include" -isystem "$INS/include/OpenEXR" -isystem "$INS/include/Imath" \
+    "$ROOT"/EXRCore/src/*.cpp "$ROOT/Tools/fuzz/replay.cpp" \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRCore-3_4 -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 \
+    -o "$OUT/replay"
 
 seeds=()
 while IFS= read -r f; do seeds+=("$f"); done < <(
