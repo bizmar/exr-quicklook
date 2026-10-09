@@ -60,6 +60,13 @@ inline float luminance(float r, float g, float b) {
     return 0.2126f * r + 0.7152f * g + 0.0722f * b;
 }
 
+// Luminance of ACEScg (AP1, D60) values: the Y row of AP1 -> XYZ. The
+// luminance view is computed here, after the conversion to AP1, so it is right
+// for every input space; Rec.709 weights on unconverted values were not.
+inline float luminance_ap1(float r, float g, float b) {
+    return 0.2722287168f * r + 0.6740817658f * g + 0.0536895174f * b;
+}
+
 // Mid-grey checkerboard, in display code values. Only ever used behind alpha in
 // the preview; thumbnails never composite (§6.3).
 inline float checker(int x, int y) {
@@ -123,7 +130,11 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
     if (!px) return false;
 
     const float gain = std::pow(2.0f, opt.exposure_stops);
-    const auto mode = static_cast<EXRChannelView>(opt.channel_view);
+    // Alpha isolation on a layer without alpha would show the decoder's fill
+    // of 1 as a solid white matte that is not in the file: show RGB instead
+    // (the overlay disables the Alpha button for such a layer).
+    const auto asked = static_cast<EXRChannelView>(opt.channel_view);
+    const auto mode = (asked == EXR_VIEW_ALPHA && !img.has_alpha) ? EXR_VIEW_RGB : asked;
     const bool over_checker = opt.alpha_over_checker && mode != EXR_VIEW_ALPHA;
     const int width = img.width;
 
@@ -154,15 +165,23 @@ bool transform(const Image& img, const float* file_chroma, bool has_chroma, bool
                 case EXR_VIEW_RED:       g = r; b = r; break;
                 case EXR_VIEW_GREEN:     r = g; b = g; break;
                 case EXR_VIEW_BLUE:      r = b; g = b; break;
-                case EXR_VIEW_ALPHA:     r = g = b = a; break;
-                case EXR_VIEW_LUMINANCE: r = g = b = luminance(r, g, b); break;
+                // A matte, not a colour: shown straight, 1 white and 0 black,
+                // as Nuke's viewer shows it. Through the view transform a solid
+                // alpha of 1 came out a flat 77% grey that read as a broken
+                // preview (found by hand 2026-10-09). Exposure still applies.
+                case EXR_VIEW_ALPHA:     r = g = b = a * gain; break;
+                // Imagery: after the conversion to AP1, below. Raw data has no
+                // primaries, so Rec.709 weights are as good as any.
+                case EXR_VIEW_LUMINANCE: if (raw) r = g = b = luminance(r, g, b); break;
                 case EXR_VIEW_RGB:
                 default: break;
             }
 
             // Raw skips the primaries matrix too: a data pass has no primaries.
-            if (!raw) {
+            // So does alpha (above).
+            if (!raw && mode != EXR_VIEW_ALPHA) {
                 if (!input) mat3_apply(m, r, g, b);
+                if (mode == EXR_VIEW_LUMINANCE) r = g = b = luminance_ap1(r, g, b);
                 apply_lut(*lut, r, g, b);
             }
 
@@ -448,6 +467,10 @@ int exr_source_render(EXRSource* source, const EXRRenderOptions* options,
 
 const char* exr_source_chromaticities_name(const EXRSource* source) {
     return source ? source->chromaticities_name.c_str() : "";
+}
+
+int exr_source_has_alpha(const EXRSource* source) {
+    return (source && source->image.has_alpha) ? 1 : 0;
 }
 
 int exr_source_has_chromaticities(const EXRSource* source) {

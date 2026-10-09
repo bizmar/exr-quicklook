@@ -67,11 +67,45 @@ static std::string layer_id(const char* path, const char* label, bool* is_data =
     return id;
 }
 
+// The alpha view of a file whose alpha is 1 everywhere, at `exposure` stops.
+static Rendered render_alpha(const std::string& path, float exposure) {
+    Rendered out;
+    EXRSource* src = exr_open(path.c_str(), 0, 0, nullptr);
+    if (!src) return out;
+    EXRRenderOptions o{};
+    o.channel_view = EXR_VIEW_ALPHA;
+    o.exposure_stops = exposure;
+    EXRRenderResult r{};
+    if (exr_source_render(src, &o, &r)) {
+        out.w = r.width;
+        out.h = r.height;
+        out.px.assign(r.pixels, r.pixels + size_t(r.width) * r.height * 4);
+        exr_render_free(&r);
+    }
+    exr_close(src);
+    return out;
+}
+
 int main(int argc, char** argv) {
     const std::string dir = argc > 1 ? argv[1] : "Tests/Fixtures/corpus";
     const std::string passes = dir + "/data-passes.exr";
     const std::string depth_only = dir + "/depth-only.exr";
     const std::string p_only = dir + "/position-only.exr";
+
+    // The alpha view shows the matte straight, not through the view transform:
+    // a solid alpha of 1 is white (it was a 77% grey that looked broken).
+    const Rendered solid = render_alpha(dir + "/aces2065-1.exr", 0.0f);
+    expect(solid.ok() && solid.at(0, 0, 0) == 65535 && solid.at(solid.w - 1, solid.h - 1, 1) == 65535,
+           "alpha view: alpha 1 shows white");
+    const Rendered half_a = render_alpha(dir + "/aces2065-1.exr", -1.0f);
+    expect(half_a.ok() && near(half_a.at(0, 0, 0), 32768),
+           "alpha view: exposure still applies (-1 stop shows alpha 1 as mid grey)");
+    // A layer without alpha: the alpha view shows the RGB image, not the
+    // decoder's fill of 1 as a solid white matte that is not in the file.
+    const Rendered no_alpha = render_alpha(dir + "/no-chromaticities.exr", 0.0f);
+    const Rendered rgb = render((dir + "/no-chromaticities.exr").c_str(), nullptr, nullptr);
+    expect(no_alpha.ok() && rgb.ok() && no_alpha.px == rgb.px,
+           "alpha view of a layer without alpha shows its RGB");
 
     // The raw view is offered in the picker alongside the baked transforms.
     bool listed = false;

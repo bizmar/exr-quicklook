@@ -152,7 +152,9 @@ update, so the posted version must be the trustworthy one).
 Still open, lower priority:
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
-  small-image panel bug (released in 0.3.2). Still untested: a real Intel
+  small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay
+  controls** (hit-test regression, found by hand 2026-10-09; fixed with a
+  test, needs 0.3.3). Still untested: a real Intel
   Mac, Save dialogs. `brew install` from the tap verified on this Mac
   2026-10-09; the app is now installed **from Homebrew in /Applications**,
   not by `Tools/install.sh` -- reinstalling a dev build there means two

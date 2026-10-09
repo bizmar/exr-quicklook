@@ -20,6 +20,7 @@ struct Image {
     int32_t width = 0;
     int32_t height = 0;
     std::vector<float> rgba;  // width * height * 4, row-major, top row first
+    bool has_alpha = false;   // the layer has an alpha channel (else A is 1)
 
     [[nodiscard]] bool empty() const { return width <= 0 || height <= 0 || rgba.empty(); }
 };

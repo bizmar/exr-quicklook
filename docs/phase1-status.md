@@ -1296,3 +1296,36 @@ Also from the user's testing: the exposure label showed "-0.0" and carried
 "0.0". Once, the overlay controls did not respond in a freshly launched
 preview process (it exited without rendering 20 s later; the next one was
 fine). Not reproduced; no error in the log.
+
+### 0.3.2's dead controls, and showing alpha straight (2026-10-09)
+
+The user found the overlay's controls unresponsive (slider, dropdowns, RGB/
+Alpha) while the two corner buttons worked. Cause, introduced in 0.3.2 by the
+"info panel stays under the buttons" change: both panel bodies are always laid
+out (shown by opacity), so the closed info panel now lay invisibly *over* the
+open controls, and `OverlayPanel.hitTest` answered a click landing in a closed
+body with nil, which dropped it instead of passing it to the control beneath.
+My checks had clicked only the corner buttons. Fix: hit-test the subviews front
+to back, skipping closed bodies (and the badge dot). New regression test,
+`Tools/test-overlay-clicks.swift` (in test-all): the real PreviewViewController
+in a hidden window, every visible control hit-tested at its centre with the
+panels in all four states. On 0.3.2's sources it reports the slider, segmented
+control and both popups dead; on the fix, none.
+
+The same session's "grey previews" were the Alpha view carried over from an
+earlier file (channel isolation carries, by design): alpha went through the
+ACES view, so a solid alpha of 1 showed as a flat 77% grey. Alpha is a matte,
+now shown straight (1 white, 0 black, exposure still applies), as Nuke shows
+it. Asked what else needs that treatment:
+- data passes (depth, position, normals, motion, IDs, mattes, cryptomatte)
+  already render Raw by default;
+- a layer **without** alpha showed the decoder's fill of 1 as a white matte:
+  now the alpha view shows RGB there and the Alpha button is disabled
+  (`exr_source_has_alpha`), while an alpha choice still carries to files that
+  have alpha;
+- the luminance view (API/CLI; not offered in the overlay) applied Rec.709
+  weights to unconverted values: now computed after the conversion, with AP1
+  weights.
+Open question for the user: single-channel utility passes that are not
+caught as data (AO/occlusion and similar 0-1 multipliers) still go through the
+ACES view, where 1.0 is light grey.

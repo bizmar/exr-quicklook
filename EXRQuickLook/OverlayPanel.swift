@@ -92,6 +92,23 @@ final class OverlayPanel: NSView {
     private var metadataExpanded = false
 
     private static let channelOrder: [EXRChannelView] = [EXR_VIEW_RGB, EXR_VIEW_ALPHA]
+    /// The decoded layer has alpha. Without it the Alpha button is disabled
+    /// and RGB is shown, but an alpha choice still carries to the next file.
+    private var hasAlpha: Bool
+
+    /// Called after a re-decode (another layer, the data window).
+    func setAlphaAvailable(_ available: Bool) {
+        hasAlpha = available
+        showChannel(settings.channel)
+    }
+
+    private func showChannel(_ channel: EXRChannelView) {
+        let alpha = Self.channelOrder.firstIndex(of: EXR_VIEW_ALPHA) ?? 1
+        channelControl.setEnabled(hasAlpha, forSegment: alpha)
+        channelControl.setToolTip(hasAlpha ? nil : "This layer has no alpha", forSegment: alpha)
+        let wanted = Self.channelOrder.firstIndex(of: channel) ?? 0
+        channelControl.selectedSegment = (wanted == alpha && !hasAlpha) ? 0 : wanted
+    }
 
     init(views: [(id: String, name: String)],
          colorspaces: [(id: String, name: String)],
@@ -102,6 +119,7 @@ final class OverlayPanel: NSView {
          layers: [(id: String, label: String, isData: Bool)],
          activeLayer: String,
          autoLayer: String,
+         hasAlpha: Bool,
          initial: EXRRenderer.Settings,
          onChange: @escaping (EXRRenderer.Settings) -> Void,
          onReset: @escaping () -> Void) {
@@ -116,6 +134,7 @@ final class OverlayPanel: NSView {
         self.layerIsData = layers.map(\.isData)
         self.autoLayer = autoLayer
         self.fileStatesItsPrimaries = fileStatesItsPrimaries
+        self.hasAlpha = hasAlpha
         super.init(frame: .zero)
 
         // Always dark, whatever the system theme. The panel floats over
@@ -375,17 +394,20 @@ final class OverlayPanel: NSView {
     /// so that is cross-process IPC on every click, and it is what made the
     /// buttons feel slow. Opacity costs a compositing change and nothing else.
     override func hitTest(_ point: NSPoint) -> NSView? {
-        guard let hit = super.hitTest(point) else { return nil }
-        // An invisible panel must not swallow clicks meant for the image.
-        var node: NSView? = hit
-        while let n = node, n !== self {
-            if (n === controlsBody && !controlsExpanded) ||
-               (n === metadataBody && !metadataExpanded) {
-                return nil
+        // A closed (invisible) panel is skipped, not just refused: the info
+        // panel now sits under the buttons, on top of the open controls, and
+        // refusing a click there dropped it, so every control it covered went
+        // dead (0.3.2, found by hand 2026-10-09). Front to back, like AppKit.
+        let local = convert(point, from: superview)
+        for v in subviews.reversed() where !v.isHidden && v !== badgeDot {
+            if (v === controlsBody && !controlsExpanded) ||
+               (v === metadataBody && !metadataExpanded) {
+                continue
             }
-            node = n.superview
+            if let hit = v.hitTest(local) { return hit }
         }
-        return hit
+        // Nothing open here: the click belongs to the image.
+        return nil
     }
 
     // MARK: - Actions
@@ -439,9 +461,12 @@ final class OverlayPanel: NSView {
         let li = layerPopup.indexOfSelectedItem
         let layer = (li >= 0 && li < layerIDs.count) ? layerIDs[li] : nil
         settings.layer = (layer == autoLayer) ? nil : layer
+        // With no alpha the button shows RGB but the carried choice is kept.
         let seg = channelControl.selectedSegment
-        settings.channel = (seg >= 0 && seg < Self.channelOrder.count)
-            ? Self.channelOrder[seg] : EXR_VIEW_RGB
+        if hasAlpha {
+            settings.channel = (seg >= 0 && seg < Self.channelOrder.count)
+                ? Self.channelOrder[seg] : EXR_VIEW_RGB
+        }
 
         // The view follows the layer -- raw for a data pass, the default for
         // imagery -- unless the user picked something else. Picking what
@@ -514,9 +539,7 @@ final class OverlayPanel: NSView {
         if s.view == automaticView(forLayerAt: layerPopup.indexOfSelectedItem) { s.view = nil }
         exposureSlider.doubleValue = Double(s.exposureStops)
         exposureLabel.stringValue = Self.exposureText(s.exposureStops)
-        if let seg = Self.channelOrder.firstIndex(of: s.channel) {
-            channelControl.selectedSegment = seg
-        }
+        showChannel(s.channel)
         selectView(s.view ?? automaticView(forLayerAt: layerPopup.indexOfSelectedItem))
         selectSpace(s.inputColorspace)
         checkerToggle.state = s.alphaOverChecker ? .on : .off

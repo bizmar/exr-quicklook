@@ -108,6 +108,9 @@ int exr_source_render(EXRSource* source, const EXRRenderOptions* options,
 // is meaningless then, and the UI should say so rather than silently ignoring
 // the control.
 int exr_source_has_chromaticities(const EXRSource* source);
+// 1 when the decoded layer has an alpha channel. Without one the alpha view
+// shows RGB, and the overlay disables its Alpha button.
+int exr_source_has_alpha(const EXRSource* source);
 
 // The file's own colourspace, named where recognised ("ACES2065-1 (AP0)"), or
 // "custom chromaticities" when it states primaries we do not have a name for,

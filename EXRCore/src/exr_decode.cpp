@@ -153,6 +153,7 @@ bool decode_layer(const std::string& path, const FileInfo& info,
             return false;
         }
 
+        out.has_alpha = !sel.a.empty();
         out.width = static_cast<int32_t>(out_w);
         out.height = static_cast<int32_t>(out_h);
         out.rgba.assign(static_cast<std::size_t>(out_pixels) * 4, 0.0f);

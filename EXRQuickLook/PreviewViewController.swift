@@ -59,6 +59,7 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
     /// the metadata panel names another.
     private var fileColorspaceID: String?
     private var layerOptions: [(id: String, label: String, isData: Bool)] = []
+    private var hasAlpha = true
     private var activeLayer = ""
     private var autoLayer = ""
     /// Names what applies when there is no override, for the picker's first entry.
@@ -142,6 +143,7 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
         fileStatesItsPrimaries = src.hasChromaticities
         fileColorspaceID = src.chromaticitiesID
         layerOptions = src.layers
+        hasAlpha = src.hasAlpha
         activeLayer = src.activeLayer
         autoLayer = src.autoLayer
         if src.hasChromaticities {
@@ -255,7 +257,12 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
                                                  useDataWindow: want.useDataWindow, layer: want.layer)
             }
             let image = self.source?.image(settings: want)
+            let alpha = self.source?.hasAlpha
             DispatchQueue.main.async {
+                if let alpha {
+                    self.hasAlpha = alpha
+                    self.overlay?.setAlphaAvailable(alpha)
+                }
                 self.rendering = false
                 self.renderedWithDataWindow = want.useDataWindow
                 self.renderedLayer = want.layer
@@ -282,6 +289,7 @@ final class PreviewViewController: NSViewController, QLPreviewingController {
             layers: layerOptions,
             activeLayer: activeLayer,
             autoLayer: autoLayer,
+            hasAlpha: hasAlpha,
             // Seed the controls from the carried settings so the panel shows
             // what is actually being rendered, not the defaults.
             initial: settings,

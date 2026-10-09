@@ -138,6 +138,8 @@ enum EXRRenderer {
         // wrapping is needed or correct.
         private let handle: OpaquePointer
         let hasChromaticities: Bool
+        /// The decoded layer has an alpha channel; without one, Alpha is disabled.
+        let hasAlpha: Bool
         /// The id of the colourspace the file states, matched against our named
         /// list, or nil when it states none or names one we do not know. The
         /// picker shows this rather than the assumed default, so the control and
@@ -173,6 +175,7 @@ enum EXRRenderer {
             activeLayer = exr_source_active_layer(h).map { String(cString: $0) } ?? ""
             autoLayer = exr_source_auto_layer(h).map { String(cString: $0) } ?? ""
             hasChromaticities = exr_source_has_chromaticities(h) == 1
+            hasAlpha = exr_source_has_alpha(h) == 1
             let stated = exr_source_chromaticities_name(h).map { String(cString: $0) } ?? ""
             chromaticitiesName = stated
             chromaticitiesID = stated.isEmpty

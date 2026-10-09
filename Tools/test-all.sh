@@ -85,6 +85,20 @@ else
   mkdir -p build/snapshots && build/snapshot-window build/snapshots
 fi
 
+hr "preview overlay: every visible control receives its clicks"
+# The real preview controller in a hidden window; 0.3.2 shipped with the
+# controls under the closed info panel unclickable.
+xcrun swiftc -swift-version 5 -O -parse-as-library -module-name OverlayClicks \
+    -Xcc -fmodule-map-file=EXRCore/include/module.modulemap -Xcc -IEXRCore/include \
+    EXRQuickLook/*.swift Shared/EXRRenderer.swift Shared/EXRPreferences.swift \
+    Tools/test-overlay-clicks.swift build/lib/libEXRCore.a \
+    -L "$INS/lib" -lOpenEXR-3_4 -lOpenEXRUtil-3_4 -lOpenEXRCore-3_4 \
+    -lIlmThread-3_4 -lIex-3_4 -lImath-3_2 -lc++ \
+    -framework Quartz -framework AppKit -o build/test-overlay-clicks
+build/test-overlay-clicks Tests/Fixtures/corpus/dwaa-multilayer-acescg.exr
+build/test-overlay-clicks Tests/Fixtures/corpus/aces2065-1.exr yes
+build/test-overlay-clicks Tests/Fixtures/corpus/no-chromaticities.exr no
+
 hr "hostile input: file swap, forged info rows, layer flood"
 mkdir -p build/hostile
 c++ -std=c++17 -O1 -I EXRCore/include -I "$INS/include" -I "$INS/include/OpenEXR" -I "$INS/include/Imath" \
