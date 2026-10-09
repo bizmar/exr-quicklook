@@ -84,7 +84,9 @@ without touching global config:
 `git -c credential.helper= -c credential.helper='!gh auth git-credential' push`.
 **Released 0.1.0** 2026-10-06 and **0.2.0** 2026-10-08 as styled DMGs,
 built locally with `Tools/package-release.sh`; **0.3.1** 2026-10-08, the
-first built, attested and scanned by CI (DMG sha256 f2c4027e...). There is no
+first built, attested and scanned by CI (DMG sha256 f2c4027e...); **0.3.2**
+2026-10-09, the small-image preview fix (sha256 5cc8fa70..., VirusTotal
+0/61), also on Homebrew. **0.3.2 is the version for the r/vfx post.** There is no
 0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
 push, then push a `v*` tag. CI builds the DMG, attests its provenance and
@@ -92,6 +94,8 @@ attaches it to a **draft** release. Download that exact asset (release
 downloads are fast here; *artifact* downloads are throttled to <1 KB/s),
 install it, run `build/qlprobe` / `build/qlpreviewprobe`, check
 `gh attestation verify`, write the notes, and publish only on the user's OK.
+**After publishing:** `Tools/bump-tap.sh <version>` points the Homebrew cask
+at it (audits against the real download, refuses a draft or non-latest).
 Actions are pinned by commit SHA, pip installs by hash
 (`Tools/ci-requirements.txt`, `Tools/dmg-requirements.txt`). The release job
 also uploads the DMG to VirusTotal (`Tools/virustotal.sh`), attests the result
@@ -141,13 +145,14 @@ update, so the posted version must be the trustworthy one).
    README). Verified before publishing: hash, both attestations, VirusTotal
    0/58, `ql-integration.sh` on macOS 27, the crash fixture rejected by the
    installed extension, 40-min fuzz on the fix clean (4.05 M inputs).
-   This is the version for the r/vfx post.
+   Superseded for the r/vfx post by 0.3.2 (preview fix from the hand check).
 
 Still open, lower priority:
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
-  small-image panel bug (unreleased: needs 0.3.2). Still untested: a real
-  Intel Mac, Save dialogs.
+  small-image panel bug (released in 0.3.2). Still untested: a real Intel
+  Mac, Save dialogs, an actual `brew install` of the cask (audited online,
+  not installed here: a second copy would clash with the dev install).
 - **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
   (plan §6.4). `fuzz.sh` now links a sanitized OpenEXR when
   `Tools/build-openexr-asan.sh` has been run (2026-10-08).
@@ -167,9 +172,13 @@ Decided, do not reopen without the user:
 - Script build only, no `.xcodeproj`.
 - **No shared EXRCore framework** (2026-10-08): ~5 MB saving is not worth new
   dynamic-loading risk under ad-hoc signing and the sandbox.
-- **No Sparkle / auto-installer, no Homebrew cask** (2026-10-08): the window's
-  update notice is the update mechanism. Homebrew dropped casks that fail
-  Gatekeeper from 2026-09-01.
+- **No Sparkle / auto-installer** (2026-10-08): the window's update notice is
+  the update mechanism. **Homebrew: our own tap, not homebrew/cask**
+  (2026-10-09, user's call): homebrew/cask disables casks failing Gatekeeper
+  since 2026-09-01, but third-party taps are exempt (Homebrew 7.0.8's
+  `audit_signing` skips non-official taps). `github.com/bizmar/homebrew-tap`,
+  `Casks/exr-quicklook.rb`; the cask does **not** strip quarantine (users do
+  Open Anyway, as with the DMG) and prints the steps as caveats.
 - **No double-click reset on the exposure slider** (Quick Look owns double-click).
 - **Decode threads stay at 3** (band height was the bottleneck, not threads).
 
@@ -320,6 +329,7 @@ Tools/corpus/manifest.py       # -> Tests/Fixtures/realworld/ (names only), used
 build/bench <files>            # thumbnail / preview / exposure timings vs the §6.7 budget
 Tools/fuzz.sh [secs] [workers]  # ASan+UBSan mutation fuzzer over the public API; crashers -> build/fuzz/crashes
 Tools/build-openexr-asan.sh    # sanitized OpenEXR for fuzz.sh (used automatically when built)
+Tools/bump-tap.sh <version>    # after publishing: point the Homebrew cask at the release
 build/qlprobe <files>          # headless: classify QL thumbnails by colour
 build/qlpreviewprobe <files>   # headless: drive a real QLPreviewView
 build/qlpanelprobe <files>     # the real spacebar panel, stepping items like ↓

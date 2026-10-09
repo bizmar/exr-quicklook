@@ -99,6 +99,14 @@ players run natively on macOS, Apple silicon and Intel:
    [latest release](https://github.com/bizmar/exr-quicklook/releases/latest).
    Open it and drag **EXR Quick Look** onto the **Applications** folder in the
    window.
+
+   **Or with [Homebrew](https://brew.sh)**, which then also delivers updates
+   through `brew upgrade`:
+   ```bash
+   brew install --cask bizmar/tap/exr-quicklook
+   ```
+   It downloads the same DMG and checks its SHA-256. Steps 2 and 3 still apply
+   (and step 2 again after each update).
 2. **Open the app once.** Double-click it in Applications. macOS says it
    cannot check or verify the app; click **Done** or **OK** (not Move to
    Trash). Then:
@@ -163,7 +171,8 @@ in.
 file deliberately keep the generic icon (deep images, luminance-chroma); see
 [Limitations](#limitations).
 
-**Uninstall:** drag **EXR Quick Look** from Applications to the Trash. The
+**Uninstall:** drag **EXR Quick Look** from Applications to the Trash (or
+`brew uninstall --cask exr-quicklook`). The
 extensions live inside the app and go with it. The only other trace is the
 small settings folder macOS keeps for every sandboxed app, in
 `~/Library/Containers/io.github.bizmar.exr-quicklook*`, which you can delete

@@ -1220,3 +1220,17 @@ buffer's base-pointer-minus-origin idiom wrapping for a negative data window
 (x = -256). Benign and universal (our own `point_slice` does the same), so it
 is suppressed by file and check only (`Tools/fuzz/ubsan-openexr.supp`, with the
 reason). Then 40 min, 6 workers: 3.43 M inputs, no reports.
+
+### Homebrew tap (2026-10-09)
+
+`github.com/bizmar/homebrew-tap`: `brew install --cask bizmar/tap/exr-quicklook`.
+homebrew/cask has disabled casks that fail Gatekeeper since 2026-09-01 and
+`--no-quarantine` is gone, but third-party taps are not audited for signing
+(Homebrew 7.0.8, `Cask::Audit#audit_signing` returns early for non-official
+taps). The cask keeps Homebrew's quarantine (no postflight `xattr`): users
+still do Open Anyway, and the caveats say so. A separate tap rather than
+`Casks/` in this repo, because tapping clones the whole repository (~140 MB
+here, refetched on every push) against 11 KB. Strict online audit passes;
+livecheck follows the latest release. `Tools/bump-tap.sh <version>` updates it
+after each release and refuses drafts and non-latest versions (the audit's
+livecheck rejects an older version: seen on a dry run with 0.3.1).
