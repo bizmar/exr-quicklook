@@ -127,11 +127,14 @@ players run natively on macOS, Apple silicon and Intel:
    Then double-click the app. (Right-click → **Open** no longer bypasses this
    on macOS 15 and later; Apple removed that shortcut.)
    </details>
-3. **Turn the extensions on.** The app's window has a button that takes you
-   there: **System Settings → General → Login Items & Extensions**, scroll to
-   **Extensions**, and open **Quick Look** (or **EXR Quick Look**, if the list
-   is sorted by app). Switch on both **EXR Quick Look Preview** and
-   **EXR Quick Look Thumbnail**.
+3. **Check the extensions are on.** The app's window has a button that takes
+   you there: **System Settings → General → Login Items & Extensions**.
+   - Scroll down to the **Extensions** section. It can be a long way down the
+     page, so keep scrolling.
+   - Find the **Quick Look** row and click the **ⓘ** button at its right-hand
+     end.
+   - Make sure both **EXR Quick Look Preview** and **EXR Quick Look Thumbnail**
+     are switched on. They may already be.
 4. **Try it.** Select an EXR in Finder and press Space.
 
 ### Check the download (optional, recommended for an unsigned app)
@@ -172,11 +175,14 @@ file deliberately keep the generic icon (deep images, luminance-chroma); see
 [Limitations](#limitations).
 
 **Uninstall:** drag **EXR Quick Look** from Applications to the Trash (or
-`brew uninstall --cask exr-quicklook`). The
-extensions live inside the app and go with it. The only other trace is the
-small settings folder macOS keeps for every sandboxed app, in
-`~/Library/Containers/io.github.bizmar.exr-quicklook*`, which you can delete
-too.
+`brew uninstall --cask exr-quicklook`). The extensions live inside the app and
+go with it; there is nothing to switch off first. The only other traces are
+the small settings folders macOS keeps for sandboxed apps:
+`~/Library/Containers/io.github.bizmar.exr-quicklook*` and
+`~/Library/Group Containers/group.io.github.bizmar.exr-quicklook`. To remove
+them, drag them to the Trash in Finder (Shift-Cmd-G to go there). macOS
+protects them from Terminal, so `rm` and `mv` there fail unless Terminal has
+Full Disk Access.
 
 Tested by hand on macOS 26 and 27 (Apple silicon). Every push is also tested
 on GitHub's Macs: **macOS 14, 15 and 26 on Apple silicon, and macOS 15 on

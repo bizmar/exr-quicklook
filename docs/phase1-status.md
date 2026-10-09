@@ -1234,3 +1234,19 @@ here, refetched on every push) against 11 KB. Strict online audit passes;
 livecheck follows the latest release. `Tools/bump-tap.sh <version>` updates it
 after each release and refuses drafts and non-latest versions (the audit's
 livecheck rejects an older version: seen on a dry run with 0.3.1).
+
+First real `brew install` (2026-10-09, macOS 27): after a full uninstall
+(extensions unregistered, stale LaunchServices records for build copies
+dropped), `brew install --cask bizmar/tap/exr-quicklook` put the app in
+/Applications with Homebrew's quarantine kept; Gatekeeper rejected it until
+the user's Open Anyway; then `ql-integration.sh` passed on that copy.
+Installing a cask by full name trusts it under Homebrew's new tap trust, so
+users need no extra step. Learned from the user's run: the Extensions section
+can be far down Login Items & Extensions, and the switches sit behind the ⓘ
+at the right of the Quick Look row -- now said in the README, the cask
+caveats, the DMG's INSTALL.txt and the app window (the window text ships with
+the next release). The switches were already on because macOS remembers them
+by bundle id; a first install may find them off. Also: macOS refuses `mv`/`rm`
+of an app's sandbox containers from Terminal without Full Disk Access, so the
+README says to trash them in Finder; the group container is now in the
+cask's `zap` list.

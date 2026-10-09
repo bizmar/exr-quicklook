@@ -117,8 +117,10 @@ struct AppWindow: View {
     private var enablingSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Turn it on").font(.headline)
-            Text("Switch on both EXR Quick Look extensions under Login Items & "
-                 + "Extensions → Quick Look. Finder will not use them until you do.")
+            Text("In Login Items & Extensions, scroll down to Extensions (it can be "
+                 + "far down), click the ⓘ at the right of the Quick Look row, and "
+                 + "check both EXR Quick Look extensions are on. Finder will not use "
+                 + "them until they are.")
                 .font(.callout).foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             Button("Open Login Items & Extensions") {

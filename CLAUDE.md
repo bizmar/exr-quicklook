@@ -151,8 +151,10 @@ Still open, lower priority:
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). Still untested: a real Intel
-  Mac, Save dialogs, an actual `brew install` of the cask (audited online,
-  not installed here: a second copy would clash with the dev install).
+  Mac, Save dialogs. `brew install` from the tap verified on this Mac
+  2026-10-09; the app is now installed **from Homebrew in /Applications**,
+  not by `Tools/install.sh` -- reinstalling a dev build there means two
+  copies with one bundle id (uninstall the cask first, or test via probes).
 - **Not built:** fuzzing *in CI*; `preview`-attribute / mip-level fast path
   (plan §6.4). `fuzz.sh` now links a sanitized OpenEXR when
   `Tools/build-openexr-asan.sh` has been run (2026-10-08).
