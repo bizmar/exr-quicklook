@@ -87,11 +87,9 @@ built locally with `Tools/package-release.sh`; **0.3.1** 2026-10-08, the
 first built, attested and scanned by CI (DMG sha256 f2c4027e...); **0.3.2**
 2026-10-09, the small-image preview fix (sha256 5cc8fa70...), also on
 Homebrew -- **but 0.3.2 has dead overlay controls** (see below).
-**0.3.3 is DRAFTED and verified, awaiting the user's OK to publish**
-(2026-10-09): tag v0.3.3 at 8f925a0; hash, both attestations, VirusTotal
-0/61, ql-integration on macOS 27 all pass; notes in dist/RELEASE-NOTES-0.3.3.md
-are already on the draft. On publish: `gh release edit v0.3.3 --draft=false
---latest`, then `Tools/bump-tap.sh 0.3.3`. **0.3.3 is the version for the
+**0.3.3 published 2026-10-09** (sha256 48d478fb...; tag v0.3.3 at 8f925a0;
+hash, both attestations, VirusTotal 0/61, ql-integration on macOS 27 all
+passed before publishing), and the Homebrew cask points at it. **0.3.3 is the version for the
 r/vfx post.** There is no
 0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
@@ -156,10 +154,9 @@ update, so the posted version must be the trustworthy one).
    Superseded for the r/vfx post by 0.3.2 (preview fix from the hand check).
 
 Still open, lower priority:
-- **The user's Mac now runs the 0.3.3 DMG's app from ~/Applications** (via
-  Tools/install.sh), not Homebrew. To move them back to Homebrew after the
-  publish: `Tools/uninstall.sh`, `brew install --cask bizmar/tap/exr-quicklook`,
-  then **relaunch Finder** (see gotchas).
+- **The user's Mac runs 0.3.3 from Homebrew in /Applications** (installed
+  2026-10-09 after the publish; the dev copy in ~/Applications was removed).
+  Don't `Tools/install.sh` a dev build alongside it: two copies, one bundle id.
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay
