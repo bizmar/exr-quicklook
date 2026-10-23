@@ -1363,3 +1363,29 @@ it: the crasher aborts the old code and passes the new.
   ~0.1/255 mean on photographed frames). A remembered view could only reach the
   preview (no shared storage unsigned), so it would be a permanent badged
   divergence from thumbnails.
+
+## OpenEXR fix for GHSA-hcp5-mx7q-9642 checked (2026-10-23)
+
+Upstream proposed the fix as
+[openexr PR #2746](https://github.com/AcademySoftwareFoundation/openexr/pull/2746)
+(opened 2026-10-16, not yet merged or reviewed; the advisory is still a draft,
+severity low). Two changes: `compute_sampled_height` returns 0 for any
+non-positive remaining height (the root cause we reported), and
+`DwaCompressor_uncompress` rejects a chunk when any channel's pushed row count
+differs from its sampled height.
+
+Checked locally by applying the PR to our pinned 3.4.16 and building both
+trees with ASan (scratch builds only, not the shipped library):
+- `exrcheck -c` on `malformed/dwaa-ysampling.exr`: unpatched SEGV (null read in
+  `LossyDctDecoder_execute`), patched handled cleanly. No crash on the other
+  52 malformed and corpus fixtures either.
+- **No false rejections.** A reader decoding every channel of every part
+  gave bit-identical pixel hashes for both builds on 138 files (our fixtures,
+  the ASWF corpus, the showcase set; the same 13 fail in both). Only 5 of
+  those are DWA and none subsampled, so 210 valid DWAA/DWAB files were
+  generated with 2x/4x y-subsampled half and float channels, data windows
+  starting at -8..12 and heights 4..520 (chunks on and off the sampling
+  grid): all decode, identically, in both builds.
+
+Our guard in `chunk_within_limits` stays until a release containing the fix
+is pinned and the fixture still fails cleanly through our own path.

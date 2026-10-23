@@ -147,6 +147,13 @@ update, so the posted version must be the trustworthy one).
    Reported privately to OpenEXR as **GHSA-hcp5-mx7q-9642** (user approved);
    watch it, and drop our guard only when a fixed OpenEXR is pinned *and* the
    fixture still fails cleanly.
+   **Fix proposed upstream 2026-10-16: openexr PR #2746** (open, unreviewed
+   as of 2026-10-23; labels v3.4, v3.5): `tmph <= 0` in
+   `compute_sampled_height`, plus a per-channel row-count check in
+   `DwaCompressor_uncompress`. Verified locally against 3.4.16 (details in
+   phase1-status.md): the fixture no longer crashes, and decoding is
+   bit-identical on 138 corpus files and 210 generated valid DWAA/DWAB files
+   with y-subsampled channels. When a release carries it: bump the pin, rerun.
 5. ~~Release 0.3.1~~ **published 2026-10-08** (fix + failure-reason logging +
    README). Verified before publishing: hash, both attestations, VirusTotal
    0/58, `ql-integration.sh` on macOS 27, the crash fixture rejected by the
