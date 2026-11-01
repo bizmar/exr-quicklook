@@ -89,8 +89,15 @@ first built, attested and scanned by CI (DMG sha256 f2c4027e...); **0.3.2**
 Homebrew -- **but 0.3.2 has dead overlay controls** (see below).
 **0.3.3 published 2026-10-09** (sha256 48d478fb...; tag v0.3.3 at 8f925a0;
 hash, both attestations, VirusTotal 0/61, ql-integration on macOS 27 all
-passed before publishing), and the Homebrew cask points at it. **0.3.3 is the version for the
-r/vfx post.** There is no
+passed before publishing), and the Homebrew cask points at it. **0.3.4 is DRAFTED and verified, awaiting the user's OK to publish**
+(2026-11-01): OpenEXR 3.4.17 for the 2026-10-31 advisories (incl. a critical
+B44 decoder overflow) plus the subtler buttons and exposure ↺. Tag v0.3.4 at
+c68ef9e; DMG sha256 3badf8ac...; hash, both attestations, VirusTotal 0/61,
+40-min fuzz on 3.4.17 clean (3.65 M inputs), CI/compat/CodeQL green; notes
+(dist/RELEASE-NOTES-0.3.4.md) already on the draft. On publish: `gh release
+edit v0.3.4 --draft=false --latest`, then `Tools/bump-tap.sh 0.3.4`; then the
+user `brew upgrade`s (Open Anyway again). **0.3.4 supersedes 0.3.3 as the
+version for the r/vfx post** (0.3.3 ships the vulnerable OpenEXR 3.4.16). There is no
 0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
 push, then push a `v*` tag. CI builds the DMG, attests its provenance and
