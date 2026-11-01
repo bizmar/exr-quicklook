@@ -153,7 +153,11 @@ update, so the posted version must be the trustworthy one).
    `DwaCompressor_uncompress`. Verified locally against 3.4.16 (details in
    phase1-status.md): the fixture no longer crashes, and decoding is
    bit-identical on 138 corpus files and 210 generated valid DWAA/DWAB files
-   with y-subsampled channels. When a release carries it: bump the pin, rerun.
+   with y-subsampled channels. **Published 2026-10-31, fixed in 3.4.17 / 3.5.3;
+   pinned 3.4.17 on 2026-11-01** (with a dozen other advisories, below). With
+   the fix OpenEXR *decodes* the fixture; our guard still rejects it and stays
+   as a backstop (user's plan). The user's reporter credit showed "pending"
+   until they accept it on the advisory page.
 5. ~~Release 0.3.1~~ **published 2026-10-08** (fix + failure-reason logging +
    README). Verified before publishing: hash, both attestations, VirusTotal
    0/58, `ql-integration.sh` on macOS 27, the crash fixture rejected by the

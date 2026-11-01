@@ -21,7 +21,7 @@ You were asleep; these are stated rather than agreed, and both are reversible.
 
 | Component | State |
 |---|---|
-| `Tools/build-openexr.sh` | Imath v3.2.2 + OpenEXR v3.4.16, pinned, universal static (was 3.4.5 until 2026-10-08) |
+| `Tools/build-openexr.sh` | Imath v3.2.2 + OpenEXR v3.4.17, pinned, universal static (3.4.5 until 2026-10-08, 3.4.16 until 2026-11-01) |
 | `EXRCore/exr_limits.h` | Bounds + checked arithmetic (§6.6) |
 | `EXRCore/exr_layers.*` | Full primary layer selection (§6.3) |
 | `EXRCore/exr_reader.*` | Header inspection (§6.2) |
@@ -1389,3 +1389,38 @@ trees with ASan (scratch builds only, not the shipped library):
 
 Our guard in `chunk_within_limits` stays until a release containing the fix
 is pinned and the fixture still fails cleanly through our own path.
+
+## OpenEXR 3.4.17 (2026-11-01)
+
+OpenEXR released 3.3.15, 3.4.17 and 3.5.3 on 2026-10-31 and published 14
+advisories with them, ours among them:
+[GHSA-hcp5-mx7q-9642](https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-hcp5-mx7q-9642)
+(low; fix PR #2746, approved and merged 2026-10-26).
+
+Of the others, those that reach a reader of flat scanline/tiled images like
+ours, and that 3.4.16 (shipped in 0.3.1-0.3.3) is affected by:
+
+| Advisory | Severity | What |
+|---|---|---|
+| GHSA-frx8-5p4h-j8m7 | critical | heap write out of bounds, integer overflow in the B44 chunk unpacked-size computation |
+| GHSA-whf5-29mj-gp53 | high | heap write out of bounds, signed integer overflow in the DWAA/DWAB `LossyDctDecoder` |
+| GHSA-rjg8-982x-jhc2 | high | uninitialised heap memory in DWA decode output (short zlib stream) |
+| GHSA-g248-596f-9995 | high | extra `chlist` header attributes merged into `Header::channels()`: heap error |
+| GHSA-3cp4-779m-h837 | high | use-after-free in `exr_copy_unset_attributes()` for channel names over 31 bytes |
+| GHSA-fp76-2fh4-4xww | medium | unbounded multipart headers: memory and O(N^2) time |
+| GHSA-vp77-hhrc-m2c3 | high | subsampled chunk-height miscount: our bug's DWA null read (guarded since 0.3.1) plus a B44 *encoder* overflow (we never encode) |
+
+Not applicable: the Python bindings (638x, j76p), the 3.5-only ZSTD deep
+decoder (6358, 98rx), the deep-tiled writer (rxwg), the encoder fixed in 3.4.13
+(x92j), and an HTJ2K store fixed in 3.4.15 (hrp4). Our own limits may already
+stop some of the applicable ones; that was not proven case by case, the
+library was simply updated.
+
+Pinned 3.4.17 (`build-openexr.sh --clean`, and the sanitized build for the
+fuzzer). Checks: full `test-all.sh` passes, golden images unchanged within
+1/255; the ASWF corpus, our fixtures and the showcase set (138 files) and the
+210 generated subsampled DWAA/DWAB files decode with every channel under ASan,
+no errors beyond the 13 files that already failed. **3.4.17 decodes
+`malformed/dwaa-ysampling.exr` cleanly** (the subsampled channel just has no
+rows in that chunk); our `chunk_within_limits` guard still rejects it and stays
+as a backstop.

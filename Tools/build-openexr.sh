@@ -10,7 +10,7 @@
 set -euo pipefail
 
 IMATH_TAG=v3.2.2
-OPENEXR_TAG=v3.4.16
+OPENEXR_TAG=v3.4.17
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 V="$ROOT/Vendor/openexr"
