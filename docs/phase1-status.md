@@ -1397,27 +1397,46 @@ advisories with them, ours among them:
 [GHSA-hcp5-mx7q-9642](https://github.com/AcademySoftwareFoundation/openexr/security/advisories/GHSA-hcp5-mx7q-9642)
 (low; fix PR #2746, approved and merged 2026-10-26).
 
-Of the others, those that reach a reader of flat scanline/tiled images like
-ours, and that 3.4.16 (shipped in 0.3.1-0.3.3) is affected by:
+**Checked against the source 2026-11-08** (one agent per advisory, tracing the
+call path from `decode_layer`; the first version of this section went by the
+titles and was wrong in places):
 
-| Advisory | Severity | What |
-|---|---|---|
-| GHSA-frx8-5p4h-j8m7 | critical | heap write out of bounds, integer overflow in the B44 chunk unpacked-size computation |
-| GHSA-whf5-29mj-gp53 | high | heap write out of bounds, signed integer overflow in the DWAA/DWAB `LossyDctDecoder` |
-| GHSA-rjg8-982x-jhc2 | high | uninitialised heap memory in DWA decode output (short zlib stream) |
-| GHSA-g248-596f-9995 | high | extra `chlist` header attributes merged into `Header::channels()`: heap error |
-| GHSA-3cp4-779m-h837 | high | use-after-free in `exr_copy_unset_attributes()` for channel names over 31 bytes |
-| GHSA-fp76-2fh4-4xww | medium | unbounded multipart headers: memory and O(N^2) time |
-| GHSA-vp77-hhrc-m2c3 | high | subsampled chunk-height miscount: our bug's DWA null read (guarded since 0.3.1) plus a B44 *encoder* overflow (we never encode) |
+| Advisory | Severity | Reaches our read path? | Stopped by our limits? | Fixed in 3.4.17? |
+|---|---|---|---|---|
+| GHSA-frx8-5p4h-j8m7, B44 chunk size overflow | critical | yes | **yes**: 65535 tile cap and 1024 channels make the wrap impossible | yes |
+| GHSA-whf5-29mj-gp53, DWA signed overflow | high | yes | **yes**: needs width >= 268,435,456 | yes |
+| GHSA-rjg8-982x-jhc2, uninitialised DWA output | high | yes | no | yes |
+| GHSA-g248-596f-9995, extra `chlist` attributes | high | yes, but our buffers are not sized from them, so only blank layers (read, not run) | no | yes |
+| GHSA-fp76-2fh4-4xww, multipart header parsing | medium | yes, CPU only (quadratic before our part cap applies) | no | yes |
+| GHSA-hcp5-mx7q-9642 and GHSA-vp77 (DWA half) | low / high | yes | **partly**, see below | yes |
+| GHSA-hrp4-xjp5-cq7j, HTJ2K misaligned store | high | **yes** | no | **no**, see below |
 
-Not applicable: the Python bindings (638x, j76p), the 3.5-only ZSTD deep
-decoder (6358, 98rx), the deep-tiled writer (rxwg), the encoder fixed in 3.4.13
-(x92j), and an HTJ2K store fixed in 3.4.15 (hrp4). Our own limits may already
-stop some of the applicable ones; that was not proven case by case, the
-library was simply updated.
+Not applicable: GHSA-3cp4 (`exr_copy_unset_attributes`, no caller on a read
+path), the Python bindings (638x, j76p), the deep-tiled writer (rxwg), the 3.5-only
+ZSTD deep decoder (6358, 98rx), and the encoder fixed in 3.4.13 (x92j).
+
+**GHSA-hrp4 is not fixed in 3.4.17**, whatever its metadata says (it lists
+3.4.0-3.4.14 as affected and 3.4.17 as patched). `internal_ht.cpp` still stores
+through a typed `int32_t*` at v3.4.17; v3.5.3 replaced it with
+`unaligned_store32_array`. A valid 587x64 HTJ2K256 file with mixed UINT and HALF
+channels gives UBSan "store to misaligned address" on sanitized 3.4.17 through
+`exr_source_render`. In bounds, no ASan report, decodes fine on arm64. Intel
+not run. Not yet reported upstream, and moving to 3.5.3 is undecided.
+
+**Our y-sampling guard has a gap.** It is in the non-tiled branch of
+`chunk_within_limits`, which `hasTileDescription()` selects, and that is just
+"a `tiles` attribute exists". A scanline DWAA file with a stray `tiles`
+attribute skips the guard and still decodes as scanlines: it crashed the 3.4.16
+build (SIGSEGV in `LossyDctDecoder_execute`). On 3.4.17 the same file decodes
+cleanly, under the sanitized `build/fuzz/replay` and through the installed
+0.3.4 extensions, so the upstream fix is what protects us; the guard is partial.
+To close it, key the branch on the part's type rather than on the attribute.
+A swapped file between the two opens also avoids it (inferred, not run).
 
 Pinned 3.4.17 (`build-openexr.sh --clean`, and the sanitized build for the
-fuzzer). Checks: full `test-all.sh` passes, golden images unchanged within
+fuzzer). Checks: full `test-all.sh` passes (note: `build-core.sh` does not
+rebuild `build/exrcli`, which stayed on 3.4.16 locally; CI built everything
+fresh on 3.4.17 and passed), golden images unchanged within
 1/255; the ASWF corpus, our fixtures and the showcase set (138 files) and the
 210 generated subsampled DWAA/DWAB files decode with every channel under ASan,
 no errors beyond the 13 files that already failed. **3.4.17 decodes

@@ -25,7 +25,7 @@ phase1-status.md). The probes cannot drive a control change.
 `build/qlpanelprobe` drives the real spacebar panel for lifecycle tracing. Data passes (P, depth, motion) render Raw
 by default; see phase1-status.md "Data passes".
 
-**Golden images** (`Tests/Golden`, `test_golden`, built 2026-10-08): 72 renders
+**Golden images** (`Tests/Golden`, `test_golden`, built 2026-10-08): 78 renders
 of every fixture, default view and Raw, 1/255 tolerance. A deliberate pixel
 change needs `--update` and a review of the changed PNGs.
 
@@ -89,15 +89,11 @@ first built, attested and scanned by CI (DMG sha256 f2c4027e...); **0.3.2**
 Homebrew -- **but 0.3.2 has dead overlay controls** (see below).
 **0.3.3 published 2026-10-09** (sha256 48d478fb...; tag v0.3.3 at 8f925a0;
 hash, both attestations, VirusTotal 0/61, ql-integration on macOS 27 all
-passed before publishing), and the Homebrew cask points at it. **0.3.4 is DRAFTED and verified, awaiting the user's OK to publish**
-(2026-11-01): OpenEXR 3.4.17 for the 2026-10-31 advisories (incl. a critical
-B44 decoder overflow) plus the subtler buttons and exposure ↺. Tag v0.3.4 at
-c68ef9e; DMG sha256 3badf8ac...; hash, both attestations, VirusTotal 0/61,
-40-min fuzz on 3.4.17 clean (3.65 M inputs), CI/compat/CodeQL green; notes
-(dist/RELEASE-NOTES-0.3.4.md) already on the draft. On publish: `gh release
-edit v0.3.4 --draft=false --latest`, then `Tools/bump-tap.sh 0.3.4`; then the
-user `brew upgrade`s (Open Anyway again). **0.3.4 supersedes 0.3.3 as the
-version for the r/vfx post** (0.3.3 ships the vulnerable OpenEXR 3.4.16). There is no
+passed before publishing), and the Homebrew cask points at it. **0.3.4 published 2026-11-08** (sha256 3badf8ac...; tag v0.3.4 at c68ef9e;
+OpenEXR 3.4.17 for the 2026-10-31 advisories, subtler buttons, exposure ↺;
+hash, both attestations, VirusTotal 0/61, 40-min fuzz clean at 3.65 M inputs,
+CI/compat/CodeQL, ql-integration on this exact DMG on macOS 27), and the
+Homebrew cask points at it. **0.3.4 is the version for the r/vfx post.** There is no
 0.3.0: held back for the OpenEXR crash, its draft and tag deleted (user's OK).
 **Release process after 0.2.0 (decided 2026-10-08):** bump the version,
 push, then push a `v*` tag. CI builds the DMG, attests its provenance and
@@ -172,9 +168,16 @@ update, so the posted version must be the trustworthy one).
    Superseded for the r/vfx post by 0.3.2 (preview fix from the hand check).
 
 Still open, lower priority:
-- **The user's Mac runs 0.3.3 from Homebrew in /Applications** (installed
-  2026-10-09 after the publish; the dev copy in ~/Applications was removed).
-  Don't `Tools/install.sh` a dev build alongside it: two copies, one bundle id.
+- **The user's Mac runs the 0.3.4 DMG's app in /Applications**, copied over the
+  Homebrew 0.3.3 on 2026-11-08 to test the exact download, so `brew` still
+  records 0.3.3 until the user runs `brew upgrade --cask
+  bizmar/tap/exr-quicklook` (then Open Anyway). Don't `Tools/install.sh` a dev
+  build alongside it: two copies, one bundle id.
+- **Open from the 2026-11-08 advisory check (phase1-status "OpenEXR 3.4.17"):**
+  GHSA-hrp4 (HTJ2K misaligned store) is still in 3.4.17 despite its metadata,
+  fixed only in 3.5.3: tell upstream (ask first) and decide on 3.5.3. Our
+  y-sampling guard is skipped by a stray `tiles` attribute (harmless on 3.4.17;
+  key the branch on the part type next release).
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay
