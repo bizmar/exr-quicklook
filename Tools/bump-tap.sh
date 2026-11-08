@@ -41,10 +41,18 @@ git diff --quiet && { echo "    already at $VERSION"; exit 0; }
 
 say "Auditing the cask against the real download"
 TAP_NAME=bizmar/tapcheck
-HOMEBREW_NO_AUTO_UPDATE=1 brew untap "$TAP_NAME" >/dev/null 2>&1 || true
+# Delete the folder rather than `brew untap`: untap refuses a tap that is not
+# trusted or that holds an installed cask, and this one holds a same-named copy
+# of ours. Left behind, it makes plain `brew list --cask` fail as ambiguous.
+drop_tap() {
+  local dir
+  dir=$(brew --repository "$TAP_NAME")
+  case "$dir" in */Taps/bizmar/homebrew-tapcheck) rm -rf "$dir" ;; esac
+}
+drop_tap
 git -c user.name=check -c user.email=check@localhost commit -qam check
 HOMEBREW_NO_AUTO_UPDATE=1 brew tap "$TAP_NAME" "$WORK/tap" >/dev/null
-trap 'HOMEBREW_NO_AUTO_UPDATE=1 brew untap "$TAP_NAME" >/dev/null 2>&1 || true' EXIT
+trap drop_tap EXIT
 HOMEBREW_NO_AUTO_UPDATE=1 brew audit --cask --online --strict "$TAP_NAME/exr-quicklook"
 git reset -q --soft HEAD~1
 
