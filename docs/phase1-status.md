@@ -1420,8 +1420,21 @@ ZSTD deep decoder (6358, 98rx), and the encoder fixed in 3.4.13 (x92j).
 through a typed `int32_t*` at v3.4.17; v3.5.3 replaced it with
 `unaligned_store32_array`. A valid 587x64 HTJ2K256 file with mixed UINT and HALF
 channels gives UBSan "store to misaligned address" on sanitized 3.4.17 through
-`exr_source_render`. In bounds, no ASan report, decodes fine on arm64. Intel
-not run. Not yet reported upstream, and moving to 3.5.3 is undecided.
+`exr_source_render`. In bounds, no ASan report. Not yet reported upstream, and
+moving to 3.5.3 is undecided.
+
+Re-checked 2026-11-08 by trying to refute it. The fix is PR #2695 (0bf1055bb),
+on main and in 3.5.3 only. `internal_ht.cpp` is the same blob in 3.4.14 through
+3.4.18, and nothing else in 3.4.15-3.4.18 changes the buffer layout or rejects
+these files. The store is misaligned only with an odd (sampled) width and a
+mix of 2- and 4-byte channels in the right order; even widths never trigger
+it. In the library we ship it compiles to scalar `str` (arm64) and `movl`
+(x86_64), not vectorised, and a misaligned layout round-tripped bit-exact on the
+arm64 slice and on the x86_64 slice under Rosetta (not real Intel hardware). So
+it is undefined behaviour in the source with no fault or corruption in our
+binaries. The fuzz runs say nothing about this path: the seeds appear to have no
+HTJ2K file (inferred), and adding one would make `fuzz.sh` stop on this report
+until it is suppressed or OpenEXR is fixed.
 
 **Our y-sampling guard has a gap.** It is in the non-tiled branch of
 `chunk_within_limits`, which `hasTileDescription()` selects, and that is just
@@ -1443,3 +1456,7 @@ no errors beyond the 13 files that already failed. **3.4.17 decodes
 `malformed/dwaa-ysampling.exr` cleanly** (the subsampled channel just has no
 rows in that chunk); our `chunk_within_limits` guard still rejects it and stays
 as a backstop.
+
+OpenEXR 3.4.18 (2026-11-08) needs no action here: GHSA-pp92 is in the
+OpenEXRUtil `Imf::loadImage` API, which we do not call (absent from the shipped
+binary), GHSA-2v77 is the Python writer, and its DWA change is compress-only.

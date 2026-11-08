@@ -168,16 +168,24 @@ update, so the posted version must be the trustworthy one).
    Superseded for the r/vfx post by 0.3.2 (preview fix from the hand check).
 
 Still open, lower priority:
-- **The user's Mac runs the 0.3.4 DMG's app in /Applications**, copied over the
-  Homebrew 0.3.3 on 2026-11-08 to test the exact download, so `brew` still
-  records 0.3.3 until the user runs `brew upgrade --cask
-  bizmar/tap/exr-quicklook` (then Open Anyway). Don't `Tools/install.sh` a dev
-  build alongside it: two copies, one bundle id.
+- **The user's Mac runs 0.3.4 from Homebrew in /Applications** (`brew upgrade`
+  2026-11-08). Don't `Tools/install.sh` a dev build alongside it: two copies,
+  one bundle id. A leftover `bizmar/tapcheck` tap (bump-tap bug, fixed in
+  b1040ee) needs `rm -rf /opt/homebrew/Library/Taps/bizmar/homebrew-tapcheck`
+  by the user if it is still there.
 - **Open from the 2026-11-08 advisory check (phase1-status "OpenEXR 3.4.17"):**
-  GHSA-hrp4 (HTJ2K misaligned store) is still in 3.4.17 despite its metadata,
-  fixed only in 3.5.3: tell upstream (ask first) and decide on 3.5.3. Our
-  y-sampling guard is skipped by a stray `tiles` attribute (harmless on 3.4.17;
-  key the branch on the part type next release).
+  GHSA-hrp4 (HTJ2K misaligned store) is still in 3.4.17 and 3.4.18 despite its
+  "patched 3.4.17" metadata; only 3.5.3 has the fix (PR #2695). Verified three
+  ways, UB only in our binaries. Telling upstream is the user's call (draft:
+  dist/openexr-hrp4-note-draft.md); moving to 3.5.3 is undecided. Our y-sampling
+  guard is skipped by a stray `tiles` attribute (harmless on 3.4.17; key the
+  branch on the part type next release). OpenEXR 3.4.18 (2026-11-08) does not
+  affect us: `Imf::loadImage` is not used, the rest is Python and the writer.
+- **`brew upgrade` can leave thumbnails on Apple's extension until a log-out**
+  (seen 2026-11-08 at an unchanged path: the app is unregistered while it
+  waits for Open Anyway, and ThumbnailsAgent does not come back). A direct copy
+  over the app at the same path did not trigger it. Previews are unaffected.
+  Seen on this Mac only; a README line was offered to the user.
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay
