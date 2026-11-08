@@ -1434,7 +1434,11 @@ arm64 slice and on the x86_64 slice under Rosetta (not real Intel hardware). So
 it is undefined behaviour in the source with no fault or corruption in our
 binaries. The fuzz runs say nothing about this path: the seeds appear to have no
 HTJ2K file (inferred), and adding one would make `fuzz.sh` stop on this report
-until it is suppressed or OpenEXR is fixed.
+until it is suppressed or OpenEXR is fixed. A from-scratch UBSan
+matrix (2280 HTJ2K256 reads per version, valid files, compressible pixels: noise
+is stored raw and never reaches the decoder) reported on the same 513 reads for
+3.4.14 and 3.4.17 and on none for 3.5.3; 3.5.2 still misaligns. Draft note for
+upstream, unsent: dist/openexr-hrp4-note-draft.md.
 
 **Our y-sampling guard has a gap.** It is in the non-tiled branch of
 `chunk_within_limits`, which `hasTileDescription()` selects, and that is just
