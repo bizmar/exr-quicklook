@@ -170,9 +170,9 @@ update, so the posted version must be the trustworthy one).
 Still open, lower priority:
 - **The user's Mac runs 0.3.4 from Homebrew in /Applications** (`brew upgrade`
   2026-11-08). Don't `Tools/install.sh` a dev build alongside it: two copies,
-  one bundle id. A leftover `bizmar/tapcheck` tap (bump-tap bug, fixed in
-  b1040ee) needs `rm -rf /opt/homebrew/Library/Taps/bizmar/homebrew-tapcheck`
-  by the user if it is still there.
+  one bundle id. The leftover `bizmar/tapcheck` tap (bump-tap bug, fixed in
+  b1040ee) was removed by the user 2026-11-10; after their log-out the same
+  day, ql-integration passes (thumbnails back).
 - **Open from the 2026-11-08 advisory check (phase1-status "OpenEXR 3.4.17"):**
   GHSA-hrp4 (HTJ2K misaligned store) is still in 3.4.17 and 3.4.18 despite its
   "patched 3.4.17" metadata; only 3.5.3 has the fix (PR #2695). Verified three
@@ -185,7 +185,8 @@ Still open, lower priority:
   (seen 2026-11-08 at an unchanged path: the app is unregistered while it
   waits for Open Anyway, and ThumbnailsAgent does not come back). A direct copy
   over the app at the same path did not trigger it. Previews are unaffected.
-  Seen on this Mac only; a README line was offered to the user.
+  Seen on this Mac only. README "After installing" and the 0.3.4 notes now
+  say to log out and back in (2026-11-10, user's OK).
 - **Checked by hand 2026-10-08** (macOS 27): all Finder views, preview pane,
   spacebar + carry-over, Spotlight, Open dialog. Found and fixed the
   small-image panel bug (released in 0.3.2). **0.3.2 itself has dead overlay

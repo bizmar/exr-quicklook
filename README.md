@@ -177,12 +177,17 @@ on this repository.
 them. Open a folder you haven't viewed since installing, or log out and back
 in.
 
+**After an update, thumbnails can go back to macOS's own** (blank or wrong for
+DWAA files) until you log out and back in. Previews keep working. Seen after
+`brew upgrade` on macOS 27: macOS sets the extensions aside until you approve
+the new version, and its thumbnail service doesn't pick them up again.
+
 **Still a generic icon?** Check both switches in step 3 are on. A few kinds of
 file deliberately keep the generic icon (deep images, luminance-chroma); see
 [Limitations](#limitations).
 
 **Uninstall:** drag **EXR Quick Look** from Applications to the Trash (or
-`brew uninstall --cask exr-quicklook`). The extensions live inside the app and
+`brew uninstall --cask bizmar/tap/exr-quicklook`). The extensions live inside the app and
 go with it; there is nothing to switch off first. The only other traces are
 the small settings folders macOS keeps for sandboxed apps:
 `~/Library/Containers/io.github.bizmar.exr-quicklook*` and
