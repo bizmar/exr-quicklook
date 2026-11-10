@@ -176,8 +176,9 @@ Still open, lower priority:
 - **Open from the 2026-11-08 advisory check (phase1-status "OpenEXR 3.4.17"):**
   GHSA-hrp4 (HTJ2K misaligned store) is still in 3.4.17 and 3.4.18 despite its
   "patched 3.4.17" metadata; only 3.5.3 has the fix (PR #2695). Verified three
-  ways, UB only in our binaries. Telling upstream is the user's call (draft:
-  dist/openexr-hrp4-note-draft.md); moving to 3.5.3 is undecided. Our y-sampling
+  ways, UB only in our binaries. **Reported privately 2026-11-10 as
+  GHSA-gxw3-8jv8-w86x** (low, CWE-704, AI-assisted box ticked; in triage).
+  Moving to 3.5.3 waits on their reply. Our y-sampling
   guard is skipped by a stray `tiles` attribute (harmless on 3.4.17; key the
   branch on the part type next release). OpenEXR 3.4.18 (2026-11-08) does not
   affect us: `Imf::loadImage` is not used, the rest is Python and the writer.

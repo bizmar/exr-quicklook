@@ -1437,8 +1437,10 @@ HTJ2K file (inferred), and adding one would make `fuzz.sh` stop on this report
 until it is suppressed or OpenEXR is fixed. A from-scratch UBSan
 matrix (2280 HTJ2K256 reads per version, valid files, compressible pixels: noise
 is stored raw and never reaches the decoder) reported on the same 513 reads for
-3.4.14 and 3.4.17 and on none for 3.5.3; 3.5.2 still misaligns. Draft note for
-upstream, unsent: dist/openexr-hrp4-note-draft.md.
+3.4.14 and 3.4.17 and on none for 3.5.3; 3.5.2 still misaligns. Reported privately to OpenEXR on 2026-11-10 as
+GHSA-gxw3-8jv8-w86x (low, CWE-704, affected >= 3.4.0, <= 3.4.18, no 3.4
+patch; the AI-assistance box ticked), text from
+dist/openexr-hrp4-note-draft.md, sent through the web form.
 
 **Our y-sampling guard has a gap.** It is in the non-tiled branch of
 `chunk_within_limits`, which `hasTileDescription()` selects, and that is just
